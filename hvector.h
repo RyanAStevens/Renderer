@@ -1,0 +1,3 @@
+/*
+A homogeneous vector with four components.
+*/
