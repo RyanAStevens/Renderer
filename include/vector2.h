@@ -5,11 +5,17 @@ operator can be well supported. You should also include operations
 for vector addition, vector subtraction, dot product, cross product,
 scalar multiplication, and scalar division.
 */
-#include <memory>
 
 class Vector2 { 
 public:
+    Vector2();
     Vector2(double i, double j);
+    ~Vector2();
     float components[2];
     Vector2 operator+(const Vector2& rhs);
+    Vector2 operator-(const Vector2& rhs);
+    Vector2 operator*(const double scalar);
+    Vector2 operator/(const double scalar);
+    double dot(const Vector2& rhs);
+    Vector2 cross(const Vector2& rhs);
 };
