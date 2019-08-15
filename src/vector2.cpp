@@ -46,10 +46,14 @@ Vector2 Vector2::operator/(const double scalar)
     return Vector2(this->components[0] / scalar, this->components[1] / scalar);
 }
 
+// u * v = u1*v1 + u2*v2
 double Vector2::dot(const Vector2& rhs)
 {
+    return this->components[0]*rhs.components[0] + this->components[1]*rhs.components[1];
 }
 
-Vector2 Vector2::cross(const Vector2& rhs)
+// u x v = u1*v2 - u2*v1
+double Vector2::cross(const Vector2& rhs)
 {
+    return this->components[0]*rhs.components[1] - this->components[1]*rhs.components[0];
 }

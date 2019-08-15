@@ -17,5 +17,5 @@ public:
     Vector2 operator*(const double scalar);
     Vector2 operator/(const double scalar);
     double dot(const Vector2& rhs);
-    Vector2 cross(const Vector2& rhs);
+    double cross(const Vector2& rhs);
 };

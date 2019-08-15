@@ -72,6 +72,22 @@ TEST_F(Vector2Test, Vector2ScalarDivisionOperator) {
   EXPECT_EQ(B.components[1],6.0);
 }
 
+// Tests the Vector2 dot product.
+TEST_F(Vector2Test, Vector2dotProduct) {
+  Vector2 A = Vector2(5.0, 3.0);
+  Vector2 B = Vector2(2.0, 1.0);
+  EXPECT_EQ(13.0, A.dot(B));
+}
+
+// Tests the Vector2 cross product.
+TEST_F(Vector2Test, Vector2crossProduct) {
+  Vector2 A = Vector2(5.0, 3.0);
+  Vector2 B = Vector2(2.0, 1.0);
+  EXPECT_EQ(-1.0, A.cross(B));
+}
+
+
+
 }  // namespace
 
 int main(int argc, char **argv) {
