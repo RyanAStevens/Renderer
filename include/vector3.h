@@ -7,7 +7,7 @@ public:
     Vector3();
     Vector3(double i, double j, double k);
     ~Vector3();
-    float components[2];
+    float components[3];
     Vector3 operator+(const Vector3& rhs);
     Vector3 operator-(const Vector3& rhs);
     Vector3 operator*(const double scalar);

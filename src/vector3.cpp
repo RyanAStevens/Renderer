@@ -10,19 +10,19 @@ scalar multiplication, and scalar division.
 
 Vector3::Vector3()
 {
-	std::cout << "Hello from default Vector3 constructor\n";	
+//	std::cout << "Hello from default Vector3 constructor\n";	
 }
 
 Vector3::~Vector3()
 {
-	std::cout << "Hello from Vector3 destructor\n";	
+//	std::cout << "Hello from Vector3 destructor\n";	
 }
 
 Vector3::Vector3(double i, double j, double k)
 {
     this->components[0] = i;
     this->components[1] = j;
-    this->components[3] = k;
+    this->components[2] = k;
 }
 
 Vector3 Vector3::operator+(const Vector3& rhs)

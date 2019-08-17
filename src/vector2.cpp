@@ -10,12 +10,12 @@ scalar multiplication, and scalar division.
 
 Vector2::Vector2()
 {
-	std::cout << "Hello from default Vector2 constructor\n";	
+//	std::cout << "Hello from default Vector2 constructor\n";	
 }
 
 Vector2::~Vector2()
 {
-	std::cout << "Hello from Vector2 destructor\n";	
+//	std::cout << "Hello from Vector2 destructor\n";	
 }
 
 Vector2::Vector2(double i, double j)
