@@ -57,17 +57,17 @@ TEST_F(Vector3Test, Vector3ScalarDivisionOperator) {
 
 // Tests the Vector3 dot product.
 TEST_F(Vector3Test, Vector3dotProduct) {
-  Vector3 A = Vector3(5.0, 3.0, 2.0);
-  Vector3 B = Vector3(2.0, 1.0, 2.0);
-  EXPECT_EQ(100.0, A.dot(B));
+  Vector3 A = Vector3(1.0, 2.0, 3.0);
+  Vector3 B = Vector3(1.0, 5.0, 7.0);
+  EXPECT_EQ(32.0, A.dot(B));
 }
 
 // Tests the Vector3 cross product.
 TEST_F(Vector3Test, Vector3crossProduct) {
-  Vector3 A = Vector3(5.0, 3.0, 2.0);
-  Vector3 B = Vector3(2.0, 1.0, 2.0);
+  Vector3 A = Vector3(1.0, 2.0, 3.0);
+  Vector3 B = Vector3(1.0, 5.0, 7.0);
   Vector3 C = A.cross(B);
-  EXPECT_EQ(C.components[0], 3.0);
-  EXPECT_EQ(C.components[1], 2.0);
-  EXPECT_EQ(C.components[2], 2.0);
+  EXPECT_EQ(C.components[0], -1.0);
+  EXPECT_EQ(C.components[1], -4.0);
+  EXPECT_EQ(C.components[2], 3.0);
 }
