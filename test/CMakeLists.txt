@@ -10,6 +10,7 @@ set(CMAKE_CXX_FLAGS "-std=c++11")
 set(SOURCES
     ../src/vector2.cpp
     ../src/vector3.cpp
+    ../src/matrix_stack.cpp
    )
 
 set(TEST_SOURCES

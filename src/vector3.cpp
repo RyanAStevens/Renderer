@@ -61,7 +61,7 @@ double Vector3::dot(const Vector3& rhs)
     return this->components[0]*rhs.components[0] + this->components[1]*rhs.components[1] + this->components[2]*rhs.components[2];
 }
 
-// a x b = (ajbk - akbj)i - (aibk - akbi)j + (aibj - ajbi)k
+// u x v = (u1*v2 - u2*v1)i - (u0*v2 - u2*v0)j + (u0*v1 - u1*v0)k
 Vector3 Vector3::cross(const Vector3& rhs)
 {
     return Vector3((this->components[1]*rhs.components[2] - this->components[2]*rhs.components[1]),
