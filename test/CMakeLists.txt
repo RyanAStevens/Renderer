@@ -3,7 +3,7 @@ project(test)
 
 # Locate GTest
 find_package(GTest REQUIRED)
-include_directories(${GTEST_INCLUDE_DIRS})
+include_directories(${GTEST_INCLUDE_DIRS} test_include ../include)
 
 set(CMAKE_CXX_FLAGS "-std=c++11")
 
@@ -11,12 +11,15 @@ set(SOURCES
     ../src/vector2.cpp
     ../src/vector3.cpp
     ../src/matrix_stack.cpp
+    ../src/transform_matrix.cpp
+    ../src/vector3h.cpp
    )
 
 set(TEST_SOURCES
     test_main.cpp
     test_src/vector2_test.cpp
     test_src/vector3_test.cpp
+    test_src/transform_matrix_test.cpp
    )
 
 # Link runTests with what we want to test and the GTest and pthread library

@@ -4,7 +4,8 @@ Transformation matrix stack
 
 #include <stack>
 
-class MatrixStack : public std::Stack {
+//class MatrixStack : public std::stack {
+class MatrixStack {
 public:
 	MatrixStack();
 	~MatrixStack();

@@ -32,7 +32,7 @@ Transform_Matrix Transform_Matrix::operator*(const Transform_Matrix& rhs)
                for(int i = 0; i < 4; i++)
                {
                    //ret[row][col] = A[row][i]*B[i][col]
-                   sum += this->row[row].components[i] * rhs.row[i].components[col]
+                   sum += this->row[row].components[i] * rhs.row[i].components[col];
                }
                ret.row[row].components[col] = sum;
            }

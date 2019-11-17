@@ -37,3 +37,6 @@ Makefile
 *.exe
 *.out
 *.app
+
+#vim swap files
+*.swp
