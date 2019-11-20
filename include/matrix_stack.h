@@ -9,6 +9,7 @@ class MatrixStack {
 public:
 	MatrixStack();
 	~MatrixStack();
+    MatrixStack operator=(const MatrixStack& rhs);
     void initialize(void);
     void print_ctm();
     void translate(float x,float y,float z);

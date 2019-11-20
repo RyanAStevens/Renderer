@@ -20,6 +20,7 @@ set(TEST_SOURCES
     test_src/vector2_test.cpp
     test_src/vector3_test.cpp
     test_src/transform_matrix_test.cpp
+    test_src/matrix_stack_test.cpp
    )
 
 # Link runTests with what we want to test and the GTest and pthread library

@@ -14,6 +14,10 @@ MatrixStack::~MatrixStack()
 {
 }
 
+MatrixStack MatrixStack::operator=(const MatrixStack& rhs)
+{
+}
+
 //stack will only have the identity matrix
 void MatrixStack::initialize()
 {
