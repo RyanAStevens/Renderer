@@ -1,11 +1,15 @@
 #include <vector3h.h>
 
-class Transform_Matrix{
+#define NUM_ROWS 4
+#define NUM_COMPS 4
+
+class TransformMatrix{
 public:
-    Transform_Matrix();
-    Transform_Matrix(Vector3H, Vector3H, Vector3H, Vector3H);
-    ~Transform_Matrix();
-    Transform_Matrix operator*(const Transform_Matrix& rhs);
+    TransformMatrix();
+    TransformMatrix(Vector3H, Vector3H, Vector3H, Vector3H);
+    ~TransformMatrix();
+    TransformMatrix operator*(const TransformMatrix& rhs);
+    TransformMatrix operator=(const TransformMatrix& rhs);
     Vector3H  row[4];
 };
 

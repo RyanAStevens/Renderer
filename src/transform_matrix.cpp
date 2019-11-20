@@ -1,6 +1,6 @@
 #include <transform_matrix.h>
 
-Transform_Matrix::Transform_Matrix()
+TransformMatrix::TransformMatrix()
 {
         this->row[0] = Vector3H(1, 0, 0, 0);
         this->row[1] = Vector3H(0, 1, 0, 0);
@@ -8,7 +8,7 @@ Transform_Matrix::Transform_Matrix()
         this->row[3] = Vector3H(0, 0, 0, 1);
 }
 
-Transform_Matrix::Transform_Matrix(Vector3H r0, Vector3H r1, Vector3H r2, Vector3H r3)
+TransformMatrix::TransformMatrix(Vector3H r0, Vector3H r1, Vector3H r2, Vector3H r3)
 {
         this->row[0] = r0;
         this->row[1] = r1;
@@ -16,14 +16,14 @@ Transform_Matrix::Transform_Matrix(Vector3H r0, Vector3H r1, Vector3H r2, Vector
         this->row[3] = r3;
 }
 
-Transform_Matrix::~Transform_Matrix()
+TransformMatrix::~TransformMatrix()
 {
 }
 
-Transform_Matrix Transform_Matrix::operator*(const Transform_Matrix& rhs)
+TransformMatrix TransformMatrix::operator*(const TransformMatrix& rhs)
 {
         float sum = 0;
-        Transform_Matrix ret = Transform_Matrix();
+        TransformMatrix ret = TransformMatrix();
         for(int row = 0; row < 4; row++)
         {
            for(int col = 0; col < 4; col++)
@@ -38,4 +38,15 @@ Transform_Matrix Transform_Matrix::operator*(const Transform_Matrix& rhs)
            }
         }
         return ret;
+}
+
+TransformMatrix TransformMatrix::operator=(const TransformMatrix& rhs)
+{
+    for(int r = 0; r < 4; r++)
+    {
+        for(int c = 0; c < 4; c++)
+        {
+            this->row[r].components[c] = rhs.row[r].components[c];
+        }
+    }
 }

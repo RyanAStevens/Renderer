@@ -1,7 +1,7 @@
 /*
 Transformation matrix stack
 */
-
+#include <transform_matrix.h>
 #include <stack>
 
 //class MatrixStack : public std::stack {
@@ -16,8 +16,9 @@ public:
     void rotateX(float theta);
     void rotateY(float theta);
     void rotateZ(float theta);
-    void pushMatrix();
-    void popMatrix();
+    void pushMatrix(TransformMatrix matIn);
+    void popMatrix(void);
 private:
+    std::stack <TransformMatrix> matStack;
     
 };
