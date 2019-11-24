@@ -7,14 +7,10 @@ Transformation matrix stack
 
 MatrixStack::MatrixStack()
 {
-    matStack.push(TransformMatrix());
+    _stack.push(TransformMatrix());
 }
 
 MatrixStack::~MatrixStack()
-{
-}
-
-MatrixStack MatrixStack::operator=(const MatrixStack& rhs)
 {
 }
 
@@ -23,15 +19,15 @@ void MatrixStack::initialize()
 {
     //identity matrix is added on construction
     //,so pop everything down to that
-    while(matStack.size() > 1)
+    while(_stack.size() > 1)
     {
-        matStack.pop();
+        _stack.pop();
     }
 }
 
 void MatrixStack::print_ctm()
 {
-    TransformMatrix tm = matStack.top();
+    TransformMatrix tm = _stack.top();
     std::cout << "-------------\n";
     int i = 0;
     int j = 0;
@@ -46,6 +42,11 @@ void MatrixStack::print_ctm()
     std::cout << "-------------\n";
 }
 
+TransformMatrix& MatrixStack::get_ctm()
+{
+    return _stack.top();
+}
+
 void MatrixStack::translate(float x, float y, float z)
 {
    TransformMatrix tm = TransformMatrix();
@@ -53,8 +54,8 @@ void MatrixStack::translate(float x, float y, float z)
    tm.row[1].components[3] = y;
    tm.row[2].components[3] = z;
 
-   TransformMatrix result = tm*matStack.top();
-   matStack.push(result);
+   TransformMatrix result = tm*_stack.top();
+   _stack.push(result);
 }
 
 void MatrixStack::scale(float x, float y, float z)
@@ -64,8 +65,8 @@ void MatrixStack::scale(float x, float y, float z)
    tm.row[1].components[1] = y;
    tm.row[2].components[2] = z;
 
-   TransformMatrix result = tm*matStack.top();
-   matStack.push(result);
+   TransformMatrix result = tm*_stack.top();
+   _stack.push(result);
 }
 
 void MatrixStack::rotateX(float theta)
@@ -76,8 +77,8 @@ void MatrixStack::rotateX(float theta)
    tm.row[2].components[1] = sin(theta);
    tm.row[2].components[2] = cos(theta);
 
-   TransformMatrix result = tm*matStack.top();
-   matStack.push(result);
+   TransformMatrix result = tm*_stack.top();
+   _stack.push(result);
 }
 
 void MatrixStack::rotateY(float theta)
@@ -88,8 +89,8 @@ void MatrixStack::rotateY(float theta)
    tm.row[2].components[0] = -1*sin(theta);
    tm.row[2].components[2] = cos(theta);
 
-   TransformMatrix result = tm*matStack.top();
-   matStack.push(result);
+   TransformMatrix result = tm*_stack.top();
+   _stack.push(result);
 }
 
 void MatrixStack::rotateZ(float theta)
@@ -100,16 +101,16 @@ void MatrixStack::rotateZ(float theta)
    tm.row[1].components[0] = sin(theta);
    tm.row[1].components[1] = cos(theta);
 
-   TransformMatrix result = tm*matStack.top();
-   matStack.push(result);
+   TransformMatrix result = tm*_stack.top();
+   _stack.push(result);
 }
 
-void MatrixStack::pushMatrix(TransformMatrix matIn)
+void MatrixStack::pushMatrix()
 {
-    matStack.push(matIn);
+    _stack.push(_stack.top());
 }
 
 void MatrixStack::popMatrix()
 {
-    matStack.pop();
+    _stack.pop();
 }

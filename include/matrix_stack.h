@@ -9,17 +9,17 @@ class MatrixStack {
 public:
 	MatrixStack();
 	~MatrixStack();
-    MatrixStack operator=(const MatrixStack& rhs);
-    void initialize(void);
+    void initialize();
     void print_ctm();
+    TransformMatrix& get_ctm();
     void translate(float x,float y,float z);
     void scale(float x,float y,float z);
     void rotateX(float theta);
     void rotateY(float theta);
     void rotateZ(float theta);
-    void pushMatrix(TransformMatrix matIn);
-    void popMatrix(void);
+    void pushMatrix();
+    void popMatrix();
 private:
-    std::stack <TransformMatrix> matStack;
+    std::stack <TransformMatrix> _stack;
     
 };
