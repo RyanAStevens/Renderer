@@ -18,7 +18,7 @@ public:
     void rotateY(float theta);
     void rotateZ(float theta);
     void pushMatrix();
-    void popMatrix();
+    int32_t popMatrix();
 private:
     std::stack <TransformMatrix> _stack;
     
