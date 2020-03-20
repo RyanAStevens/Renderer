@@ -49,9 +49,9 @@ void plot_point(int x, int y, float r, float g, float b)
 	}
 }
 
-void draw_line(int x0, int y0, int x1, int y1)
+void draw_line_1(int x0, int y0, int x1, int y1)
 {
-    printf("line from (%d, %d) to (%d, %d)\n", x0, y0, x1, y1);
+    //printf("line from (%d, %d) to (%d, %d)\n", x0, y0, x1, y1);
     int y = 0;
     float t = 0.0f;
 
@@ -69,7 +69,35 @@ void draw_line(int x0, int y0, int x1, int y1)
     {
         t = float(x - x0) / float(x1 - x0);
         y = y0 + ((y1 - y0) * t);
-        printf("x = %d, y = %d\n", x, y);
+       // printf("x = %d, y = %d\n", x, y);
+        plot_point(x, y, 1.0f, 1.0f, 1.0f);
+    } 
+}
+
+void draw_line(int x0, int y0, int x1, int y1)
+{
+    //printf("line from (%d, %d) to (%d, %d)\n", x0, y0, x1, y1);
+    int x = 0;
+    int y = 0;
+    float t = 0.0f;
+    float delta_t = 1.0f / width;
+
+    if(x1 < x0)
+    {
+        int x1_tmp = x1;
+        int y1_tmp = y1;
+        x1 = x0;
+        y1 = y0;
+        x0 = x1_tmp;
+        y0 = y1_tmp;
+    }
+
+
+    for(t = 0.0f; t < 1.0f; t += delta_t)
+    {
+        x = x0 + ((x1 - x0) * t);
+        y = y0 + ((y1 - y0) * t);
+        //printf("x = %d, y = %d\n", x, y);
         plot_point(x, y, 1.0f, 1.0f, 1.0f);
     } 
 }
@@ -91,7 +119,7 @@ int main()
         theta_rad = theta * con_rad;
         draw_line(half_w * (cos(theta_rad + PI) + 1), half_h * (sin(theta_rad + PI) + 1), half_w * (cos(theta_rad)+1), half_h *(sin(theta_rad)+1));
         display.update( pixels );
-        printf("theta = %f\n", theta);
+       // printf("theta = %f\n", theta);
         if(theta < 360.0f)
         {
             theta++;
