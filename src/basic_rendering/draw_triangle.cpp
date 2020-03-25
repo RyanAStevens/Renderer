@@ -1,12 +1,6 @@
-// Fullscreen Example.
-// Opens a display for fullscreen output in floating point color mode.
-// Part of the PixelToaster Framebuffer Library - http://www.pixeltoaster.com
-
 #include "PixelToaster.h"
 #include <math.h>
 #include <stdio.h>
-
-#define PI 3.14159265359
 
 using namespace PixelToaster;
 
@@ -50,55 +44,20 @@ void plot_point(int x, int y, float r, float g, float b)
 	}
 }
 
-void draw_line(int x0, int y0, int x1, int y1)
+void draw_triangle(float p1, float p2, float p3)
 {
-    float x_f = 0;
-    float y_f = 0;
-    float t = 0.0f;
-    //calculate slope
-    float m = float(y1 - y0) / float(x1 - x0);
-
-    if(m <= 1 && m >= -1)
-    {
-        if(x1 < x0)
-        {
-            int x1_tmp = x1;
-            int y1_tmp = y1;
-            x1 = x0;
-            y1 = y0;
-            x0 = x1_tmp;
-            y0 = y1_tmp;
-        }
-        for(int x = x0; x <= x1; x++)
-        {
-            t = float(x - x0) / float(x1 - x0);
-            y_f = float(y0) + (float(y1 - y0) * t);
-            plot_point(x, int(roundf(y_f)), 1.0f, 1.0f, 1.0f);
-        } 
-    }
-    else
-    {
-        if(y1 < y0)
-        {
-            int x1_tmp = x1;
-            int y1_tmp = y1;
-            x1 = x0;
-            y1 = y0;
-            x0 = x1_tmp;
-            y0 = y1_tmp;
-        }
-        for(int y = y0; y <= y1; y++)
-        {   
-            t = float(y - y0) / float(y1 - y0);
-            x_f = float(x0) + (float(x1 - x0) * t);
-            plot_point(int(roundf(x_f)), y, 1.0f, 1.0f, 1.0f);
-        } 
-    }
-}
+    //implicit line eqn
+    //(y0 - y1)x + (x1 - x0)y + x0y1 - x1y0 = 0
+    
+    //calculate barycentric coordinates
+    alpha = ;
+    beta = ;
+    gamma = ;
+} 
 
 int main()
 {
-    Display display( "DrawLine Example", width, height, Output::Fullscreen );
+    Display display( "draw_triangle", width, height, Output::Fullscreen );
 
     float theta = 0.0f; 
     float half_w = width / 2;
