@@ -40,3 +40,6 @@ Makefile
 
 #vim swap files
 *.swp
+
+#ignore build folders
+src/basic_rendering/build

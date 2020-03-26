@@ -6,7 +6,7 @@ find_package(X11 REQUIRED)
 set(CMAKE_CXX_FLAGS "-std=c++11")
 set(BASIC_REND_SRC_BASE_DIR "../../src/basic_rendering")
 set(GRAPHICS_LIB_SRC_DIR "../../src/graphics_lib")
-set(RUNTIME_OUTPUT_DIRECTORY ".")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${BASIC_REND_SRC_BASE_DIR}/build")
 
 include_directories("../../third_party/pixeltoaster/include" "../../include/graphics_lib")
 
