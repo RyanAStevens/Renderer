@@ -5,7 +5,7 @@ operator can be well supported. You should also include operations
 for vector addition, vector subtraction, dot product, cross product,
 scalar multiplication, and scalar division.
 */
-#include "../include/vector2.h"
+#include <vector2.h>
 #include <iostream>
 
 Vector2::Vector2()

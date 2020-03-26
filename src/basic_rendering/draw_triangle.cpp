@@ -1,4 +1,5 @@
-#include "PixelToaster.h"
+#include <PixelToaster.h>
+#include <vector2.h>
 #include <math.h>
 #include <stdio.h>
 
@@ -44,15 +45,48 @@ void plot_point(int x, int y, float r, float g, float b)
 	}
 }
 
-void draw_triangle(float p1, float p2, float p3)
+void draw_triangle(Vector2 a, Vector2 b, Vector2 c)
 {
     //implicit line eqn
     //(y0 - y1)x + (x1 - x0)y + x0y1 - x1y0 = 0
     
-    //calculate barycentric coordinates
-    alpha = ;
-    beta = ;
-    gamma = ;
+    double Xa = a.components[0];
+    double Ya = a.components[1];
+    double Xb = b.components[0];
+    double Yb = b.components[1];
+    double Xc = c.components[0];
+    double Yc = c.components[1];
+    double YaYb_diff = Ya - Yb;
+    double XbXa_diff = Xb - Xa;
+    double YaYc_diff = Ya - Yc;
+    double XcXa_diff = Xc - Xa;
+    double gamma_const = Xa*Yb - Xb*Ya;
+    double beta_const = Xa*Yc - Xc*Ya;
+	
+    for ( int y = 0; y < height; ++y )
+	{
+	    for ( int x = 0; x < width; ++x )
+	    {
+            //calculate barycentric coordinates
+            double gamma = ((YaYb_diff * x) + (XbXa_diff * y) + gamma_const) / 
+                    ((YaYb_diff * Xc) + (XbXa_diff * Yc) + gamma_const);
+            double beta = ((YaYc_diff * x) + (XcXa_diff * y) + beta_const) / 
+                    ((YaYc_diff * Xb) + (XcXa_diff * Yb) + beta_const);
+            double alpha = 1 - beta - gamma;
+            
+            if( alpha > 0 && alpha < 1 && beta > 0 && beta < 1 && gamma > 0 && gamma < 1)
+            {
+                //point is in the triangle
+                plot_point(x, y, 1.0, 1.0, 1.0);
+            }
+            else
+            {
+                //paint background
+                plot_point(x, y, 0.1, 0.2, 0.5);
+            }
+
+	    }
+	}
 } 
 
 int main()
@@ -62,16 +96,20 @@ int main()
     float theta = 0.0f; 
     float half_w = width / 2;
     float half_h = height / 2;
-    float con_rad = PI / 180.0f;
+    float con_rad = M_PI / 180.0f;
     float theta_rad = 0.0f;
 
     while ( display.open() )
     {
-        set_background_color(0.1, 0.2, 0.5);
-        
+       Vector2 A(250.0f, 250.0f);
+       Vector2 B(150.0f, 750.0f);
+       Vector2 C(350.0f, 750.0f);
+
+       draw_triangle(A, B, C);
+
+       /*     
         theta_rad = theta * con_rad;
         draw_line(half_w * (cos(theta_rad + PI) + 1), half_h * (sin(theta_rad + PI) + 1), half_w * (cos(theta_rad)+1), half_h *(sin(theta_rad)+1));
-        display.update( pixels );
         if(theta < 360.0f)
         {
             theta++;
@@ -80,5 +118,7 @@ int main()
         {
             theta = 0.0f;
         }
+       */ 
+        display.update( pixels );
     }
 }
