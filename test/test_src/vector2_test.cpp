@@ -1,5 +1,5 @@
-#include "../test_include/vector2_test.h"
-#include "../../include/vector2.h"
+#include <vector2_test.h>
+#include <vector2.h>
 
 Vector2Test::Vector2Test() {
 //    std::cout << "hello from Vector2Test constructor.\n";
