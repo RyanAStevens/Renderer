@@ -1,5 +1,6 @@
 #include <PixelToaster.h>
 #include <vector2.h>
+#include <color.h>
 #include <math.h>
 #include <stdio.h>
 
@@ -27,7 +28,7 @@ void set_background_color(float r, float g, float b)
 	}
 }
 
-void plot_point(int x, int y, float r, float g, float b)
+void plot_point(int x, int y, Color c)
 {
     //printf("plot_point: (%d, %d)\n", x, y);
 	int index = (x * width) + y;
@@ -35,9 +36,9 @@ void plot_point(int x, int y, float r, float g, float b)
 	//ensure index is within bounds of the pixels vector
 	if( index >= 0 && index < width * height)
 	{
-		pixels[index].r = r;
-		pixels[index].g = g;
-		pixels[index].b = b;
+		pixels[index].r = c.r;
+		pixels[index].g = c.g;
+		pixels[index].b = c.b;
 	}
 	else
 	{
@@ -45,7 +46,7 @@ void plot_point(int x, int y, float r, float g, float b)
 	}
 }
 
-void draw_triangle(Vector2 a, Vector2 b, Vector2 c)
+void draw_triangle(Vector2 a, Color a_color, Vector2 b, Color b_color, Vector2 c, Color c_color)
 {
     //implicit line eqn
     //(y0 - y1)x + (x1 - x0)y + x0y1 - x1y0 = 0
@@ -77,12 +78,13 @@ void draw_triangle(Vector2 a, Vector2 b, Vector2 c)
             if( alpha > 0 && alpha < 1 && beta > 0 && beta < 1 && gamma > 0 && gamma < 1)
             {
                 //point is in the triangle
-                plot_point(x, y, 1.0, 1.0, 1.0);
+                Color point_color = a_color * alpha + b_color * beta + c_color * gamma;
+                plot_point(x, y, point_color);
             }
             else
             {
                 //paint background
-                plot_point(x, y, 0.1, 0.2, 0.5);
+                plot_point(x, y, Color(0.1, 0.2, 0.5));
             }
 
 	    }
@@ -102,10 +104,13 @@ int main()
     while ( display.open() )
     {
        Vector2 A(250.0f, 250.0f);
+       Color A_color(1.0, 0.0, 0.0);
        Vector2 B(150.0f, 750.0f);
+       Color B_color(0.0, 1.0, 0.0);
        Vector2 C(350.0f, 750.0f);
+       Color C_color(0.0, 0.0, 1.0);
 
-       draw_triangle(A, B, C);
+       draw_triangle(A, A_color, B, B_color, C, C_color);
 
        /*     
         theta_rad = theta * con_rad;
