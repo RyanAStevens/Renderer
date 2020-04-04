@@ -4,6 +4,11 @@
 #include <math.h>
 #include <stdio.h>
 
+Window GraphicsLib::create_window(std::string title, uint32_t width, uint32_t height)
+{
+    this->window = Window(title, width, height);
+}
+
 void GraphicsLib::set_background_color(float r, float g, float b)
 {
 	unsigned int index = 0;
@@ -12,9 +17,9 @@ void GraphicsLib::set_background_color(float r, float g, float b)
 	{
 	    for ( int x = 0; x < this->window.width; ++x )
 	    {
-		this->image[index].r = r;
-		this->image[index].g = g;
-		this->image[index].b = b;
+		this->window.image[index].r = r;
+		this->window.image[index].g = g;
+		this->window.image[index].b = b;
 
 		++index;
 	    }
@@ -26,12 +31,12 @@ void GraphicsLib::plot_point(int x, int y, Color c)
     //printf("plot_point: (%d, %d)\n", x, y);
 	int index = (x * this->window.width) + y;
 	
-	//ensure index is within bounds of the this->image vector
+	//ensure index is within bounds of the this->window.image vector
 	if( index >= 0 && index < this->window.width * this->window.height)
 	{
-		this->image[index].r = c.r;
-		this->image[index].g = c.g;
-		this->image[index].b = c.b;
+		this->window.image[index].r = c.r;
+		this->window.image[index].g = c.g;
+		this->window.image[index].b = c.b;
 	}
 	else
 	{
