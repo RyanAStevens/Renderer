@@ -1,10 +1,16 @@
-/*
-A 2D array of RGB pixels with an output operation.
-*/
+#ifndef IMAGE_H_
+#define IMAGE_H_
+
+#include <color.h>
+#include <vector>
 
 class Image
 {
 public:
-    vector<vector<Vector2>> pixels;
+    Image();
+    ~Image();
+    std::vector<Color> pixels;
 private:
-}
+};
+
+#endif //IMAGE_H_

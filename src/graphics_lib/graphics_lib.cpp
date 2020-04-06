@@ -4,6 +4,10 @@
 #include <math.h>
 #include <stdio.h>
 
+GraphicsLib::GraphicsLib()
+{
+}
+
 Window GraphicsLib::create_window(std::string title, uint32_t width, uint32_t height)
 {
     this->window = Window(title, width, height);

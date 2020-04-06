@@ -1,6 +1,6 @@
-/*
-Transformation matrix stack
-*/
+#ifndef MATRIX_STACK_H_
+#define MATRIX_STACK_H_
+
 #include <transform_matrix.h>
 #include <stack>
 
@@ -23,3 +23,5 @@ private:
     std::stack <TransformMatrix> _stack;
     
 };
+
+#endif //MATRIX_STACK_H_

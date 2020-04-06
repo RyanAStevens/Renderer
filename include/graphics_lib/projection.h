@@ -2,16 +2,16 @@
 
 class Orthographic 
 {
-}
+};
 
 class Perspective
 {
-}
+};
 
 class Projection
 {
     
-        void ortho_projection(double left, double right, double bottom, double top, double near, far)
+        void ortho_projection(double left, double right, double bottom, double top, double near, double far)
         {
             
         }
@@ -19,5 +19,5 @@ class Projection
         void persp_projection()
         {
         }
-}
+};
 

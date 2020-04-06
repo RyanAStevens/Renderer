@@ -1,3 +1,6 @@
+#ifndef TRANSFORM_MATRIX_H_
+#define TRANSFORM_MATRIX_H_
+
 #include <vector3h.h>
 
 #define NUM_ROWS 4
@@ -13,3 +16,4 @@ public:
     Vector3H  row[4];
 };
 
+#endif //TRANSFORM_MATRIX_H_

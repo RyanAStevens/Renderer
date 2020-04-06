@@ -1,7 +1,11 @@
+#ifndef GRAPHICS_LIB_H_
+#define GRAPHICS_LIB_H_
+
 #include <image.h>
 #include <window.h>
 #include <matrix_stack.h>
 #include <projection.h>
+#include <vector2.h>
 
 class GraphicsLib
 {
@@ -13,9 +17,9 @@ public:
     void plot_point(int x, int y, Color c);
     void draw_line(int x0, int y0, int x1, int y1);
     void draw_triangle(Vector2 point_a, Color color_a, Vector2 point_b, Color color_b, Vector2 point_c, Color color_c);
-
-private:
     Window window;
     MatrixStack matrix_stack;
     Projection projection;
-}
+};
+
+#endif //GRAPHICS_LIB_H_
