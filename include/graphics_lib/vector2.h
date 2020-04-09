@@ -1,3 +1,5 @@
+#ifndef VECTOR2_H_
+#define VECTOR2_H_
 /*
 A 2D vector class that stores an x and y component. It should
 store these components in a length-2 array so that an indexing
@@ -19,3 +21,5 @@ public:
     double dot(const Vector2& rhs);
     double cross(const Vector2& rhs);
 };
+
+#endif //VECTOR2_H_

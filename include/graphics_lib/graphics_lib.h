@@ -6,6 +6,7 @@
 #include <matrix_stack.h>
 #include <projection.h>
 #include <vector2.h>
+#include <string>
 
 class GraphicsLib
 {

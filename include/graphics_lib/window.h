@@ -4,12 +4,14 @@
 #include <PixelToaster.h>
 #include <string>
 #include <stdint.h>
+#include <window.h>
+#include <image.h>
 
 class Window
 {
 public:
     Window();
-    Window(std::string title, uint32_t width, uint32_t height, uint32_t output_type);
+    Window(std::string title, uint32_t width, uint32_t height);
     ~Window();
  
     uint32_t open();

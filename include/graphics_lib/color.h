@@ -1,3 +1,6 @@
+#ifndef COLOR_H_
+#define COLOR_H_
+
 class Color {
 public:
     Color();
@@ -13,3 +16,4 @@ public:
     Color operator/(const double scalar);
 };
 
+#endif //COLOR_H_

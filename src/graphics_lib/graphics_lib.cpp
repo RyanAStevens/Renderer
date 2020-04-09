@@ -1,3 +1,4 @@
+#include <graphics_lib.h>
 #include <window.h>
 #include <vector2.h>
 #include <color.h>
@@ -8,7 +9,7 @@ GraphicsLib::GraphicsLib()
 {
 }
 
-Window GraphicsLib::create_window(std::string title, uint32_t width, uint32_t height)
+void GraphicsLib::create_window(std::string title, uint32_t width, uint32_t height)
 {
     this->window = Window(title, width, height);
 }
@@ -21,9 +22,9 @@ void GraphicsLib::set_background_color(float r, float g, float b)
 	{
 	    for ( int x = 0; x < this->window.width; ++x )
 	    {
-		this->window.image[index].r = r;
-		this->window.image[index].g = g;
-		this->window.image[index].b = b;
+		this->window.image.pixels[index].r = r;
+		this->window.image.pixels[index].g = g;
+		this->window.image.pixels[index].b = b;
 
 		++index;
 	    }
@@ -38,9 +39,9 @@ void GraphicsLib::plot_point(int x, int y, Color c)
 	//ensure index is within bounds of the this->window.image vector
 	if( index >= 0 && index < this->window.width * this->window.height)
 	{
-		this->window.image[index].r = c.r;
-		this->window.image[index].g = c.g;
-		this->window.image[index].b = c.b;
+		this->window.image.pixels[index].r = c.r;
+		this->window.image.pixels[index].g = c.g;
+		this->window.image.pixels[index].b = c.b;
 	}
 	else
 	{
@@ -72,7 +73,7 @@ void GraphicsLib::draw_line(int x0, int y0, int x1, int y1)
         {
             t = float(x - x0) / float(x1 - x0); 
             y_f = float(y0) + (float(y1 - y0) * t);
-            plot_point(x, int(roundf(y_f)), 1.0f, 1.0f, 1.0f);
+            plot_point(x, int(roundf(y_f)), Color(1.0f, 1.0f, 1.0f));
         }
     }
     else
@@ -81,7 +82,7 @@ void GraphicsLib::draw_line(int x0, int y0, int x1, int y1)
         {
             t = float(y - y0) / float(y1 - y0); 
             x_f = float(x0) + (float(x1 - x0) * t);
-            plot_point(int(roundf(x_f)), y, 1.0f, 1.0f, 1.0f);
+            plot_point(int(roundf(x_f)), y, Color(1.0f, 1.0f, 1.0f));
         }
     }
 }
