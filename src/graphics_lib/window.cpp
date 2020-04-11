@@ -21,7 +21,7 @@ Window::~Window()
 
 void Window::update()
 {
-   this->toasted_display.update(this->image)
+   this->toasted_display.update(this->image.pixels);
 }
 
 uint32_t Window::open()

@@ -9,6 +9,10 @@ GraphicsLib::GraphicsLib()
 {
 }
 
+GraphicsLib::~GraphicsLib()
+{
+}
+
 void GraphicsLib::create_window(const char title[], uint32_t width, uint32_t height)
 {
     this->window = Window(title, width, height);
