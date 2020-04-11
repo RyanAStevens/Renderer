@@ -1,6 +1,5 @@
-#include <window.h>
 #include <PixelToaster.h>
-#include <image.h>
+#include <window.h>
 #include <string.h>
 
 Window::Window()
@@ -9,22 +8,28 @@ Window::Window()
 
 Window::Window(const char title[], uint32_t width, uint32_t height)
 {
+    printf("hello from Window constructor\n");
     this->height = height;
     this->width = width;
-    this->toasted_display = PixelToaster::Display(title, width, height, PixelToaster::Output::Fullscreen, PixelToaster::Mode::FloatingPoint);
-    this->image = Image(width, height);
+    this->toasted_display = new PixelToaster::Display(title, width, height, PixelToaster::Output::Fullscreen, PixelToaster::Mode::FloatingPoint);
+    printf("goodbye from Window constructor\n");
 }
 
 Window::~Window()
 {
+    printf("hello from Window destructor\n");
+    delete this->toasted_display;
 }
 
 void Window::update()
 {
-   this->toasted_display.update(this->image.pixels);
+   this->toasted_display->update(pixels);
 }
 
 uint32_t Window::open()
 {
-    return this->toasted_display.open();
+    printf("Window::open 1\n");
+    return this->toasted_display->open();
+    return 1;
+
 }

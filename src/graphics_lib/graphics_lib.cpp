@@ -7,15 +7,21 @@
 
 GraphicsLib::GraphicsLib()
 {
+    printf("hello from GraphicsLib constructor\n");
 }
 
 GraphicsLib::~GraphicsLib()
 {
+    printf("hello from GraphicsLib destructor\n");
 }
 
-void GraphicsLib::create_window(const char title[], uint32_t width, uint32_t height)
+Window GraphicsLib::create_window(const char title[], uint32_t width, uint32_t height)
 {
+    printf("title is %s\n", title);
+    printf("hello from GraphicsLib::create_window\n");
     this->window = Window(title, width, height);
+    printf("goodbye from GraphicsLib::create_window\n");
+    return this->window;
 }
 
 void GraphicsLib::set_background_color(float r, float g, float b)
@@ -26,9 +32,9 @@ void GraphicsLib::set_background_color(float r, float g, float b)
 	{
 	    for ( int x = 0; x < this->window.width; ++x )
 	    {
-		this->window.image.pixels[index].r = r;
-		this->window.image.pixels[index].g = g;
-		this->window.image.pixels[index].b = b;
+		this->window.pixels[index].r = r;
+		this->window.pixels[index].g = g;
+		this->window.pixels[index].b = b;
 
 		++index;
 	    }
@@ -43,9 +49,9 @@ void GraphicsLib::plot_point(int x, int y, Color c)
 	//ensure index is within bounds of the this->window.image vector
 	if( index >= 0 && index < this->window.width * this->window.height)
 	{
-		this->window.image.pixels[index].r = c.r;
-		this->window.image.pixels[index].g = c.g;
-		this->window.image.pixels[index].b = c.b;
+		this->window.pixels[index].r = c.r;
+		this->window.pixels[index].g = c.g;
+		this->window.pixels[index].b = c.b;
 	}
 	else
 	{
@@ -108,7 +114,6 @@ void GraphicsLib::draw_triangle(Vector2 point_a, Color color_a, Vector2 point_b,
     double XcXa_diff = Xc - Xa;
     double gamma_const = Xa*Yb - Xb*Ya;
     double beta_const = Xa*Yc - Xc*Ya;
-	
     for ( int y = 0; y < this->window.height; ++y )
 	{
 	    for ( int x = 0; x < this->window.width; ++x )
@@ -124,6 +129,7 @@ void GraphicsLib::draw_triangle(Vector2 point_a, Color color_a, Vector2 point_b,
             {
                 //point is in the triangle
                 Color point_color = color_a * alpha + color_b * beta + color_c * gamma;
+                printf("draw_triangle before plot_point\n");
                 plot_point(x, y, point_color);
             }
             else

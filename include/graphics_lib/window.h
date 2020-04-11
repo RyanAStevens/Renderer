@@ -4,8 +4,6 @@
 #include <PixelToaster.h>
 #include <string>
 #include <stdint.h>
-#include <window.h>
-#include <image.h>
 
 class Window
 {
@@ -18,8 +16,8 @@ public:
     void update();
     uint32_t height;
     uint32_t width;
-    Image image;
-    PixelToaster::Display toasted_display;
+    PixelToaster::Display* toasted_display;
+    std::vector<PixelToaster::FloatingPointPixel> pixels;
 };
 
 #endif //WINDOW_H_
