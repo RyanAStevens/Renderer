@@ -11,12 +11,11 @@ class Window
 {
 public:
     Window();
-    Window(std::string title, uint32_t width, uint32_t height);
+    Window(const char title[], uint32_t width, uint32_t height);
     ~Window();
  
     uint32_t open();
     void update();
-    std::string title;
     uint32_t height;
     uint32_t width;
     Image image;

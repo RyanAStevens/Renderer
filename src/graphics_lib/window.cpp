@@ -7,13 +7,11 @@ Window::Window()
 {
 }
 
-Window::Window(std::string title, uint32_t width, uint32_t height)
+Window::Window(const char title[], uint32_t width, uint32_t height)
 {
     this->height = height;
     this->width = width;
-    this->title = title;
-    this->toasted_display = PixelToaster::Display(title, width, height);
-    //this->toasted_display = PixelToaster::Display(title, width, height, PixelToaster::Output::Fullscreen);
+    this->toasted_display = PixelToaster::Display(title, width, height, PixelToaster::Output::Fullscreen, PixelToaster::Mode::FloatingPoint);
     this->image = Image(width, height);
 }
 
