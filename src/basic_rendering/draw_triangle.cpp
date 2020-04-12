@@ -19,12 +19,12 @@ int main()
 
     GraphicsLib gl = GraphicsLib();
     printf("7\n");
-    Window window = Window("Hello, there!", 1000, 1000);
+    gl.create_window("Hello, there!", 1000, 1000);
     printf("8\n");
-    while(window.open())
+    while(gl.window->open())
     {
 		gl.draw_triangle(A, A_color, B, B_color, C, C_color);
         printf("draw the triangle\n");
-        window.update();
+        gl.window->update();
     }
 }
