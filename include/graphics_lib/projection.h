@@ -1,23 +1,20 @@
-#include <matrix_stack.h>
-
-class Orthographic 
-{
-};
-
-class Perspective
-{
-};
+#include <vector3.h>
+#include <string>
 
 class Projection
 {
-    
-        void ortho_projection(double left, double right, double bottom, double top, double near, double far)
-        {
-            
-        }
-
-        void persp_projection()
-        {
-        }
+    double left, right, bottom, top, near, far;
+    double fov, near, far;
 };
 
+class Orthographic : public Projection
+{
+    void project_vertex(Vector3);
+    std::string type = "Orthographic";
+};
+
+class Perspective : public Projection
+{
+    void project_vertex(Vector3);
+    std::string type = "Perspective";
+};

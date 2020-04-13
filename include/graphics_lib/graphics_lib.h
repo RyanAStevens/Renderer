@@ -20,7 +20,7 @@ public:
     void draw_triangle(Vector2 point_a, Color color_a, Vector2 point_b, Color color_b, Vector2 point_c, Color color_c);
     Window* window;
     MatrixStack* matrix_stack;
-    Projection* projection;
+    Projection projection;
 };
 
 #endif //GRAPHICS_LIB_H_

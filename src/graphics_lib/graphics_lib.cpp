@@ -7,23 +7,36 @@
 
 GraphicsLib::GraphicsLib()
 {
-    printf("hello from GraphicsLib constructor\n");
+//    printf("hello from GraphicsLib constructor\n");
 }
 
 GraphicsLib::~GraphicsLib()
 {
-    printf("hello from GraphicsLib destructor\n");
+//    printf("hello from GraphicsLib destructor\n");
 }
 
 void GraphicsLib::create_window(const char title[], uint32_t width, uint32_t height)
 {
-    printf("title is %s\n", title);
-    printf("hello from GraphicsLib::create_window->n");
     this->window = new Window(title, width, height);
-    printf("goodbye from GraphicsLib::create_window->n");
 }
 
-/*
+void GraphicsLib::set_orthographic(double left, double right, double bottom, double top, double near, double far)
+{
+    this->projection.left = left;
+    this->projection.right = right;
+    this->projection.bottom = bottom;
+    this->projection.top = top; 
+    this->projection.near = near;
+    this->projection.far = far;
+}
+
+void GraphicsLib::set_perspective(double fov, double near, double far)
+{
+    this->projection.fov = fov; 
+    this->projection.near = near;
+    this->projection.far = far;
+}
+
 void GraphicsLib::set_background_color(float r, float g, float b)
 {
 	unsigned int index = 0;
@@ -32,15 +45,15 @@ void GraphicsLib::set_background_color(float r, float g, float b)
 	{
 	    for ( int x = 0; x < this->window->width; ++x )
 	    {
-        this->window->pixels[index].r = r;
-		this->window->pixels[index].g = g;
-		this->window->pixels[index].b = b;
+        this->window->image[index].r = r;
+		this->window->image[index].g = g;
+		this->window->image[index].b = b;
 
 		++index;
 	    }
 	}
 }
-*/
+
 void GraphicsLib::plot_point(int x, int y, Color c)
 {
     //printf("plot_point: (%d, %d)\n", x, y);
@@ -49,9 +62,9 @@ void GraphicsLib::plot_point(int x, int y, Color c)
 	//ensure index is within bounds of the this->window->image vector
 	if( index >= 0 && index < this->window->width * this->window->height)
 	{
-		this->window->pixels[index].r = c.r;
-		this->window->pixels[index].g = c.g;
-		this->window->pixels[index].b = c.b;
+		this->window->image[index].r = c.r;
+		this->window->image[index].g = c.g;
+		this->window->image[index].b = c.b;
 	}
 	else
 	{
@@ -129,7 +142,6 @@ void GraphicsLib::draw_triangle(Vector2 point_a, Color color_a, Vector2 point_b,
             {
                 //point is in the triangle
                 Color point_color = color_a * alpha + color_b * beta + color_c * gamma;
-                printf("draw_triangle before plot_point\n");
                 plot_point(x, y, point_color);
             }
             else
