@@ -15,26 +15,45 @@ GraphicsLib::~GraphicsLib()
 //    printf("hello from GraphicsLib destructor\n");
 }
 
-void GraphicsLib::create_window(const char title[], uint32_t width, uint32_t height)
+void GraphicsLib::create_window(const char title[], uint32_t width, uint32_t height, p_mode_t draw_mode)
 {
-    this->window = new Window(title, width, height);
+    if(NULL != this->window)
+    {
+            this->window = new Window(title, width, height);
+            
+            switch(draw_mode)
+            {
+                case ORTHOGRAPHIC:
+                    this->projection = new Orthographic(width, height);
+                    break;
+                case PERSPECTIVE:
+                    this->projection = new Perspective(width, height);
+                    break;
+                default:
+                    printf("GraphicsLib::create_window ERROR - drawing mode is not recognized");
+            }
+    }
+    else
+    {
+        printf("GraphicsLib::create_window ERROR - A window already exists.");
+    }
 }
 
 void GraphicsLib::set_orthographic(double left, double right, double bottom, double top, double near, double far)
 {
-    this->projection.left = left;
-    this->projection.right = right;
-    this->projection.bottom = bottom;
-    this->projection.top = top; 
-    this->projection.near = near;
-    this->projection.far = far;
+    this->projection->left = left;
+    this->projection->right = right;
+    this->projection->bottom = bottom;
+    this->projection->top = top; 
+    this->projection->near = near;
+    this->projection->far = far;
 }
 
 void GraphicsLib::set_perspective(double fov, double near, double far)
 {
-    this->projection.fov = fov; 
-    this->projection.near = near;
-    this->projection.far = far;
+    this->projection->fov = fov; 
+    this->projection->near = near;
+    this->projection->far = far;
 }
 
 void GraphicsLib::set_background_color(float r, float g, float b)

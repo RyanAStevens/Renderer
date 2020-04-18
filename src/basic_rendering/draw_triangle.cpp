@@ -11,7 +11,9 @@ int main()
 	Color C_color(0.0, 0.0, 1.0);
 
     GraphicsLib gl = GraphicsLib();
-    gl.create_window("Hello, there!", 1000, 1000);
+    gl.create_window("Hello, there!", 1000, 1000, ORTHOGRAPHIC);
+    printf("Created window: size %dx%d\n", gl.window->width, gl.window->height);
+    printf("Projection drawing mode is %s\n", (ORTHOGRAPHIC == gl.projection->type) ? "Orthographic" : "Perspective");
     while(gl.window->open())
     {
 		gl.draw_triangle(A, A_color, B, B_color, C, C_color);
