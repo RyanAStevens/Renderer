@@ -125,7 +125,7 @@ void persp_multi_cubes()
     gtRotateY(20);
     
     // draw several cubes in three lines (x, y, z)
-    for(delta in range(-12,13,3))
+    for(int delta = -12; delta <= 13; delta += 3)
     {
         gtPushMatrix();
         gtTranslate(delta, 0, 0);
@@ -140,17 +140,19 @@ void persp_multi_cubes()
         cube();
         gtPopMatrix();
     }    
+
     gtPopMatrix();
 }
 
 // unit radius cirle
 void circle()
 {
-    steps = 64;
+    steps = 65;
     xold = 1;
     yold = 0;
     gtBeginShape();
-    // not sure yet how to fix this     --- >for(i in range(steps+1)
+
+    for(int i = 0; i <= steps; i++)
     {
         theta = 2 * 3.1415926535 * i / float(steps);
         x = cos(theta);
@@ -160,6 +162,7 @@ void circle()
         xold = x;
         yold = y;
     }
+
     gtEndShape();
 }
 

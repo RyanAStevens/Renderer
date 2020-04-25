@@ -1,15 +1,21 @@
-/* Ryan Stevens;
+/*  
+    Ryan Stevens;
     CS 3451 Computer Graphics;
     Georgia Institute of Technology;
     Spring 2017;
+
+    file: drawlib.cpp
 */
+
 // Drawing Routines, like  OpenGL
 #include <matlib.h>
 
 //Class for vertex object
-class Vertices(object)
+class Vertex
 {
-        self.coords = [];
+    public:
+    float x, y, z;
+    const int h = 1;
 };
 
 //Class to keep track of projection settings
@@ -39,8 +45,8 @@ class ProjectionSetter(object)
 
 //instantiate projection object    
 projMode = ProjectionSetter();
-//instantiate vertex object
-vert = Vertices();
+
+vector<Vertex> vertices;
 
 void gtOrtho(left, right, bottom, top, near, far)
 {
@@ -64,10 +70,10 @@ void gtEndShape()
     for( i in range(0,len(vert.coords),2))
     {
         //perfor(m transfor(mation
-        vert1 = vert.coords[i];
-        vert2 = vert.coords[i+1];
-        vert1 = matrix_mult(myMatrix.stack[-1], vert1);
-        vert2 = matrix_mult(myMatrix.stack[-1], vert2);
+        Vertex vert1 = vert.coords[i];
+        Vertex vert2 = vert.coords[i+1];
+        Vertex vert1 = matrix_mult(myMatrix.stack[-1], vert1);
+        Vertex vert2 = matrix_mult(myMatrix.stack[-1], vert2);
         
         //perform view projection
         if(projMode.mode == 'ORTHO')
@@ -97,5 +103,5 @@ void gtEndShape()
 
 void gtVertex(x, y, z)
 {
-    vert.coords.append([[x], [y], [z], [1]]);
+    vertices.push_back(Vertex(x, y, z);
 }
