@@ -8,73 +8,62 @@
 
 #include <math.h>
 
-//class for matrix_stack object
-class my_matrix_stack(object)
-{
-};
-
-//instantiate stack object
-myMatrix = my_matrix_stack();
+typedef std::vector<float> matrix_row;
+typedef std::vector<matrix_row> matrix;
+typedef std::vector<matrix> matrix_stack;
 
 // my own matrix multiplication function
-int matrix_mult(A, B)
+matrix matrix_mult(A, B)
 {
     //check for proper input
-    if(len(A[0]) != len(B))
+    if(A.front().size() != B.size())
     {
         printf("Error: Number of columns in A must match number of rows in B");
-        return 1;
+        return -1;
     }
     
-    //initialize the result matrix
-    iLen = len(A);
-    jLen = len(B[0]);
-    kLen = len(B);
-    res = [];
-    for(row in range(0, iLen))
-    {
-        res.append([]);
-        res[row] = [];
-        for(col in range(0, jLen))
-        {
-            res[row].append(0.0);
-        }
-    }
-            
-    //perform multiplication       ;
+    //A(l x m) * B(m x n) = C(l x n)
+    float l = A.size();
+    float n = B.front().size();
+    float m = B.size();
+    
+    //initialize the return matrix
+    matrix product_matrix(A.size(), matrix_row(B.front().size(), 0.0f));
+    
+    //perform multiplication
     index = 0;
-    for(i in range(0,iLen))
+    for(int i = 0; i <= l; i++)
     {
-        for(j in range(0,jLen))
+        for(int j = 0; j <= n; j++)
         {
-            for(k in range(0,kLen))
+            for(int k = 0; k <= m; k++)
             {
-                res[index/jLen][index%jLen] = res[index/jLen][index%jLen] + (A[i][k] * B[k][j]);
+                product_matrix[index/n][index%n] = product_matrix[index/n][index%n] + (A[i][k] * B[k][j]);
             }
             index = index + 1;
         }
     }
-    return res;
+    return product_matrix;
 }
 
 void gtInitialize()
 {
     // initialize stack with a single 4x4 identity matrix
-    myMatrix.stack = [[[1,0,0,0], [0,1,0,0], [0,0,1,0], [0,0,0,1]]];
+    matrix_stack = {{{1,0,0,0}, {0,1,0,0}, {0,0,1,0}, {0,0,0,1}}};
 }
 
 void gtPushMatrix()
 {
     //copy top of stack and push onto stack
-    myMatrix.stack.append(myMatrix.stack[-1]);
+    matrix_stack.push_back(matrix_stack.back());
 }
 
 void gtPopMatrix()
 {
     // check to see if stack can be popped
-    if(len(myMatrix.stack) > 1
+    if(matrix_stack.size() > 1)
     {
-        myMatrix.stack.pop();
+        matrix_stack.pop_back();
     }
     else
     {
@@ -85,10 +74,10 @@ void gtPopMatrix()
 void gtTranslate(x, y, z)
 {
     // create translation matrix
-    T = [[1,0,0,x], [0,1,0,y], [0,0,1,z], [0,0,0,1]];
+    T = {{1,0,0,x}, {0,1,0,y}, {0,0,1,z}, {0,0,0,1}};
     
     //multiply by CTM
-    myMatrix.stack[-1] = matrix_mult(myMatrix.stack[-1], T);
+    matrix_stack.back() = matrix_mult(matrix_stack.back(), T);
 }
 
 void gtScale(x, y, z)
@@ -97,32 +86,32 @@ void gtScale(x, y, z)
     S = [[x,0,0,0], [0,y,0,0], [0,0,z,0], [0,0,0,1]];
 
     //multiply by CTM
-    myMatrix.stack[-1] = matrix_mult(myMatrix.stack[-1], S);
+    matrix_stack.back() = matrix_mult(matrix_stack.back(), S);
 }
 
 void gtRotateX(theta)
 {
     // create rotation matrix
-    Rx = [[1,0,0,0], [0,math.cos(theta*math.pi/180.0),-math.sin(theta*math.pi/180.0),0], [0,math.sin(theta*math.pi/180.0),math.cos(theta*math.pi/180.0),0], [0,0,0,1]];
+    Rx = [[1,0,0,0], [0,cos(theta*M_PI/180.0),-sin(theta*M_PI/180.0),0], [0,sin(theta*M_PI/180.0),cos(theta*M_PI/180.0),0], [0,0,0,1]];
 
     //multiply Rx by CTM
-    myMatrix.stack[-1] = matrix_mult(myMatrix.stack[-1], Rx);
+    matrix_stack.back() = matrix_mult(matrix_stack.back(), Rx);
 }
 
 void gtRotateY(theta)
 {
     // create rotation matrix
-    Ry = [[math.cos(theta*math.pi/180.0),0,math.sin(theta*math.pi/180.0),0], [0,1,0,0], [-math.sin(theta*math.pi/180.0),0,math.cos(theta*math.pi/180.0),0], [0,0,0,1]];
+    Ry = {{cos(theta*M_PI/180.0),0,sin(theta*M_PI/180.0),0}, {0,1,0,0}, {-sin(theta*M_PI/180.0),0,cos(theta*M_PI/180.0),0}, {0,0,0,1}};
 
     //multiply by CTM
-    myMatrix.stack[-1] = matrix_mult(myMatrix.stack[-1], Ry);
+    matrix_stack.back() = matrix_mult(matrix_stack.back(), Ry);
 }
 
 void gtRotateZ(theta)
 {
     // create rotation matrix
-    Rz = [[math.cos(theta*math.pi/180.0),-math.sin(theta*math.pi/180.0),0,0], [math.sin(theta*math.pi/180.0),math.cos(theta*math.pi/180.0),0,0], [0,0,1,0], [0,0,0,1]];
+    Rz = {{cos(theta*M_PI/180.0),-sin(theta*M_PI/180.0),0,0}, {sin(theta*M_PI/180.0),cos(theta*M_PI/180.0),0,0}, {0,0,1,0}, {0,0,0,1}};
 
     //multiply by CTM
-    myMatrix.stack[-1] = matrix_mult(myMatrix.stack[-1], Rz);
+    matrix_stack.back() = matrix_mult(matrix_stack.back(), Rz);
 }
