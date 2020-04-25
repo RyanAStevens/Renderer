@@ -1,3 +1,6 @@
+#ifndef DRAWLIB_H_ 
+#define DRAWLIB_H_ 
+
 /*  
     Ryan Stevens;
     CS 3451 Computer Graphics;
@@ -6,6 +9,8 @@
 
     file: drawlib.h
 */
+
+#include <string>
 
 // Drawing Routines, like  OpenGL
 
@@ -18,22 +23,28 @@ public:
 };
 
 //Class to keep track of projection settings
-class ProjectionSetter(object)
+class ProjectionSetter
 {
-piblic:
-    this->mode = 'NULL';
-    void setOrtho(self, left, right, bottom, top, near, far);
-    void setPerspect(self, fov, near, far);
-}
+public:
+    ProjectionSetter();
+    std::string mode = "NULL";
+    float left, right, bottom, top, near, far, fov;
+    void setOrtho(float left, float right, float bottom, float top, float near, float far);
+    void setPerspect(float fov, float near, float far);
+};
 
 class DrawLib
 {
 public:
+        DrawLib();
         ProjectionSetter projMode;
-        vector<Vertex> vertices;
-        void gtOrtho(left, right, bottom, top, near, far);
-        void gtPerspective(fov, near, far);
+        std::vector<Vertex> vertices;
+        matrix_stack* mat_stack_p;
+        void gtOrtho(float left, float right, float bottom, float top, float near, float far);
+        void gtPerspective(float fov, float near, float far);
         void gtBeginShape();
         void gtEndShape();
-        void gtVertex(x, y, z);
-}
+        void gtVertex(float x, float y, float z);
+};
+
+#endif //DRAWLIB_H_ 

@@ -10,8 +10,9 @@
 // Matrix Stack Library -- My code from Project 1A
 
 #include <math.h>
+#include <matlib.h>
 
-matrix MatLib::matrix_mult(A, B)
+matrix MatLib::matrix_mult(matrix A, matrix B)
 {
     //check for proper input
     if(A.front().size() != B.size())
@@ -71,7 +72,7 @@ void MatLib::gtPopMatrix()
     }
 }
 
-void MatLib::gtTranslate(x, y, z)
+void MatLib::gtTranslate(float x, float y, float z)
 {
     // create translation matrix
     matrix T = {{1,0,0,x}, {0,1,0,y}, {0,0,1,z}, {0,0,0,1}};
@@ -80,7 +81,7 @@ void MatLib::gtTranslate(x, y, z)
     this->mat_stack.back() = matrix_mult(this->mat_stack.back(), T);
 }
 
-void MatLib::gtScale(x, y, z)
+void MatLib::gtScale(float x, float y, float z)
 {
     // create scale matrix
     matrix S = [[x,0,0,0], [0,y,0,0], [0,0,z,0], [0,0,0,1]];
@@ -89,7 +90,7 @@ void MatLib::gtScale(x, y, z)
     this->mat_stack.back() = matrix_mult(this->mat_stack.back(), S);
 }
 
-void MatLib::gtRotateX(theta)
+void MatLib::gtRotateX(float theta)
 {
     // create rotation matrix
     matrix Rx = [[1,0,0,0], [0,cos(theta*M_PI/180.0),-sin(theta*M_PI/180.0),0], [0,sin(theta*M_PI/180.0),cos(theta*M_PI/180.0),0], [0,0,0,1]];
@@ -98,7 +99,7 @@ void MatLib::gtRotateX(theta)
     this->mat_stack.back() = matrix_mult(this->mat_stack.back(), Rx);
 }
 
-void MatLib::gtRotateY(theta)
+void MatLib::gtRotateY(float theta)
 {
     // create rotation matrix
     matrix Ry = {{cos(theta*M_PI/180.0),0,sin(theta*M_PI/180.0),0}, {0,1,0,0}, {-sin(theta*M_PI/180.0),0,cos(theta*M_PI/180.0),0}, {0,0,0,1}};
@@ -107,7 +108,7 @@ void MatLib::gtRotateY(theta)
     this->mat_stack.back() = matrix_mult(this->mat_stack.back(), Ry);
 }
 
-void MatLib::gtRotateZ(theta)
+void MatLib::gtRotateZ(float theta)
 {
     // create rotation matrix
     matrix Rz = {{cos(theta*M_PI/180.0),-sin(theta*M_PI/180.0),0,0}, {sin(theta*M_PI/180.0),cos(theta*M_PI/180.0),0,0}, {0,0,1,0}, {0,0,0,1}};
