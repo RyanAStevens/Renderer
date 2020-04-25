@@ -1,7 +1,10 @@
-/*  Ryan Stevens
+/*  
+    Ryan Stevens
     CS 3451 Computer Graphics
     Georgia Institute of Technology
     Spring 2017
+
+    file: initials.cpp
 */
 // My initials drawn in perspective
 
@@ -58,4 +61,3 @@ void persp_initials()
     gtEndShape();
     gtPopMatrix();
 }
-    

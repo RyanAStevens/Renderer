@@ -1,3 +1,4 @@
+// file: drawing_test.cpp
 // Testing the Transformation, Projection and Line Drawing Routines
 
 #include <matlib.h>
@@ -20,7 +21,7 @@ void draw()
 void keyPressed()
 {
     background (255, 255, 255);
-    /
+    
     Switch(key)
     {
             case '1':
