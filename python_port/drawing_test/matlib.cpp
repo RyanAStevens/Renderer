@@ -11,26 +11,28 @@
 
 #include <math.h>
 #include <matlib.h>
+#include <stdio.h>
 
 matrix MatLib::matrix_mult(matrix A, matrix B)
 {
-    //check for proper input
-    if(A.front().size() != B.size())
-    {
-        printf("Error: Number of columns in A must match number of rows in B");
-        return -1;
-    }
     
     //A(l x m) * B(m x n) = C(l x n)
-    float l = A.size();
-    float n = B.front().size();
-    float m = B.size();
+    int l = A.size();
+    int n = B.front().size();
+    int m = B.size();
     
     //initialize the return matrix
     matrix product_matrix(A.size(), matrix_row(B.front().size(), 0.0f));
     
+    //check for proper input
+    if(A.front().size() != B.size())
+    {
+        printf("Error: Number of columns in A must match number of rows in B");
+        return product_matrix;
+    }
+    
     //perform multiplication
-    index = 0;
+    int index = 0;
     for(int i = 0; i <= l; i++)
     {
         for(int j = 0; j <= n; j++)
@@ -72,7 +74,7 @@ void MatLib::gtPopMatrix()
     }
 }
 
-void MatLib::gtTranslate(float x, float y, float z)
+void MatLib::gtTranslate(double x, double y, double z)
 {
     // create translation matrix
     matrix T = {{1,0,0,x}, {0,1,0,y}, {0,0,1,z}, {0,0,0,1}};
@@ -81,25 +83,25 @@ void MatLib::gtTranslate(float x, float y, float z)
     this->mat_stack.back() = matrix_mult(this->mat_stack.back(), T);
 }
 
-void MatLib::gtScale(float x, float y, float z)
+void MatLib::gtScale(double x, double y, double z)
 {
     // create scale matrix
-    matrix S = [[x,0,0,0], [0,y,0,0], [0,0,z,0], [0,0,0,1]];
+    matrix S = {{x,0,0,0}, {0,y,0,0}, {0,0,z,0}, {0,0,0,1}};
 
     //multiply by CTM
     this->mat_stack.back() = matrix_mult(this->mat_stack.back(), S);
 }
 
-void MatLib::gtRotateX(float theta)
+void MatLib::gtRotateX(double theta)
 {
     // create rotation matrix
-    matrix Rx = [[1,0,0,0], [0,cos(theta*M_PI/180.0),-sin(theta*M_PI/180.0),0], [0,sin(theta*M_PI/180.0),cos(theta*M_PI/180.0),0], [0,0,0,1]];
+    matrix Rx = {{1,0,0,0}, {0,cos(theta*M_PI/180.0),-sin(theta*M_PI/180.0),0}, {0,sin(theta*M_PI/180.0),cos(theta*M_PI/180.0),0}, {0,0,0,1}};
 
     //multiply Rx by CTM
     this->mat_stack.back() = matrix_mult(this->mat_stack.back(), Rx);
 }
 
-void MatLib::gtRotateY(float theta)
+void MatLib::gtRotateY(double theta)
 {
     // create rotation matrix
     matrix Ry = {{cos(theta*M_PI/180.0),0,sin(theta*M_PI/180.0),0}, {0,1,0,0}, {-sin(theta*M_PI/180.0),0,cos(theta*M_PI/180.0),0}, {0,0,0,1}};
@@ -108,7 +110,7 @@ void MatLib::gtRotateY(float theta)
     this->mat_stack.back() = matrix_mult(this->mat_stack.back(), Ry);
 }
 
-void MatLib::gtRotateZ(float theta)
+void MatLib::gtRotateZ(double theta)
 {
     // create rotation matrix
     matrix Rz = {{cos(theta*M_PI/180.0),-sin(theta*M_PI/180.0),0,0}, {sin(theta*M_PI/180.0),cos(theta*M_PI/180.0),0,0}, {0,0,1,0}, {0,0,0,1}};

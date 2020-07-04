@@ -8,17 +8,16 @@
 */
 
 // Drawing Routines, like  OpenGL
-#include <matlib.h>
 #include <drawlib.h>
 
 ProjectionSetter::ProjectionSetter()
 {
-    this->mode = 'NULL';
+    this->mode = "NULL";
 }
 
-void ProjectionSetter::setOrtho(float left, float right, float bottom, float top, float near, float far)
+void ProjectionSetter::setOrtho(double left, double right, double bottom, double top, double near, double far)
 {
-        this->mode = 'ORTHO';
+        this->mode = "ORTHO";
         this->left = left;
         this->right = right;
         this->bottom = bottom;
@@ -27,25 +26,25 @@ void ProjectionSetter::setOrtho(float left, float right, float bottom, float top
         this->far = far;
 }
 
-void ProjectionSetter::setPerspect(float fov, float near, float far)
+void ProjectionSetter::setPerspect(double fov, double near, double far)
 {
-        this->mode = 'PERSPECT';
+        this->mode = "PERSPECT";
         this->fov = fov;
         this->near = near;
         this->far = far;
 }
 
-DrawLib::DrawLib(matrix_stack* mat_stack_p)
+DrawLib::DrawLib(MatLib* matrix_lib_p)
 {
-    
+   this->matrix_lib_p = matrix_lib_p; 
 }
 
-void DrawLib::gtOrtho(float left, float right, float bottom, float top, float near, float far)
+void DrawLib::gtOrtho(double left, double right, double bottom, double top, double near, double far)
 {
     this->projMode.setOrtho(left, right, bottom, top, near, far);
 }
 
-void DrawLib::gtPerspective(float fov, float near, float far)
+void DrawLib::gtPerspective(double fov, double near, double far)
 {
     this->projMode.setPerspect(fov, near, far);
 }    
@@ -62,15 +61,24 @@ void DrawLib::gtEndShape()
     //draw the shape
     for(int i = 0; i <= this->vertices.size(); i += 2)
     {
-        //perfor(m transfor(mation
+        //perform transformation
         vert1 = this->vertices[i];
         vert2 = this->vertices[i+1];
-        vert1 = matrix_mult(matrix_stack->back(), vert1);
-        vert2 = matrix_mult(matrix_stack->back(), vert2);
+        vert1 = matrix_lib_p->matrix_mult(matrix_lib_p->mat_stack.back(), vert1);
+        vert2 = matrix_lib_p->matrix_mult(matrix_lib_p->mat_stack.back(), vert2);
         
         //perform view projection
-        if(this->projMode.mode == 'ORTHO')
+        if(0 == this->projMode.mode.compare("ORTHO"))
         {
+        /*
+            vert1[0] = (vert1[0] - this->projMode.left)*(width/(this->projMode.right - this->projMode.left));
+            vert1[1] = (vert1[1] - this->projMode.bottom)*(width/(this->projMode.top - this->projMode.bottom));
+            vert1[2] = 0;
+            vert2[0] = (vert2[0] - this->projMode.left)*(width/(this->projMode.right - this->projMode.left));
+            vert2[1] = (vert2[1] - this->projMode.bottom)*(width/(this->projMode.top - this->projMode.bottom));
+            vert2[2] = 0;
+        */
+
             vert1[0][0] = (vert1[0][0] - this->projMode.left)*(width/(this->projMode.right - this->projMode.left));
             vert1[1][0] = (vert1[1][0] - this->projMode.bottom)*(width/(this->projMode.top - this->projMode.bottom));
             vert1[2][0] = 0;
@@ -92,9 +100,26 @@ void DrawLib::gtEndShape()
         }
         //draw line
         line(vert1[0][0], height - vert1[1][0], vert2[0][0], height - vert2[1][0]);
+        }
 }
 
-void DrawLib::gtVertex(float x, float y, float z)
+void DrawLib::gtVertex(double x_in, double y_in, double z_in)
 {
-    vertices.push_back(Vertex(x, y, z);
+    std::vector<double> x(4, 0.0);
+    x.front() = x_in;
+    std::vector<double> y(4, 0.0);
+    y.front() = y_in;
+    std::vector<double> z(4, 0.0);
+    z.front() = z_in;
+    std::vector<double> h(4, 0.0);
+    h.front() = 1.0;
+    
+    Vertex v;
+    
+    v.push_back(x);
+    v.push_back(y);
+    v.push_back(z);
+    v.push_back(h);
+    
+    vertices.push_back(v);
 }

@@ -12,7 +12,7 @@
 #include <math.h>
 #include <vector>
 
-typedef std::vector<float> matrix_row;
+typedef std::vector<double> matrix_row;
 typedef std::vector<matrix_row> matrix;
 typedef std::vector<matrix> matrix_stack;
 
@@ -24,11 +24,11 @@ public:
         void gtInitialize();
         void gtPushMatrix();
         void gtPopMatrix();
-        void gtTranslate(float x, float y, float z);
-        void gtScale(float x, float y, float z);
-        void gtRotateX(float theta);
-        void gtRotateY(float theta);
-        void gtRotateZ(float theta);
+        void gtTranslate(double x, double y, double z);
+        void gtScale(double x, double y, double z);
+        void gtRotateX(double theta);
+        void gtRotateY(double theta);
+        void gtRotateZ(double theta);
 };
 
 #endif //MATLIB_H_

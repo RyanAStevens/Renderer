@@ -11,16 +11,12 @@
 */
 
 #include <string>
+#include <matlib.h>
+//#include <vector3.h>
 
 // Drawing Routines, like  OpenGL
 
-//Class for vertex object
-class Vertex
-{
-public:
-    float x, y, z;
-    const int h = 1;
-};
+typedef matrix Vertex;
 
 //Class to keep track of projection settings
 class ProjectionSetter
@@ -28,23 +24,24 @@ class ProjectionSetter
 public:
     ProjectionSetter();
     std::string mode = "NULL";
-    float left, right, bottom, top, near, far, fov;
-    void setOrtho(float left, float right, float bottom, float top, float near, float far);
-    void setPerspect(float fov, float near, float far);
+    double left, right, bottom, top, near, far, fov;
+    void setOrtho(double left, double right, double bottom, double top, double near, double far);
+    void setPerspect(double fov, double near, double far);
 };
 
 class DrawLib
 {
 public:
-        DrawLib();
+        DrawLib(MatLib* matrix_lib_p);
         ProjectionSetter projMode;
         std::vector<Vertex> vertices;
+        MatLib* matrix_lib_p;
         matrix_stack* mat_stack_p;
-        void gtOrtho(float left, float right, float bottom, float top, float near, float far);
-        void gtPerspective(float fov, float near, float far);
+        void gtOrtho(double left, double right, double bottom, double top, double near, double far);
+        void gtPerspective(double fov, double near, double far);
         void gtBeginShape();
         void gtEndShape();
-        void gtVertex(float x, float y, float z);
+        void gtVertex(double x, double y, double z);
 };
 
 #endif //DRAWLIB_H_ 
