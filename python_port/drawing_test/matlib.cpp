@@ -15,14 +15,18 @@
 
 matrix MatLib::matrix_mult(matrix A, matrix B)
 {
-    
+    printf("hello from matrix_mult\n");
     //A(l x m) * B(m x n) = C(l x n)
     int l = A.size();
+    printf("l = %d\n", l);
     int n = B.front().size();
+    printf("n = %d\n", n);
     int m = B.size();
+    printf("m = %d\n", m);
     
     //initialize the return matrix
     matrix product_matrix(A.size(), matrix_row(B.front().size(), 0.0f));
+    printf("matrix_mult: 1\n");
     
     //check for proper input
     if(A.front().size() != B.size())
@@ -30,6 +34,7 @@ matrix MatLib::matrix_mult(matrix A, matrix B)
         printf("Error: Number of columns in A must match number of rows in B");
         return product_matrix;
     }
+    printf("matrix_mult: 2\n");
     
     //perform multiplication
     int index = 0;
@@ -39,6 +44,7 @@ matrix MatLib::matrix_mult(matrix A, matrix B)
         {
             for(int k = 0; k <= m; k++)
             {
+                printf("matrix_mult: %f + (%f * %f)\n", product_matrix[index/n][index%n], A[i][k], B[k][j]);
                 product_matrix[index/n][index%n] = product_matrix[index/n][index%n] + (A[i][k] * B[k][j]);
             }
             index = index + 1;

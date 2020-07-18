@@ -12,6 +12,7 @@
 
 #include <string>
 #include <matlib.h>
+#include <graphics_lib.h>
 //#include <vector3.h>
 
 // Drawing Routines, like  OpenGL
@@ -32,10 +33,11 @@ public:
 class DrawLib
 {
 public:
-        DrawLib(MatLib* matrix_lib_p, double width, double height);
+        DrawLib(MatLib* matrix_lib_p, GraphicsLib* graphics_lib_p, double width, double height);
         ProjectionSetter projMode;
         std::vector<Vertex> vertices;
         MatLib* matrix_lib_p;
+        GraphicsLib* graphics_lib_p;
         double width;
         double height;
         matrix_stack* mat_stack_p;

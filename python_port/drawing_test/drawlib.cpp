@@ -34,8 +34,9 @@ void ProjectionSetter::setPerspect(double fov, double near, double far)
         this->far = far;
 }
 
-DrawLib::DrawLib(MatLib* matrix_lib_p, double width, double height)
+DrawLib::DrawLib(MatLib* matrix_lib_p, GraphicsLib* graphics_lib_p, double width, double height)
 {
+   this->graphics_lib_p = graphics_lib_p;
    this->matrix_lib_p = matrix_lib_p;
    this->width = width;
    this->height = height;
@@ -59,15 +60,23 @@ void DrawLib::gtBeginShape()
 
 void DrawLib::gtEndShape()
 {
+    printf("hello from gtEndShape()\n");
     Vertex vert1, vert2;
     //draw the shape
     for(int i = 0; i <= this->vertices.size(); i += 2)
     {
+        printf("gtEndShape: 1\n");
         //perform transformation
         vert1 = this->vertices[i];
         vert2 = this->vertices[i+1];
-        vert1 = matrix_lib_p->matrix_mult(matrix_lib_p->mat_stack.back(), vert1);
-        vert2 = matrix_lib_p->matrix_mult(matrix_lib_p->mat_stack.back(), vert2);
+        printf("gtEndShape: 2\n");
+        printf("matrix_lib_p = %u\n", this->matrix_lib_p);
+        printf("matrix_lib_p->mat_stack = %u\n", this->matrix_lib_p->mat_stack);
+        this->matrix_lib_p->gtInitialize();
+        printf("gtEndShape: 3\n");
+        vert1 = this->matrix_lib_p->matrix_mult(this->matrix_lib_p->mat_stack.back(), vert1);
+        printf("gtEndShape: 4\n");
+        vert2 = this->matrix_lib_p->matrix_mult(this->matrix_lib_p->mat_stack.back(), vert2);
         
         //perform view projection
         if(0 == this->projMode.mode.compare("ORTHO"))
@@ -90,19 +99,21 @@ void DrawLib::gtEndShape()
         }
         else
         { // mode is perspective
-            k = tan(this->projMode.fov*M_PI/180/2.0);
-            xP1 = vert1[0][0] / abs(vert1[2][0]);
-            yP1 = vert1[1][0] / abs(vert1[2][0]);
+        printf("gtEndShape: 5\n");
+            double k = tan(this->projMode.fov*M_PI/180/2.0);
+            double xP1 = vert1[0][0] / abs(vert1[2][0]);
+            double yP1 = vert1[1][0] / abs(vert1[2][0]);
             vert1[0][0] = (xP1 + k)*(width/(2*k));
             vert1[1][0] = (yP1 + k)*(height/(2*k));
-            xP2 = vert2[0][0] / abs(vert2[2][0]);
-            yP2 = vert2[1][0] / abs(vert2[2][0]);
+            double xP2 = vert2[0][0] / abs(vert2[2][0]);
+            double yP2 = vert2[1][0] / abs(vert2[2][0]);
             vert2[0][0] = (xP2 + k)*(width/(2*k));
             vert2[1][0] = (yP2 + k)*(height/(2*k));
         }
+        printf("gtEndShape: 6\n");
         //draw line
-        line(vert1[0][0], height - vert1[1][0], vert2[0][0], height - vert2[1][0]);
-        }
+        this->graphics_lib_p->draw_line(vert1[0][0], height - vert1[1][0], vert2[0][0], height - vert2[1][0]);
+    }
 }
 
 void DrawLib::gtVertex(double x_in, double y_in, double z_in)

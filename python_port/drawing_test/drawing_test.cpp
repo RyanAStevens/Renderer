@@ -6,16 +6,20 @@
 #include <graphics_lib.h>
 
 int main()
-{   
+{  
+    printf("Hello, there from main.\n");
 	int window_width = 1000;
 	int window_height = 1000;
     MatLib matrix_lib = MatLib();
-    DrawLib drawing_lib = DrawLib(&matrix_lib, window_width, window_height);
     GraphicsLib gl = GraphicsLib();
+    DrawLib drawing_lib = DrawLib(&matrix_lib, &gl, window_width, window_height);
+    printf("hi 1\n");
     gl.create_window("Hello, there!", window_height, window_width, ORTHOGRAPHIC);
+    printf("hi 2\n");
     while(gl.window->open())
     {
 		drawing_lib.gtBeginShape ();
+        printf("hi 3\n");
 
 		drawing_lib.gtVertex (-50, -50, 0);
 		drawing_lib.gtVertex (-50, 50, 0);
@@ -29,9 +33,12 @@ int main()
 		drawing_lib.gtVertex (50, -50, 0);
 		drawing_lib.gtVertex (-50, -50, 0);
 
+        printf("hi 44\n");
 		drawing_lib.gtEndShape();
+        printf("hi 5\n");
 		
 		gl.window->update();
+        printf("hi 6\n");
     }
  
     return 0;

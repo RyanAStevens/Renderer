@@ -1,3 +1,0 @@
-figure out how to do user input
-
-g++ drawing_test.cpp -I. -I../../third_party/pixeltoaster/include/ drawlib.cpp matlib.cpp

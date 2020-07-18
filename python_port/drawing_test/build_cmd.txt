@@ -1,0 +1,1 @@
+g++ drawing_test.cpp -I. -I../../third_party/pixeltoaster/include/ -I ../../include/graphics_lib/ drawlib.cpp matlib.cpp ../../src/graphics_lib/graphics_lib.cpp ../../src/graphics_lib/color.cpp ../../src/graphics_lib/window.cpp ../../src/graphics_lib/projection.cpp ../../third_party/pixeltoaster/src/PixelToaster.cpp -lX11
