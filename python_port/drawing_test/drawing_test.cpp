@@ -5,9 +5,6 @@
 #include <drawlib.h>
 #include <graphics_lib.h>
 
-
-}
-
 int main()
 {   
 	int window_width = 1000;

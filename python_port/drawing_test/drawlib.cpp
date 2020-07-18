@@ -34,9 +34,11 @@ void ProjectionSetter::setPerspect(double fov, double near, double far)
         this->far = far;
 }
 
-DrawLib::DrawLib(MatLib* matrix_lib_p)
+DrawLib::DrawLib(MatLib* matrix_lib_p, double width, double height)
 {
-   this->matrix_lib_p = matrix_lib_p; 
+   this->matrix_lib_p = matrix_lib_p;
+   this->width = width;
+   this->height = height;
 }
 
 void DrawLib::gtOrtho(double left, double right, double bottom, double top, double near, double far)

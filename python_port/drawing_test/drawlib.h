@@ -32,10 +32,12 @@ public:
 class DrawLib
 {
 public:
-        DrawLib(MatLib* matrix_lib_p);
+        DrawLib(MatLib* matrix_lib_p, double width, double height);
         ProjectionSetter projMode;
         std::vector<Vertex> vertices;
         MatLib* matrix_lib_p;
+        double width;
+        double height;
         matrix_stack* mat_stack_p;
         void gtOrtho(double left, double right, double bottom, double top, double near, double far);
         void gtPerspective(double fov, double near, double far);
