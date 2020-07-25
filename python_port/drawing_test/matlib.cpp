@@ -13,7 +13,24 @@
 #include <matlib.h>
 #include <stdio.h>
 
-matrix MatLib::matrix_mult(matrix A, matrix B)
+Matrix::Matrix()
+{
+	std::vector<double> row0(4, 0.0f);
+	std::vector<double> row1(4, 0.0f);
+	std::vector<double> row2(4, 0.0f);
+	std::vector<double> row3(4, 0.0f);
+	data
+}
+
+Matrix::~Matrix()
+{
+}
+
+Matrix::print()
+{
+}
+
+Matrix MatLib::matrix_mult(Matrix A, Matrix B)
 {
     printf("hello from matrix_mult\n");
     //A(l x m) * B(m x n) = C(l x n)
@@ -25,7 +42,7 @@ matrix MatLib::matrix_mult(matrix A, matrix B)
     printf("m = %d\n", m);
     
     //initialize the return matrix
-    matrix product_matrix(A.size(), matrix_row(B.front().size(), 0.0f));
+    Matrix product_matrix(A.size(), matrix_row(B.front().size(), 0.0f));
     printf("matrix_mult: 1\n");
     
     //check for proper input
@@ -38,12 +55,15 @@ matrix MatLib::matrix_mult(matrix A, matrix B)
     
     //perform multiplication
     int index = 0;
-    for(int i = 0; i <= l; i++)
+    for(int i = 0; i < l; i++)
     {
-        for(int j = 0; j <= n; j++)
+        printf("i = %d\n", i);
+        for(int j = 0; j < n; j++)
         {
-            for(int k = 0; k <= m; k++)
+        printf("j = %d\n", j);
+            for(int k = 0; k < m; k++)
             {
+        printf("k = %d\n", k);
                 printf("matrix_mult: %f + (%f * %f)\n", product_matrix[index/n][index%n], A[i][k], B[k][j]);
                 product_matrix[index/n][index%n] = product_matrix[index/n][index%n] + (A[i][k] * B[k][j]);
             }
@@ -83,7 +103,7 @@ void MatLib::gtPopMatrix()
 void MatLib::gtTranslate(double x, double y, double z)
 {
     // create translation matrix
-    matrix T = {{1,0,0,x}, {0,1,0,y}, {0,0,1,z}, {0,0,0,1}};
+    Matrix T = {{1,0,0,x}, {0,1,0,y}, {0,0,1,z}, {0,0,0,1}};
     
     //multiply by CTM
     this->mat_stack.back() = matrix_mult(this->mat_stack.back(), T);
@@ -92,7 +112,7 @@ void MatLib::gtTranslate(double x, double y, double z)
 void MatLib::gtScale(double x, double y, double z)
 {
     // create scale matrix
-    matrix S = {{x,0,0,0}, {0,y,0,0}, {0,0,z,0}, {0,0,0,1}};
+    Matrix S = {{x,0,0,0}, {0,y,0,0}, {0,0,z,0}, {0,0,0,1}};
 
     //multiply by CTM
     this->mat_stack.back() = matrix_mult(this->mat_stack.back(), S);
@@ -101,7 +121,7 @@ void MatLib::gtScale(double x, double y, double z)
 void MatLib::gtRotateX(double theta)
 {
     // create rotation matrix
-    matrix Rx = {{1,0,0,0}, {0,cos(theta*M_PI/180.0),-sin(theta*M_PI/180.0),0}, {0,sin(theta*M_PI/180.0),cos(theta*M_PI/180.0),0}, {0,0,0,1}};
+    Matrix Rx = {{1,0,0,0}, {0,cos(theta*M_PI/180.0),-sin(theta*M_PI/180.0),0}, {0,sin(theta*M_PI/180.0),cos(theta*M_PI/180.0),0}, {0,0,0,1}};
 
     //multiply Rx by CTM
     this->mat_stack.back() = matrix_mult(this->mat_stack.back(), Rx);
@@ -110,7 +130,7 @@ void MatLib::gtRotateX(double theta)
 void MatLib::gtRotateY(double theta)
 {
     // create rotation matrix
-    matrix Ry = {{cos(theta*M_PI/180.0),0,sin(theta*M_PI/180.0),0}, {0,1,0,0}, {-sin(theta*M_PI/180.0),0,cos(theta*M_PI/180.0),0}, {0,0,0,1}};
+    Matrix Ry = {{cos(theta*M_PI/180.0),0,sin(theta*M_PI/180.0),0}, {0,1,0,0}, {-sin(theta*M_PI/180.0),0,cos(theta*M_PI/180.0),0}, {0,0,0,1}};
 
     //multiply by CTM
     this->mat_stack.back() = matrix_mult(this->mat_stack.back(), Ry);
@@ -119,7 +139,7 @@ void MatLib::gtRotateY(double theta)
 void MatLib::gtRotateZ(double theta)
 {
     // create rotation matrix
-    matrix Rz = {{cos(theta*M_PI/180.0),-sin(theta*M_PI/180.0),0,0}, {sin(theta*M_PI/180.0),cos(theta*M_PI/180.0),0,0}, {0,0,1,0}, {0,0,0,1}};
+    Matrix Rz = {{cos(theta*M_PI/180.0),-sin(theta*M_PI/180.0),0,0}, {sin(theta*M_PI/180.0),cos(theta*M_PI/180.0),0,0}, {0,0,1,0}, {0,0,0,1}};
 
     //multiply by CTM
     this->mat_stack.back() = matrix_mult(this->mat_stack.back(), Rz);

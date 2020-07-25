@@ -77,6 +77,7 @@ void DrawLib::gtEndShape()
         vert1 = this->matrix_lib_p->matrix_mult(this->matrix_lib_p->mat_stack.back(), vert1);
         printf("gtEndShape: 4\n");
         vert2 = this->matrix_lib_p->matrix_mult(this->matrix_lib_p->mat_stack.back(), vert2);
+        printf("drawlib:gtEndShape vert1(%f, %f, %f) vert2(%f, %f, %f)\n", vert1[0][0], vert1[0][0], vert1[1][0], vert1[2][0], vert2[0][0], vert2[1][0], vert2[2][0]);
         
         //perform view projection
         if(0 == this->projMode.mode.compare("ORTHO"))
@@ -96,6 +97,7 @@ void DrawLib::gtEndShape()
             vert2[0][0] = (vert2[0][0] - this->projMode.left)*(width/(this->projMode.right - this->projMode.left));
             vert2[1][0] = (vert2[1][0] - this->projMode.bottom)*(width/(this->projMode.top - this->projMode.bottom));
             vert2[2][0] = 0;
+            printf("drawlib:ortho vert1(%f, %f, %f) vert2(%f, %f, %f)\n", vert1[0][0], vert1[0][0], vert1[1][0], vert1[2][0], vert2[0][0], vert2[1][0], vert2[2][0]);
         }
         else
         { // mode is perspective
@@ -109,9 +111,11 @@ void DrawLib::gtEndShape()
             double yP2 = vert2[1][0] / abs(vert2[2][0]);
             vert2[0][0] = (xP2 + k)*(width/(2*k));
             vert2[1][0] = (yP2 + k)*(height/(2*k));
+            printf("drawlib:perspective vert1(%f, %f, %f) vert2(%f, %f, %f)\n", vert1[0][0], vert1[0][0], vert1[1][0], vert1[2][0], vert2[0][0], vert2[1][0], vert2[2][0]);
         }
         printf("gtEndShape: 6\n");
         //draw line
+        printf("this->graphics_lib_p->draw_line(%f, %f, %f, %f)\n",vert1[0][0], height - vert1[1][0], vert2[0][0], height - vert2[1][0]);
         this->graphics_lib_p->draw_line(vert1[0][0], height - vert1[1][0], vert2[0][0], height - vert2[1][0]);
     }
 }

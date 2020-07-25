@@ -12,8 +12,14 @@
 #include <math.h>
 #include <vector>
 
-typedef std::vector<double> matrix_row;
-typedef std::vector<matrix_row> matrix;
+class Matrix
+{
+    Matrix();
+    ~Matrix();
+    std::vector<std::vector<double>> data(4);
+    void print();
+}
+
 typedef std::vector<matrix> matrix_stack;
 
 class MatLib

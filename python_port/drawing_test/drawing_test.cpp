@@ -33,7 +33,7 @@ int main()
 		drawing_lib.gtVertex (50, -50, 0);
 		drawing_lib.gtVertex (-50, -50, 0);
 
-        printf("hi 44\n");
+        printf("hi 4\n");
 		drawing_lib.gtEndShape();
         printf("hi 5\n");
 		
