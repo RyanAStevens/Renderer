@@ -61,7 +61,8 @@ void DrawLib::gtBeginShape()
 void DrawLib::gtEndShape()
 {
     printf("hello from gtEndShape()\n");
-    Vertex vert1, vert2;
+    Vertex vert1;
+    Vertex vert2;
     //draw the shape
     for(int i = 0; i <= this->vertices.size(); i += 2)
     {

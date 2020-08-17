@@ -15,11 +15,10 @@
 
 Matrix::Matrix()
 {
-	std::vector<double> row0(4, 0.0f);
-	std::vector<double> row1(4, 0.0f);
-	std::vector<double> row2(4, 0.0f);
-	std::vector<double> row3(4, 0.0f);
-	data
+    for(int i = 0; i < 4; i++)
+    {
+	    data.emplace_back(4, 0.0f);
+    }
 }
 
 Matrix::~Matrix()

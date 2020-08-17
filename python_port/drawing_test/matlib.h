@@ -14,19 +14,20 @@
 
 class Matrix
 {
+public:
     Matrix();
     ~Matrix();
-    std::vector<std::vector<double>> data(4);
+    std::vector<std::vector<double>> data;
     void print();
-}
+};
 
-typedef std::vector<matrix> matrix_stack;
+typedef std::vector<Matrix> matrix_stack;
 
 class MatLib
 {
 public:
         matrix_stack mat_stack;
-        matrix matrix_mult(matrix A, matrix B);
+        Matrix matrix_mult(Matrix A, Matrix B);
         void gtInitialize();
         void gtPushMatrix();
         void gtPopMatrix();

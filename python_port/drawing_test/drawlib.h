@@ -17,7 +17,7 @@
 
 // Drawing Routines, like  OpenGL
 
-typedef matrix Vertex;
+typedef Matrix Vertex;
 
 //Class to keep track of projection settings
 class ProjectionSetter
