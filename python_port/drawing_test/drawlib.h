@@ -17,7 +17,13 @@
 
 // Drawing Routines, like  OpenGL
 
-typedef Matrix Vertex;
+class Vertex: public Matrix
+{
+public:
+    Vertex();
+    Vertex(double x, double y, double z);
+    Vertex& operator=(const Vertex& rhs);
+};
 
 //Class to keep track of projection settings
 class ProjectionSetter

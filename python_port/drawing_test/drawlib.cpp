@@ -10,6 +10,27 @@
 // Drawing Routines, like  OpenGL
 #include <drawlib.h>
 
+Vertex::Vertex(): Matrix() {};
+
+Vertex::Vertex(double x_in, double y_in, double z_in)
+{
+    std::vector<double> x(x_in);
+    std::vector<double> y(y_in);
+    std::vector<double> z(z_in);
+    std::vector<double> h(1.0);
+    
+    data.push_back(x);
+    data.push_back(y);
+    data.push_back(z);
+    data.push_back(h);
+    
+}
+
+Vertex& Vertex::operator=(const Vertex& rhs)
+{
+   data0
+}
+
 ProjectionSetter::ProjectionSetter()
 {
     this->mode = "NULL";
@@ -123,21 +144,6 @@ void DrawLib::gtEndShape()
 
 void DrawLib::gtVertex(double x_in, double y_in, double z_in)
 {
-    std::vector<double> x(4, 0.0);
-    x.front() = x_in;
-    std::vector<double> y(4, 0.0);
-    y.front() = y_in;
-    std::vector<double> z(4, 0.0);
-    z.front() = z_in;
-    std::vector<double> h(4, 0.0);
-    h.front() = 1.0;
-    
-    Vertex v;
-    
-    v.push_back(x);
-    v.push_back(y);
-    v.push_back(z);
-    v.push_back(h);
-    
+    Vertex v(x_in, y_in, z_in);
     vertices.push_back(v);
 }

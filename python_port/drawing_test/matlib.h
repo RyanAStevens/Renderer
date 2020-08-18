@@ -19,6 +19,8 @@ public:
     ~Matrix();
     std::vector<std::vector<double>> data;
     void print();
+    std::vector<double>& operator[](int i);
+    Matrix& operator=(Matrix& rhs);
 };
 
 typedef std::vector<Matrix> matrix_stack;

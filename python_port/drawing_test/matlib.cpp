@@ -29,6 +29,26 @@ Matrix::print()
 {
 }
 
+Matrix& operator=(Matrix& rhs)
+{
+    std::vector<double>>::iterator it_i_dest
+    std::vector<double>>::iterator it_i_orig
+    std::vector<double>::iterator it_j_dest
+    std::vector<double>::iterator it_j_orig 
+    for(it_i_orig = rhs.data.begin(), it_i_dest = this->data.begin(); it_i_orig != rhs.data.end(), it_i_dest = this->data.end(); ++it_i_orig, ++it_i_dest)
+    {
+        for(it_j_orig = *it_i_orig.begin(), it_j_dest= *it_i_dest.begin(); it_j_orig != *it_i_orig.end(), it_j_dest != *it_i_dest.end(); ++it_j_orig, ++it_j_dest)
+        {
+            
+        }
+    }
+}
+
+std::vector<double>& Matrix::operator[](int i)
+{
+    return this->data[i];
+}
+
 Matrix MatLib::matrix_mult(Matrix A, Matrix B)
 {
     printf("hello from matrix_mult\n");
