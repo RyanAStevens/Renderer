@@ -21,51 +21,63 @@ Matrix::Matrix()
     }
 }
 
+Matrix::Matrix(double x_in, double y_in, double z_in)
+{
+    std::vector<double> x(x_in);
+    std::vector<double> y(y_in);
+    std::vector<double> z(z_in);
+    std::vector<double> h(1.0);
+    
+    data.push_back(x);
+    data.push_back(y);
+    data.push_back(z);
+    data.push_back(h);
+}
+
 Matrix::~Matrix()
 {
 }
 
-Matrix::print()
+void Matrix::print()
 {
+	
 }
 
-Matrix& operator=(Matrix& rhs)
+Matrix& Matrix::operator=(Matrix& rhs)
 {
-    std::vector<double>>::iterator it_i_dest
-    std::vector<double>>::iterator it_i_orig
-    std::vector<double>::iterator it_j_dest
-    std::vector<double>::iterator it_j_orig 
-    for(it_i_orig = rhs.data.begin(), it_i_dest = this->data.begin(); it_i_orig != rhs.data.end(), it_i_dest = this->data.end(); ++it_i_orig, ++it_i_dest)
+    std::vector<std::vector<double>>::iterator it_i_orig;
+    std::vector<std::vector<double>>::iterator it_i_dest;
+    std::vector<double>::iterator it_j_orig;
+    std::vector<double>::iterator it_j_dest;
+    for(it_i_orig = rhs.data.begin(), it_i_dest = this->data.begin(); it_i_orig != rhs.data.end(), it_i_dest != this->data.end(); ++it_i_orig, ++it_i_dest)
     {
-        for(it_j_orig = *it_i_orig.begin(), it_j_dest= *it_i_dest.begin(); it_j_orig != *it_i_orig.end(), it_j_dest != *it_i_dest.end(); ++it_j_orig, ++it_j_dest)
+        for(it_j_orig = (*it_i_orig).begin(), it_j_dest= (*it_i_dest).begin(); it_j_orig != (*it_i_orig).end(), it_j_dest != (*it_i_dest).end(); ++it_j_orig, ++it_j_dest)
         {
-            
+            *it_j_dest = *it_j_orig;
         }
     }
+
+	return *this;
 }
 
-std::vector<double>& Matrix::operator[](int i)
-{
-    return this->data[i];
-}
 
-Matrix MatLib::matrix_mult(Matrix A, Matrix B)
+Matrix& Matrix::operator*(Matrix& rhs)
 {
     printf("hello from matrix_mult\n");
     //A(l x m) * B(m x n) = C(l x n)
-    int l = A.size();
+    int l = this->data.size();
     printf("l = %d\n", l);
-    int n = B.front().size();
+    int n = rhs.data.front().size();
     printf("n = %d\n", n);
-    int m = B.size();
+    int m = rhs.data.size();
     printf("m = %d\n", m);
     
     //initialize the return matrix
-    Matrix product_matrix(A.size(), matrix_row(B.front().size(), 0.0f));
+    Matrix product_matrix(this->data.size(), matrix_row(rhs.data.front().size(), 0.0f));
     printf("matrix_mult: 1\n");
     
     //check for proper input
-    if(A.front().size() != B.size())
+    if(this->data.front().size() != rhs.data.size())
     {
         printf("Error: Number of columns in A must match number of rows in B");
         return product_matrix;
@@ -83,13 +95,18 @@ Matrix MatLib::matrix_mult(Matrix A, Matrix B)
             for(int k = 0; k < m; k++)
             {
         printf("k = %d\n", k);
-                printf("matrix_mult: %f + (%f * %f)\n", product_matrix[index/n][index%n], A[i][k], B[k][j]);
-                product_matrix[index/n][index%n] = product_matrix[index/n][index%n] + (A[i][k] * B[k][j]);
+                printf("matrix_mult: %f + (%f * %f)\n", product_matrix[index/n][index%n], this[i][k], rhs[k][j]);
+                product_matrix[index/n][index%n] = product_matrix[index/n][index%n] + (this[i][k] * rhs[k][j]);
             }
             index = index + 1;
         }
     }
     return product_matrix;
+}
+
+std::vector<double>& Matrix::operator[](int i)
+{
+    return this->data[i];
 }
 
 void MatLib::gtInitialize()
@@ -125,7 +142,7 @@ void MatLib::gtTranslate(double x, double y, double z)
     Matrix T = {{1,0,0,x}, {0,1,0,y}, {0,0,1,z}, {0,0,0,1}};
     
     //multiply by CTM
-    this->mat_stack.back() = matrix_mult(this->mat_stack.back(), T);
+    this->mat_stack.push_back(this->mat_stack.back()*T);
 }
 
 void MatLib::gtScale(double x, double y, double z)
@@ -134,7 +151,7 @@ void MatLib::gtScale(double x, double y, double z)
     Matrix S = {{x,0,0,0}, {0,y,0,0}, {0,0,z,0}, {0,0,0,1}};
 
     //multiply by CTM
-    this->mat_stack.back() = matrix_mult(this->mat_stack.back(), S);
+    this->mat_stack.push_back(this->mat_stack.back()*S);
 }
 
 void MatLib::gtRotateX(double theta)
@@ -143,7 +160,7 @@ void MatLib::gtRotateX(double theta)
     Matrix Rx = {{1,0,0,0}, {0,cos(theta*M_PI/180.0),-sin(theta*M_PI/180.0),0}, {0,sin(theta*M_PI/180.0),cos(theta*M_PI/180.0),0}, {0,0,0,1}};
 
     //multiply Rx by CTM
-    this->mat_stack.back() = matrix_mult(this->mat_stack.back(), Rx);
+    this->mat_stack.push_back(this->mat_stack.back()*Rx);
 }
 
 void MatLib::gtRotateY(double theta)
@@ -152,7 +169,7 @@ void MatLib::gtRotateY(double theta)
     Matrix Ry = {{cos(theta*M_PI/180.0),0,sin(theta*M_PI/180.0),0}, {0,1,0,0}, {-sin(theta*M_PI/180.0),0,cos(theta*M_PI/180.0),0}, {0,0,0,1}};
 
     //multiply by CTM
-    this->mat_stack.back() = matrix_mult(this->mat_stack.back(), Ry);
+    this->mat_stack.push_back(this->mat_stack.back()*Ry);
 }
 
 void MatLib::gtRotateZ(double theta)
@@ -161,5 +178,5 @@ void MatLib::gtRotateZ(double theta)
     Matrix Rz = {{cos(theta*M_PI/180.0),-sin(theta*M_PI/180.0),0,0}, {sin(theta*M_PI/180.0),cos(theta*M_PI/180.0),0,0}, {0,0,1,0}, {0,0,0,1}};
 
     //multiply by CTM
-    this->mat_stack.back() = matrix_mult(this->mat_stack.back(), Rz);
+    this->mat_stack.push_back(this->mat_stack.back()*Rz);
 }

@@ -10,27 +10,6 @@
 // Drawing Routines, like  OpenGL
 #include <drawlib.h>
 
-Vertex::Vertex(): Matrix() {};
-
-Vertex::Vertex(double x_in, double y_in, double z_in)
-{
-    std::vector<double> x(x_in);
-    std::vector<double> y(y_in);
-    std::vector<double> z(z_in);
-    std::vector<double> h(1.0);
-    
-    data.push_back(x);
-    data.push_back(y);
-    data.push_back(z);
-    data.push_back(h);
-    
-}
-
-Vertex& Vertex::operator=(const Vertex& rhs)
-{
-   data0
-}
-
 ProjectionSetter::ProjectionSetter()
 {
     this->mode = "NULL";
@@ -82,8 +61,9 @@ void DrawLib::gtBeginShape()
 void DrawLib::gtEndShape()
 {
     printf("hello from gtEndShape()\n");
-    Vertex vert1;
-    Vertex vert2;
+    Matrix transform;
+    Matrix vert1;
+    Matrix vert2;
     //draw the shape
     for(int i = 0; i <= this->vertices.size(); i += 2)
     {
@@ -96,23 +76,15 @@ void DrawLib::gtEndShape()
         printf("matrix_lib_p->mat_stack = %u\n", this->matrix_lib_p->mat_stack);
         this->matrix_lib_p->gtInitialize();
         printf("gtEndShape: 3\n");
-        vert1 = this->matrix_lib_p->matrix_mult(this->matrix_lib_p->mat_stack.back(), vert1);
+        transform = this->matrix_lib_p->mat_stack.back();
+        vert1 = transform*vert1;
         printf("gtEndShape: 4\n");
-        vert2 = this->matrix_lib_p->matrix_mult(this->matrix_lib_p->mat_stack.back(), vert2);
-        printf("drawlib:gtEndShape vert1(%f, %f, %f) vert2(%f, %f, %f)\n", vert1[0][0], vert1[0][0], vert1[1][0], vert1[2][0], vert2[0][0], vert2[1][0], vert2[2][0]);
+        vert2 = transform*vert2;
+        printf("drawlib:gtEndShape vert1(%f, %f, %f) vert2(%f, %f, %f)\n", vert1[0][0], vert1[1][0], vert1[2][0], vert2[0][0], vert2[1][0], vert2[2][0]);
         
         //perform view projection
         if(0 == this->projMode.mode.compare("ORTHO"))
         {
-        /*
-            vert1[0] = (vert1[0] - this->projMode.left)*(width/(this->projMode.right - this->projMode.left));
-            vert1[1] = (vert1[1] - this->projMode.bottom)*(width/(this->projMode.top - this->projMode.bottom));
-            vert1[2] = 0;
-            vert2[0] = (vert2[0] - this->projMode.left)*(width/(this->projMode.right - this->projMode.left));
-            vert2[1] = (vert2[1] - this->projMode.bottom)*(width/(this->projMode.top - this->projMode.bottom));
-            vert2[2] = 0;
-        */
-
             vert1[0][0] = (vert1[0][0] - this->projMode.left)*(width/(this->projMode.right - this->projMode.left));
             vert1[1][0] = (vert1[1][0] - this->projMode.bottom)*(width/(this->projMode.top - this->projMode.bottom));
             vert1[2][0] = 0;
@@ -144,6 +116,6 @@ void DrawLib::gtEndShape()
 
 void DrawLib::gtVertex(double x_in, double y_in, double z_in)
 {
-    Vertex v(x_in, y_in, z_in);
+    Matrix v(x_in, y_in, z_in);
     vertices.push_back(v);
 }

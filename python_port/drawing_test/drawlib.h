@@ -17,14 +17,6 @@
 
 // Drawing Routines, like  OpenGL
 
-class Vertex: public Matrix
-{
-public:
-    Vertex();
-    Vertex(double x, double y, double z);
-    Vertex& operator=(const Vertex& rhs);
-};
-
 //Class to keep track of projection settings
 class ProjectionSetter
 {
@@ -41,7 +33,7 @@ class DrawLib
 public:
         DrawLib(MatLib* matrix_lib_p, GraphicsLib* graphics_lib_p, double width, double height);
         ProjectionSetter projMode;
-        std::vector<Vertex> vertices;
+        std::vector<Matrix> vertices;
         MatLib* matrix_lib_p;
         GraphicsLib* graphics_lib_p;
         double width;

@@ -16,10 +16,12 @@ class Matrix
 {
 public:
     Matrix();
+    Matrix(double x_in, double y_in, double z_in);
     ~Matrix();
     std::vector<std::vector<double>> data;
     void print();
     std::vector<double>& operator[](int i);
+    Matrix& operator*(Matrix& rhs);
     Matrix& operator=(Matrix& rhs);
 };
 
