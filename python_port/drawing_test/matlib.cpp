@@ -13,11 +13,27 @@
 #include <matlib.h>
 #include <stdio.h>
 
-Matrix::Matrix()
+Matrix::Matrix(matrix_constructor_t id)
 {
-    for(int i = 0; i < 4; i++)
+    switch(id)
     {
-	    data.emplace_back(4, 0.0f);
+        case IDENTITY:
+            for(int i = 0; i < 4; i++)
+            {
+                data.emplace_back(4, 0.0f);
+            }
+            break;
+        default:
+            ;
+    }
+    
+}
+
+Matrix::Matrix(int n_rows, int n_cols)
+{
+    for(int i = 0; i < n_rows; i++)
+    {
+	    data.emplace_back(n_cols, 0.0f);
     }
 }
 
@@ -43,7 +59,7 @@ void Matrix::print()
 	
 }
 
-Matrix& Matrix::operator=(Matrix& rhs)
+Matrix Matrix::operator=(Matrix rhs)
 {
     std::vector<std::vector<double>>::iterator it_i_orig;
     std::vector<std::vector<double>>::iterator it_i_dest;
@@ -61,7 +77,7 @@ Matrix& Matrix::operator=(Matrix& rhs)
 }
 
 
-Matrix& Matrix::operator*(Matrix& rhs)
+Matrix Matrix::operator*(Matrix rhs)
 {
     printf("hello from matrix_mult\n");
     //A(l x m) * B(m x n) = C(l x n)
@@ -73,7 +89,7 @@ Matrix& Matrix::operator*(Matrix& rhs)
     printf("m = %d\n", m);
     
     //initialize the return matrix
-    Matrix product_matrix(this->data.size(), matrix_row(rhs.data.front().size(), 0.0f));
+    Matrix product_matrix(l, n);
     printf("matrix_mult: 1\n");
     
     //check for proper input
@@ -95,8 +111,8 @@ Matrix& Matrix::operator*(Matrix& rhs)
             for(int k = 0; k < m; k++)
             {
         printf("k = %d\n", k);
-                printf("matrix_mult: %f + (%f * %f)\n", product_matrix[index/n][index%n], this[i][k], rhs[k][j]);
-                product_matrix[index/n][index%n] = product_matrix[index/n][index%n] + (this[i][k] * rhs[k][j]);
+                printf("matrix_mult: %f + (%f * %f)\n", product_matrix[index/n][index%n], this->data[i][k], rhs[k][j]);
+                product_matrix[index/n][index%n] = product_matrix[index/n][index%n] + (this->data[i][k] * rhs[k][j]);
             }
             index = index + 1;
         }
@@ -114,7 +130,7 @@ void MatLib::gtInitialize()
     // initialize stack with a single 4x4 identity matrix
 
     this->mat_stack.clear();
-    this->mat_stack = {{{1,0,0,0}, {0,1,0,0}, {0,0,1,0}, {0,0,0,1}}};
+    this->mat_stack.push_back(Matrix(IDENTITY));
 }
 
 void MatLib::gtPushMatrix()

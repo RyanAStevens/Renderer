@@ -61,9 +61,9 @@ void DrawLib::gtBeginShape()
 void DrawLib::gtEndShape()
 {
     printf("hello from gtEndShape()\n");
-    Matrix transform;
-    Matrix vert1;
-    Matrix vert2;
+    Matrix transform(4,4);
+    Matrix vert1(0,0,0);
+    Matrix vert2(0,0,0);
     //draw the shape
     for(int i = 0; i <= this->vertices.size(); i += 2)
     {

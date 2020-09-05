@@ -12,17 +12,23 @@
 #include <math.h>
 #include <vector>
 
+enum matrix_constructor_t
+{
+   IDENTITY 
+};
+
 class Matrix
 {
 public:
-    Matrix();
+    Matrix(matrix_constructor_t id);
+    Matrix(int n_rows, int n_cols);
     Matrix(double x_in, double y_in, double z_in);
     ~Matrix();
     std::vector<std::vector<double>> data;
     void print();
     std::vector<double>& operator[](int i);
-    Matrix& operator*(Matrix& rhs);
-    Matrix& operator=(Matrix& rhs);
+    Matrix operator*(Matrix rhs);
+    Matrix operator=(Matrix rhs);
 };
 
 typedef std::vector<Matrix> matrix_stack;
@@ -31,7 +37,6 @@ class MatLib
 {
 public:
         matrix_stack mat_stack;
-        Matrix matrix_mult(Matrix A, Matrix B);
         void gtInitialize();
         void gtPushMatrix();
         void gtPopMatrix();
