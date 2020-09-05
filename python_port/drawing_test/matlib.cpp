@@ -155,7 +155,10 @@ void MatLib::gtPopMatrix()
 void MatLib::gtTranslate(double x, double y, double z)
 {
     // create translation matrix
-    Matrix T = {{1,0,0,x}, {0,1,0,y}, {0,0,1,z}, {0,0,0,1}};
+    Matrix T(IDENTITY);
+    T[0][3] = x;
+    T[1][3] = y;
+    T[2][3] = z;
     
     //multiply by CTM
     this->mat_stack.push_back(this->mat_stack.back()*T);
@@ -164,7 +167,10 @@ void MatLib::gtTranslate(double x, double y, double z)
 void MatLib::gtScale(double x, double y, double z)
 {
     // create scale matrix
-    Matrix S = {{x,0,0,0}, {0,y,0,0}, {0,0,z,0}, {0,0,0,1}};
+    Matrix S(IDENTITY);
+    S[0][0] = x;
+    S[1][1] = y;
+    S[2][2] = z;
 
     //multiply by CTM
     this->mat_stack.push_back(this->mat_stack.back()*S);
@@ -173,7 +179,11 @@ void MatLib::gtScale(double x, double y, double z)
 void MatLib::gtRotateX(double theta)
 {
     // create rotation matrix
-    Matrix Rx = {{1,0,0,0}, {0,cos(theta*M_PI/180.0),-sin(theta*M_PI/180.0),0}, {0,sin(theta*M_PI/180.0),cos(theta*M_PI/180.0),0}, {0,0,0,1}};
+    Matrix Rx(IDENTITY);
+    Rx[1][1] = cos(theta*M_PI/180.0);
+    Rx[1][2] = -sin(theta*M_PI/180.0);
+    Rx[2][1] = sin(theta*M_PI/180.0);
+    Rx[2][2] = cos(theta*M_PI/180.0);
 
     //multiply Rx by CTM
     this->mat_stack.push_back(this->mat_stack.back()*Rx);
@@ -182,7 +192,11 @@ void MatLib::gtRotateX(double theta)
 void MatLib::gtRotateY(double theta)
 {
     // create rotation matrix
-    Matrix Ry = {{cos(theta*M_PI/180.0),0,sin(theta*M_PI/180.0),0}, {0,1,0,0}, {-sin(theta*M_PI/180.0),0,cos(theta*M_PI/180.0),0}, {0,0,0,1}};
+    Matrix Ry(IDENTITY);
+    Ry[0][0] = cos(theta*M_PI/180.0);
+    Ry[0][2] = sin(theta*M_PI/180.0);
+    Ry[2][0] = -sin(theta*M_PI/180.0);
+    Ry[2][2] = cos(theta*M_PI/180.0);
 
     //multiply by CTM
     this->mat_stack.push_back(this->mat_stack.back()*Ry);
@@ -191,7 +205,11 @@ void MatLib::gtRotateY(double theta)
 void MatLib::gtRotateZ(double theta)
 {
     // create rotation matrix
-    Matrix Rz = {{cos(theta*M_PI/180.0),-sin(theta*M_PI/180.0),0,0}, {sin(theta*M_PI/180.0),cos(theta*M_PI/180.0),0,0}, {0,0,1,0}, {0,0,0,1}};
+    Matrix Rz(IDENTITY);
+    Rz[0][0] = cos(theta*M_PI/180.0);
+    Rz[0][1] = -sin(theta*M_PI/180.0);
+    Rz[1][0] = sin(theta*M_PI/180.0);
+    Rz[1][1] = cos(theta*M_PI/180.0);
 
     //multiply by CTM
     this->mat_stack.push_back(this->mat_stack.back()*Rz);
