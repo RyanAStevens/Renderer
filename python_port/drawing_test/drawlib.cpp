@@ -61,22 +61,26 @@ void DrawLib::gtBeginShape()
 void DrawLib::gtEndShape()
 {
     printf("hello from gtEndShape()\n");
-    Matrix transform(4,4);
+    Matrix transform(IDENTITY);
     Matrix vert1(0,0,0);
     Matrix vert2(0,0,0);
     //draw the shape
     for(int i = 0; i <= this->vertices.size(); i += 2)
     {
+        printf("drawlib:gtEndShape vert1(%f, %f, %f) vert2(%f, %f, %f)\n", vert1[0][0], vert1[1][0], vert1[2][0], vert2[0][0], vert2[1][0], vert2[2][0]);
         printf("gtEndShape: 1\n");
         //perform transformation
         vert1 = this->vertices[i];
         vert2 = this->vertices[i+1];
+        printf("drawlib:gtEndShape vert1(%f, %f, %f) vert2(%f, %f, %f)\n", vert1[0][0], vert1[1][0], vert1[2][0], vert2[0][0], vert2[1][0], vert2[2][0]);
         printf("gtEndShape: 2\n");
         printf("matrix_lib_p = %u\n", this->matrix_lib_p);
         printf("matrix_lib_p->mat_stack = %u\n", this->matrix_lib_p->mat_stack);
         this->matrix_lib_p->gtInitialize();
         printf("gtEndShape: 3\n");
         transform = this->matrix_lib_p->mat_stack.back();
+        printf("--transform Matrix--\n");
+        transform.print();
         vert1 = transform*vert1;
         printf("gtEndShape: 4\n");
         vert2 = transform*vert2;
