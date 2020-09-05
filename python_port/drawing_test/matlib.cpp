@@ -93,20 +93,10 @@ Matrix Matrix::operator=(Matrix rhs)
 
 Matrix Matrix::operator*(Matrix rhs)
 {
-    printf("hello from Matrix::operator*\n");
     //A(l x m) * B(m x n) = C(l x n)
     int l = this->data.size();
-    printf("l = %d\n", l);
     int n = rhs.data.front().size();
-    printf("n = %d\n", n);
     int m = rhs.data.size();
-    printf("m = %d\n", m);
-
-    printf("--this Matrix--\n");
-    this->print();
-    
-    printf("--rhs Matrix--\n");
-    rhs.print();
 
     //initialize the return matrix
     Matrix product_matrix(l, n);
@@ -117,7 +107,7 @@ Matrix Matrix::operator*(Matrix rhs)
         printf("Error: Number of columns in A must match number of rows in B");
         return product_matrix;
     }
-    printf("Matrix::operator*: 2\n");
+  //  printf("Matrix::operator*: 2\n");
     
     //perform multiplication
     int index = 0;
@@ -135,7 +125,7 @@ Matrix Matrix::operator*(Matrix rhs)
             index = index + 1;
         }
     }
-    printf("goodbye from Matrix::operator*\n");
+   // printf("goodbye from Matrix::operator*\n");
     return product_matrix;
 }
 

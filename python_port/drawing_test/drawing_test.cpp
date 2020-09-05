@@ -20,7 +20,18 @@ int main()
     {
 		drawing_lib.gtBeginShape ();
      //   printf("hi 3\n");
+		drawing_lib.gtVertex (250, 250, 0);
+		drawing_lib.gtVertex (500, 250, 0);
 
+		drawing_lib.gtVertex (500, 250, 0);
+		drawing_lib.gtVertex (500, 500, 0);
+
+		drawing_lib.gtVertex (500, 500, 0);
+		drawing_lib.gtVertex (250, 500, 0);
+
+		drawing_lib.gtVertex (250, 500, 0);
+		drawing_lib.gtVertex (250, 250, 0);
+/*
 		drawing_lib.gtVertex (-50, -50, 0);
 		drawing_lib.gtVertex (-50, 50, 0);
 
@@ -32,10 +43,10 @@ int main()
 
 		drawing_lib.gtVertex (50, -50, 0);
 		drawing_lib.gtVertex (-50, -50, 0);
-
-   //     printf("hi 4\n");
+*/
+        printf("hi 4\n");
 		drawing_lib.gtEndShape();
-    //    printf("hi 5\n");
+        printf("hi 5\n");
 		
 		gl.window->update();
      //   printf("hi 6\n");
