@@ -28,3 +28,8 @@ uint32_t Window::open()
 {
     return this->toasted_display->open();
 }
+
+void Window::listen(Application* app)
+{
+   this->toasted_display->listener(app);
+}
