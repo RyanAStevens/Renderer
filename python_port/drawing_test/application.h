@@ -1,6 +1,6 @@
 #include <PixelToaster.h>
 
-class Application : public Listener
+class Application : public PixelToaster::Listener
 {
 public:
 
@@ -9,16 +9,16 @@ public:
 
 protected:
 
-    void onKeyDown( DisplayInterface & display, Key key );
-    void onKeyPressed( DisplayInterface & display, Key key );
-    void onKeyUp( DisplayInterface & display, Key key );
-    void onMouseButtonDown( DisplayInterface & display, Mouse mouse );
-    void onMouseButtonUp( DisplayInterface & display, Mouse mouse );
-    void onMouseMove( DisplayInterface & display, Mouse mouse );
-    void onActivate( DisplayInterface & display, bool active );
-    void onClose( DisplayInterface & display );
+    void onKeyDown( PixelToaster::DisplayInterface & display, PixelToaster::Key key );
+    void onKeyPressed( PixelToaster::DisplayInterface & display, PixelToaster::Key key );
+    void onKeyUp( PixelToaster::DisplayInterface & display, PixelToaster::Key key );
+    void onMouseButtonDown( PixelToaster::DisplayInterface & display, PixelToaster::Mouse mouse );
+    void onMouseButtonUp( PixelToaster::DisplayInterface & display, PixelToaster::Mouse mouse );
+    void onMouseMove( PixelToaster::DisplayInterface & display, PixelToaster::Mouse mouse );
+    void onActivate( PixelToaster::DisplayInterface & display, bool active );
+    bool  onClose( PixelToaster::DisplayInterface & display );
 
 private:
-    Display display;
+    PixelToaster::Display display;
     bool quit;
 };

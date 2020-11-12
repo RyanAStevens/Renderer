@@ -60,7 +60,7 @@ Matrix::~Matrix()
 
 void Matrix::print()
 {
-    std::vector<std::vector<double>>::iterator it_i;
+    std::vector<std::vector<double> >::iterator it_i;
     std::vector<double>::iterator it_j;
     for(it_i = this->data.begin(); it_i != this->data.end(); ++it_i)
     {   
@@ -75,8 +75,8 @@ void Matrix::print()
 
 Matrix Matrix::operator=(Matrix rhs)
 {
-    std::vector<std::vector<double>>::iterator it_i_orig;
-    std::vector<std::vector<double>>::iterator it_i_dest;
+    std::vector<std::vector<double> >::iterator it_i_orig;
+    std::vector<std::vector<double> >::iterator it_i_dest;
     std::vector<double>::iterator it_j_orig;
     std::vector<double>::iterator it_j_dest;
     for(it_i_orig = rhs.data.begin(), it_i_dest = this->data.begin(); it_i_orig != rhs.data.end(), it_i_dest != this->data.end(); ++it_i_orig, ++it_i_dest)
