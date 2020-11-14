@@ -11,15 +11,17 @@ Application::Application()
 
 int Application::run()
 {
-    //printf("Hello, there from main.\n");
-    MatLib matrix_lib = MatLib();
-    GraphicsLib gl = GraphicsLib();
-    DrawLib drawing_lib = DrawLib(&matrix_lib, &gl, window_width, window_height);
-    //printf("hi 1\n");
-    
+    printf("Hello, app::run()\n");
     int window_width = 1000;
     int window_height = 1000;
-    gl.create_window("Hello, there!", window_height, window_width, ORTHOGRAPHIC);
+    
+    MatLib matrix_lib = MatLib();
+   
+    GraphicsLib gl = GraphicsLib();
+   
+    DrawLib drawing_lib = DrawLib(&matrix_lib, &gl, window_width, window_height);
+    
+    gl.create_window("Boom, Flip it!", window_height, window_width, ORTHOGRAPHIC);
     
     // register listener
     gl.window->listen(this);
@@ -49,45 +51,43 @@ int Application::run()
     }
 }
 
-void Application::onKeyDown( DisplayInterface & display, Key key )
+void Application::onKeyDown( PixelToaster::DisplayInterface & display, PixelToaster::Key key )
 {
-        if ( key==Key::Escape )
+        if ( key==PixelToaster::Key::Escape )
             quit = true;
-
-        return false;       // disable default key handlers
 }
 
-void Application::onKeyPressed( DisplayInterface & display, Key key )
+void Application::onKeyPressed( PixelToaster::DisplayInterface & display, PixelToaster::Key key )
 {
 // ...
 }
 
-void Application::onKeyUp( DisplayInterface & display, Key key )
+void Application::onKeyUp( PixelToaster::DisplayInterface & display, PixelToaster::Key key )
 {
 // ...
 }
 
-void Application::onMouseButtonDown( DisplayInterface & display, Mouse mouse )
+void Application::onMouseButtonDown( PixelToaster::DisplayInterface & display, PixelToaster::Mouse mouse )
 {
 // ...
 }
 
-void Application::onMouseButtonUp( DisplayInterface & display, Mouse mouse )
+void Application::onMouseButtonUp( PixelToaster::DisplayInterface & display, PixelToaster::Mouse mouse )
 {
 // ...
 }
 
-void Application::onMouseMove( DisplayInterface & display, Mouse mouse )
+void Application::onMouseMove( PixelToaster::DisplayInterface & display, PixelToaster::Mouse mouse )
 {
 // ...
 }
 
-void Application::onActivate( DisplayInterface & display, bool active )
+void Application::onActivate( PixelToaster::DisplayInterface & display, bool active )
 {
 // ...
 }
 
-void Application::onClose( DisplayInterface & display )
+bool Application::onClose( PixelToaster::DisplayInterface & display )
 {
     return quit = true;         // returning true indicates that we want the display close to proceed
 }

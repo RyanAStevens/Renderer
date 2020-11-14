@@ -1,3 +1,6 @@
+ #ifndef APPLICATION_H_
+ #define APPLICATION_H_
+
 #include <PixelToaster.h>
 
 class Application : public PixelToaster::Listener
@@ -16,9 +19,11 @@ protected:
     void onMouseButtonUp( PixelToaster::DisplayInterface & display, PixelToaster::Mouse mouse );
     void onMouseMove( PixelToaster::DisplayInterface & display, PixelToaster::Mouse mouse );
     void onActivate( PixelToaster::DisplayInterface & display, bool active );
-    bool  onClose( PixelToaster::DisplayInterface & display );
+    bool onClose( PixelToaster::DisplayInterface & display );
 
 private:
     PixelToaster::Display display;
     bool quit;
 };
+ 
+#endif //APPLICATION_H_

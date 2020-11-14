@@ -4,54 +4,12 @@
 #include <matlib.h>
 #include <drawlib.h>
 #include <graphics_lib.h>
+#include <application.h>
 
 int main()
 {  
-    //printf("Hello, there from main.\n");
-	int window_width = 1000;
-	int window_height = 1000;
-    MatLib matrix_lib = MatLib();
-    GraphicsLib gl = GraphicsLib();
-    DrawLib drawing_lib = DrawLib(&matrix_lib, &gl, window_width, window_height);
-    //printf("hi 1\n");
-    gl.create_window("Hello, there!", window_height, window_width, ORTHOGRAPHIC);
-    //printf("hi 2\n");
-    while(gl.window->open())
-    {
-		drawing_lib.gtBeginShape ();
-     //   printf("hi 3\n");
-		drawing_lib.gtVertex (250, 250, 0);
-		drawing_lib.gtVertex (500, 250, 0);
-
-		drawing_lib.gtVertex (500, 250, 0);
-		drawing_lib.gtVertex (500, 500, 0);
-
-		drawing_lib.gtVertex (500, 500, 0);
-		drawing_lib.gtVertex (250, 500, 0);
-
-		drawing_lib.gtVertex (250, 500, 0);
-		drawing_lib.gtVertex (250, 250, 0);
-/*
-		drawing_lib.gtVertex (-50, -50, 0);
-		drawing_lib.gtVertex (-50, 50, 0);
-
-		drawing_lib.gtVertex (-50, 50, 0);
-		drawing_lib.gtVertex (50, 50, 0);
-
-		drawing_lib.gtVertex (50, 50, 0);
-		drawing_lib.gtVertex (50, -50, 0);
-
-		drawing_lib.gtVertex (50, -50, 0);
-		drawing_lib.gtVertex (-50, -50, 0);
-*/
-        printf("hi 4\n");
-		drawing_lib.gtEndShape();
-        printf("hi 5\n");
-		
-		gl.window->update();
-     //   printf("hi 6\n");
-    }
- 
+    Application test_app;
+    test_app.run();
     return 0;
 }
 
