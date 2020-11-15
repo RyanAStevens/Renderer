@@ -7,12 +7,13 @@
 
 GraphicsLib::GraphicsLib()
 {
-//    printf("hello from GraphicsLib constructor\n");
+    printf("hello from GraphicsLib constructor\n");
+    this->window = new Window();
 }
 
 GraphicsLib::~GraphicsLib()
 {
-//    printf("hello from GraphicsLib destructor\n");
+    printf("hello from GraphicsLib destructor\n");
 }
 
 void GraphicsLib::create_window(const char title[], uint32_t width, uint32_t height, p_mode_t draw_mode)

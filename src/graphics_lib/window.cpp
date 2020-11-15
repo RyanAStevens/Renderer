@@ -4,10 +4,12 @@
 
 Window::Window()
 {
+    printf("hello from  Window default constructor\n");
 }
 
 Window::Window(const char title[], uint32_t width, uint32_t height)
 {
+    printf("hello from  Window non-default constructor\n");
     this->height = height;
     this->width = width;
     this->image = std::vector<PixelToaster::FloatingPointPixel>(width*height);
