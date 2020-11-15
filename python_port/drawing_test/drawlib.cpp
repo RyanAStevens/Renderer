@@ -117,3 +117,23 @@ void DrawLib::gtVertex(double x_in, double y_in, double z_in)
     Matrix v(x_in, y_in, z_in);
     vertices.push_back(v);
 }
+
+void DrawLib::create_window(const char title[], uint32_t width, uint32_t height, p_mode_t draw_mode)
+{
+    this->graphics_lib_p->create_window(title, width, height, draw_mode);
+}
+
+void DrawLib::listen_window(Application* app)
+{
+    this->graphics_lib_p->window->listen(app);
+}
+
+uint32_t DrawLib::window_open()
+{
+    return this->graphics_lib_p->window->open();
+}
+
+void DrawLib::update_window()
+{
+    this->graphics_lib_p->window->update();
+}

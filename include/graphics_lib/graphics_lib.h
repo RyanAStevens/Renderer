@@ -8,6 +8,8 @@
 #include <vector2.h>
 #include <string>
 
+class Window;
+
 class GraphicsLib
 {
 public:

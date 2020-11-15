@@ -13,6 +13,8 @@
 #include <string>
 #include <matlib.h>
 #include <graphics_lib.h>
+#include <projection.h>
+
 //#include <vector3.h>
 
 // Drawing Routines, like  OpenGL
@@ -28,6 +30,9 @@ public:
     void setPerspect(double fov, double near, double far);
 };
 
+class GraphicsLib;
+class Application;
+
 class DrawLib
 {
 public:
@@ -36,14 +41,18 @@ public:
         std::vector<Matrix> vertices;
         MatLib* matrix_lib_p;
         GraphicsLib* graphics_lib_p;
+        matrix_stack* mat_stack_p;
         double width;
         double height;
-        matrix_stack* mat_stack_p;
         void gtOrtho(double left, double right, double bottom, double top, double near, double far);
         void gtPerspective(double fov, double near, double far);
         void gtBeginShape();
         void gtEndShape();
         void gtVertex(double x, double y, double z);
+        void create_window(const char title[], uint32_t width, uint32_t height, p_mode_t draw_mode);
+        void listen_window(Application* app);
+        uint32_t window_open();
+        void update_window();
 };
 
 #endif //DRAWLIB_H_ 

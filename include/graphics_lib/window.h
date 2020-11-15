@@ -5,6 +5,8 @@
 #include <PixelToaster.h>
 #include <stdint.h>
 
+class Application;
+
 class Window
 {
 public:
