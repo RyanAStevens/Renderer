@@ -75,7 +75,6 @@ void GraphicsLib::set_background_color(float r, float g, float b)
 
 void GraphicsLib::plot_point(int x, int y, Color c)
 {
-    //printf("plot_point: (%d, %d)\n", x, y);
 	int index = (x * this->window->width) + y;
 	
 	//ensure index is within bounds of the this->window->image vector
@@ -93,7 +92,6 @@ void GraphicsLib::plot_point(int x, int y, Color c)
 
 void GraphicsLib::draw_line(int x0, int y0, int x1, int y1)
 {   
-    printf("draw_line: x0 = %d, y0 = %d, x1 = %d, y1 = %d\n", x0, y0, x1, y1);
     float x_f = 0;
     float y_f = 0;
     float t = 0.0f;

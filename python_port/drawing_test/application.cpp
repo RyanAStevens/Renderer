@@ -25,11 +25,9 @@ int Application::run()
     
     // register listener
     gl.window->listen(this);
-    //printf("hi 2\n");
     while(gl.window->open())
     {
         drawing_lib.gtBeginShape ();
-     //   printf("hi 3\n");
         drawing_lib.gtVertex (250, 250, 0);
         drawing_lib.gtVertex (500, 250, 0);
 
@@ -42,19 +40,22 @@ int Application::run()
         drawing_lib.gtVertex (250, 500, 0);
         drawing_lib.gtVertex (250, 250, 0);
         
-        printf("hi 4\n");
         drawing_lib.gtEndShape();
-        printf("hi 5\n");
 
         gl.window->update();
-     //   printf("hi 6\n");
     }
 }
 
 void Application::onKeyDown( PixelToaster::DisplayInterface & display, PixelToaster::Key key )
 {
         if ( key==PixelToaster::Key::Escape )
+        {
             quit = true;
+        }
+        else
+        {
+            printf("you pressed a key!!!\n");
+        }
 }
 
 void Application::onKeyPressed( PixelToaster::DisplayInterface & display, PixelToaster::Key key )

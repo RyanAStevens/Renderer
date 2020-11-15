@@ -60,32 +60,19 @@ void DrawLib::gtBeginShape()
 
 void DrawLib::gtEndShape()
 {
-//    printf("hello from gtEndShape()\n");
     Matrix transform(IDENTITY);
     Matrix vert1(0,0,0);
     Matrix vert2(0,0,0);
     //draw the shape
-    printf("this->vertices.size() = %d\n", this->vertices.size());
     for(int i = 0; i < this->vertices.size(); i += 2)
     {
-        printf("i = %d\n", i);
-      //  printf("drawlib:gtEndShape vert1(%f, %f, %f) vert2(%f, %f, %f)\n", vert1[0][0], vert1[1][0], vert1[2][0], vert2[0][0], vert2[1][0], vert2[2][0]);
-        printf("gtEndShape: 1\n");
         //perform transformation
         vert1 = this->vertices[i];
-        printf("gtEndShape: 1.5\n");
         vert2 = this->vertices[i+1];
-      //  printf("drawlib:gtEndShape vert1(%f, %f, %f) vert2(%f, %f, %f)\n", vert1[0][0], vert1[1][0], vert1[2][0], vert2[0][0], vert2[1][0], vert2[2][0]);
-        printf("gtEndShape: 2\n");
-     //   printf("matrix_lib_p = %u\n", this->matrix_lib_p);
-     //   printf("matrix_lib_p->mat_stack = %u\n", this->matrix_lib_p->mat_stack);
         this->matrix_lib_p->gtInitialize();
-        printf("gtEndShape: 3\n");
         transform = this->matrix_lib_p->mat_stack.back();
         vert1 = transform*vert1;
-        printf("gtEndShape: 4\n");
         vert2 = transform*vert2;
-     //   printf("drawlib:gtEndShape vert1(%f, %f, %f) vert2(%f, %f, %f)\n", vert1[0][0], vert1[1][0], vert1[2][0], vert2[0][0], vert2[1][0], vert2[2][0]);
         
         //perform view projection
         if(0 == this->projMode.mode.compare("ORTHO"))
@@ -96,21 +83,16 @@ void DrawLib::gtEndShape()
             vert2[0][0] = (vert2[0][0] - this->projMode.left)*(width/(this->projMode.right - this->projMode.left));
             vert2[1][0] = (vert2[1][0] - this->projMode.bottom)*(width/(this->projMode.top - this->projMode.bottom));
             vert2[2][0] = 0;
-        //    printf("drawlib:ortho vert1(%f, %f, %f) vert2(%f, %f, %f)\n", vert1[0][0], vert1[0][0], vert1[1][0], vert1[2][0], vert2[0][0], vert2[1][0], vert2[2][0]);
         }
         else
         { // mode is perspective
-        printf("gtEndShape: 5\n");
-          //  printf("this->projMode.fov = %f\n", this->projMode.fov);
             if(0.0 != this->projMode.fov)
             {
                 double k = tan(this->projMode.fov*M_PI/90.0);
                 if(0.0 != vert1[2][0])
                 {
-         //           printf("vert1[0][0] = %f, vert1[2][0] = %f, abs(vert1[2][0]) = %f, vert1[0][0] / abs(vert1[2][0]) = %f\n", vert1[0][0], vert1[2][0], abs(vert1[2][0]), vert1[0][0] / abs(vert1[2][0]));
                     double xP1 = vert1[0][0] / abs(vert1[2][0]);
                     double yP1 = vert1[1][0] / abs(vert1[2][0]);
-          //          printf("k = %f, xP1 = %f, yP1 = %f\n", k, xP1, yP1);
                     vert1[0][0] = (xP1 + k)*(width/(2*k));
                     vert1[1][0] = (yP1 + k)*(height/(2*k));
                 }
@@ -119,17 +101,13 @@ void DrawLib::gtEndShape()
                 {
                     double xP2 = vert2[0][0] / abs(vert2[2][0]);
                     double yP2 = vert2[1][0] / abs(vert2[2][0]);
-           //         printf("xP2 = %f, yP2 = %f\n", xP2, yP2);
                     vert2[0][0] = (xP2 + k)*(width/(2*k));
                     vert2[1][0] = (yP2 + k)*(height/(2*k));
                 }
                 
-                printf("drawlib:perspective vert1(%f, %f, %f) vert2(%f, %f, %f)\n", vert1[0][0], vert1[0][0], vert1[1][0], vert1[2][0], vert2[0][0], vert2[1][0], vert2[2][0]);
             }
         }
-        printf("gtEndShape: 6\n");
         //draw line
-        //printf("this->graphics_lib_p->draw_line(%f, %f, %f, %f)\n",vert1[0][0], height - vert1[1][0], vert2[0][0], height - vert2[1][0]);
         this->graphics_lib_p->draw_line(vert1[0][0], height - vert1[1][0], vert2[0][0], height - vert2[1][0]);
     }
 }
