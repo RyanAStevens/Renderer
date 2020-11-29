@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.6)
 project(basic_rendering)
 
-find_package(X11 REQUIRED)
+//find_package(X11 REQUIRED)
 
 set(CMAKE_CXX_FLAGS "-std=c++11")
 set(BASIC_REND_SRC_BASE_DIR "../../src/basic_rendering")

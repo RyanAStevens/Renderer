@@ -49,10 +49,20 @@ public:
         void gtBeginShape();
         void gtEndShape();
         void gtVertex(double x, double y, double z);
-        void create_window(const char title[], uint32_t width, uint32_t height, p_mode_t draw_mode);
-        void listen_window(Application* app);
-        uint32_t window_open();
-        void update_window();
+	void circle();
+	void square();
+	void cube();
+	void face();
+	void faces();
+	void persp_initials();
+	void face_test();
+	void ortho_test();
+	void ortho_test_scale();
+	void ortho_test_rotate();
+	void ortho_cube();
+	void ortho_cube2();
+	void persp_cube();
+	void persp_multi_cubes();
 };
 
 #endif //DRAWLIB_H_ 
