@@ -27,4 +27,38 @@ public:
     Projection* projection;
 };
 
+
+#include <string>
+#include <matlib.h>
+#include <graphics_lib.h>
+#include <projection.h>
+
+//#include <vector3.h>
+
+// Drawing Routines, like  OpenGL
+
+//Class to keep track of projection settings
+class ProjectionSetter
+{
+public:
+    ProjectionSetter();
+    std::string mode = "NULL";
+    double left, right, bottom, top, near, far, fov;
+    void setOrtho(double left, double right, double bottom, double top, double near, double far);
+    void setPerspect(double fov, double near, double far);
+}
+        DrawLib(MatLib* matrix_lib_p, GraphicsLib* graphics_lib_p, double width, double height);
+        ProjectionSetter projMode;
+        std::vector<Matrix> vertices;
+        MatLib* matrix_lib_p;
+        GraphicsLib* graphics_lib_p;
+        matrix_stack* mat_stack_p;
+        double width;
+        double height;
+        void gl_ortho(double left, double right, double bottom, double top, double near, double far);
+        void gl_perspective(double fov, double near, double far);
+        void gl_begin_shape();
+        void gl_end_shape();
+        void gl_vertex(double x, double y, double z);
+
 #endif //GRAPHICS_LIB_H_
