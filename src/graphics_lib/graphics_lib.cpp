@@ -173,68 +173,13 @@ void GraphicsLib::draw_triangle(Vector2 point_a, Color color_a, Vector2 point_b,
 	}
 } 
 
-
-/*  
-    Ryan Stevens;
-    CS 3451 Computer Graphics;
-    Georgia Institute of Technology;
-    Spring 2017;
-
-    file: drawlib.cpp
-*/
-
-// Drawing Routines, like  OpenGL
-#include <drawlib.h>
-
-ProjectionSetter::ProjectionSetter()
-{
-    this->mode = "NULL";
-}
-
-void ProjectionSetter::setOrtho(double left, double right, double bottom, double top, double near, double far)
-{
-        this->mode = "ORTHO";
-        this->left = left;
-        this->right = right;
-        this->bottom = bottom;
-        this->top = top;
-        this->near = near;
-        this->far = far;
-}
-
-void ProjectionSetter::setPerspect(double fov, double near, double far)
-{
-        this->mode = "PERSPECT";
-        this->fov = fov;
-        this->near = near;
-        this->far = far;
-}
-
-DrawLib::DrawLib(MatLib* matrix_lib_p, GraphicsLib* graphics_lib_p, double width, double height)
-{
-   this->graphics_lib_p = graphics_lib_p;
-   this->matrix_lib_p = matrix_lib_p;
-   this->width = width;
-   this->height = height;
-}
-
-void DrawLib::gtOrtho(double left, double right, double bottom, double top, double near, double far)
-{
-    this->projMode.setOrtho(left, right, bottom, top, near, far);
-}
-
-void DrawLib::gtPerspective(double fov, double near, double far)
-{
-    this->projMode.setPerspect(fov, near, far);
-}    
-
-void DrawLib::gtBeginShape()
+void GraphicsLib::begin_shape()
 {
     //initialize point array
     this->vertices.clear();
 }
 
-void DrawLib::gtEndShape()
+void GraphicsLib::end_shape()
 {
     Matrix transform(IDENTITY);
     Matrix vert1(0,0,0);
@@ -288,7 +233,7 @@ void DrawLib::gtEndShape()
     }
 }
 
-void DrawLib::gtVertex(double x_in, double y_in, double z_in)
+void GraphicsLib::add_vertex(double x_in, double y_in, double z_in)
 {
     Matrix v(x_in, y_in, z_in);
     vertices.push_back(v);
