@@ -14,11 +14,11 @@ public:
     TransformMatrix& get_ctm();
     void translate(float x,float y,float z);
     void scale(float x,float y,float z);
-    void rotateX(float theta);
-    void rotateY(float theta);
-    void rotateZ(float theta);
-    void pushMatrix();
-    int32_t popMatrix();
+    void rotate_x(float theta);
+    void rotate_y(float theta);
+    void rotate_z(float theta);
+    void push_matrix();
+    int32_t pop_matrix();
 private:
     std::stack <TransformMatrix> _stack;
     
