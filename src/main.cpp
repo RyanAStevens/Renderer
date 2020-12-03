@@ -27,68 +27,70 @@ int main(int argc, char *argv[]) {
 
     //set pixel color to white	
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+
+    //create Graphics Library object
+    GraphicsLib gl = GraphicsLib(PROJECTION, WIDTH, HEIGHT);
 	
 	while (!quit)
 
 	 {
-	     sdl_waitevent(&amp;event);
+	     sdl_waitevent(&event);
 
-	     switch (event.type)
-
+	     if(SDL_KEYDOWN == event.type)
 	     {
-                        switch( event.key.keysym.sym )
-                        {
+            switch( event.key.keysym.sym )
+            {
 			    case SDLK_1:
-				printf("onKeyDown calling ortho_test\n");
-				ortho_test();
-				break;
+				    printf("onKeyDown calling ortho_test\n");
+				    gl.ortho_test();
+				    break;
 			    case SDLK_2:
-				printf("onKeyDown calling ortho_test_scale\n");
-				ortho_test_scale();
-				break;
+				    printf("onKeyDown calling ortho_test_scale\n");
+				    gl.ortho_test_scale();
+				    break;
 			    case SDLK_3:
-				printf("onKeyDown calling ortho_test_rotate\n");
-				ortho_test_rotate();
-				break;
+				    printf("onKeyDown calling ortho_test_rotate\n");
+				    gl.ortho_test_rotate();
+				    break;
 			    case SDLK_4:
-				printf("onKeyDown calling face_test\n");
-				face_test();
-				break;
+				    printf("onKeyDown calling face_test\n");
+				    gl.face_test();
+				    break;
 			    case SDLK_5: 
-				printf("onKeyDown calling faces\n");
-				faces();
-				break;
+				    printf("onKeyDown calling faces\n");
+				    gl.faces();
+				    break;
 			    case SDLK_6:
-				printf("onKeyDown calling ortho_cube\n");
-				ortho_cube();
-				break;
+				    printf("onKeyDown calling ortho_cube\n");
+				    gl.ortho_cube();
+				    break;
 			    case SDLK_7:
-				printf("onKeyDown calling ortho_cube2\n");
-				ortho_cube2();
-				break;
+				    printf("onKeyDown calling ortho_cube2\n");
+				    gl.ortho_cube2();
+				    break;
 			    case SDLK_8:
-				printf("onKeyDown calling persp_cube\n");
-				persp_cube();
-				break;
+				    printf("onKeyDown calling persp_cube\n");
+				    gl.persp_cube();
+				    break;
 			    case SDLK_9:
-				printf("onKeyDown calling persp_multi_cubes\n");
-				persp_multi_cubes();
-				break;
+				    printf("onKeyDown calling persp_multi_cubes\n");
+				    gl.persp_multi_cubes();
+				    break;
 			    case SDLK_0:
-				printf("onKeyDown calling persp_initials\n");
-				persp_initials();
-				break;
+				    printf("onKeyDown calling persp_initials\n");
+				    gl.persp_initials();
+				    break;
 			    case SDLK_ESCAPE:
-				quit = true;
-				break;
+				    quit = true;
+				    break;
 			    case SDL_QUIT:
-				quit = true;
-				break;
-            		   default:
-                		printf("key not recognized: %d\n", key);
-			    }
+				    quit = true;
+				    break;
+            	default:
+                	printf("key not recognized: %d\n", key);
+			}
 
-	     }
+	    }
 
         SDL_UpdateTexture(texture, NULL, pixels, 640 * sizeof(uint32_t));	
         SDL_RenderClear(renderer);

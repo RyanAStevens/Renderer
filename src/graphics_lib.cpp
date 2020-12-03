@@ -1,5 +1,4 @@
 #include <graphics_lib.h>
-#include <window.h>
 #include <vector2.h>
 #include <color.h>
 #include <math.h>
@@ -10,15 +9,10 @@ GraphicsLib::GraphicsLib()
     printf("hello from GraphicsLib constructor\n");
 }
 
-GraphicsLib::~GraphicsLib()
+GraphicsLib::GraphicsLib(p_mode_t draw_mode, int width, int height)
 {
-    printf("hello from GraphicsLib destructor\n");
-}
-
-void GraphicsLib::create_window(const char title[], uint32_t width, uint32_t height, p_mode_t draw_mode)
-{
-            this->window = new Window(title, width, height);
-            
+            this->width = width;
+            this->height = height;
             switch(draw_mode)
             {
                 case ORTHOGRAPHIC:
@@ -28,8 +22,13 @@ void GraphicsLib::create_window(const char title[], uint32_t width, uint32_t hei
                     this->projection = new Perspective(width, height);
                     break;
                 default:
-                    printf("GraphicsLib::create_window ERROR - drawing mode is not recognized");
+                    printf("GraphicsLib constructor ERROR - drawing mode is not recognized");
             }
+}
+
+GraphicsLib::~GraphicsLib()
+{
+    printf("hello from GraphicsLib destructor\n");
 }
 
 void GraphicsLib::set_orthographic(double left, double right, double bottom, double top, double near, double far)
@@ -53,13 +52,13 @@ void GraphicsLib::set_background_color(float r, float g, float b)
 {
 	unsigned int index = 0;
 
-	for ( int y = 0; y < this->window->height; ++y )
+	for ( int y = 0; y < this->height; ++y )
 	{
-	    for ( int x = 0; x < this->window->width; ++x )
+	    for ( int x = 0; x < this->width; ++x )
 	    {
-        this->window->image[index].r = r;
-		this->window->image[index].g = g;
-		this->window->image[index].b = b;
+        this->image[index].r = r;
+		this->image[index].g = g;
+		this->image[index].b = b;
 
 		++index;
 	    }
@@ -68,18 +67,18 @@ void GraphicsLib::set_background_color(float r, float g, float b)
 
 void GraphicsLib::plot_point(int x, int y, Color c)
 {
-	int index = (x * this->window->width) + y;
+	int index = (x * this->width) + y;
 	
-	//ensure index is within bounds of the this->window->image vector
-	if( index >= 0 && index < this->window->width * this->window->height)
+	//ensure index is within bounds of the this->image vector
+	if( index >= 0 && index < this->width * this->height)
 	{
-		this->window->image[index].r = c.r;
-		this->window->image[index].g = c.g;
-		this->window->image[index].b = c.b;
+		this->image[index].r = c.r;
+		this->image[index].g = c.g;
+		this->image[index].b = c.b;
 	}
 	else
 	{
-		printf("plot_point: ERROR point (%d, %d) is out of bounds for the current window->\n", x, y);
+		printf("plot_point: ERROR point (%d, %d) is out of bounds for the current \n", x, y);
 	}
 }
 
@@ -138,9 +137,9 @@ void GraphicsLib::draw_triangle(Vector2 point_a, Color color_a, Vector2 point_b,
     double XcXa_diff = Xc - Xa;
     double gamma_const = Xa*Yb - Xb*Ya;
     double beta_const = Xa*Yc - Xc*Ya;
-    for ( int y = 0; y < this->window->height; ++y )
+    for ( int y = 0; y < this->height; ++y )
 	{
-	    for ( int x = 0; x < this->window->width; ++x )
+	    for ( int x = 0; x < this->width; ++x )
 	    {
             //calculate barycentric coordinates
             double gamma = ((YaYb_diff * x) + (XbXa_diff * y) + gamma_const) / 

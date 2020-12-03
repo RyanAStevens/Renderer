@@ -1,9 +1,7 @@
 #ifndef GRAPHICS_LIB_H_
 #define GRAPHICS_LIB_H_
 
-#include <window.h>
 #include <color.h>
-#include <matrix.h>
 #include <matrix_stack.h>
 #include <projection.h>
 #include <vector2.h>

@@ -71,7 +71,7 @@ void MatrixStack::scale(float x, float y, float z)
    _stack.push(result);
 }
 
-void MatrixStack::rotateX(float theta)
+void MatrixStack::rotate_x(float theta)
 {
    float thetaRad = theta * CON_RAD;
    TransformMatrix tm = TransformMatrix();
@@ -84,7 +84,7 @@ void MatrixStack::rotateX(float theta)
    _stack.push(result);
 }
 
-void MatrixStack::rotateY(float theta)
+void MatrixStack::rotate_y(float theta)
 {
    float thetaRad = theta * CON_RAD;
    TransformMatrix tm = TransformMatrix();
@@ -97,7 +97,7 @@ void MatrixStack::rotateY(float theta)
    _stack.push(result);
 }
 
-void MatrixStack::rotateZ(float theta)
+void MatrixStack::rotate_z(float theta)
 {
    float thetaRad = theta * CON_RAD;
    TransformMatrix tm = TransformMatrix();
@@ -115,7 +115,7 @@ void MatrixStack::pushMatrix()
     _stack.push(_stack.top());
 }
 
-int32_t MatrixStack::popMatrix()
+int32_t MatrixStack::pop_matrix()
 {
     if(_stack.size() > 0)
     {
