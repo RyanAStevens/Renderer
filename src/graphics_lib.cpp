@@ -1,4 +1,4 @@
-#include <graphics_lib.h>
+#include <graphics_lib.h>   
 #include <vector2.h>
 #include <color.h>
 #include <math.h>
@@ -13,6 +13,8 @@ GraphicsLib::GraphicsLib(p_mode_t draw_mode, int width, int height)
 {
             this->width = width;
             this->height = height;
+            this->n_pixels = width * height;
+            this->image = new uint32_t[n_pixels];
             switch(draw_mode)
             {
                 case ORTHOGRAPHIC:
@@ -29,6 +31,7 @@ GraphicsLib::GraphicsLib(p_mode_t draw_mode, int width, int height)
 GraphicsLib::~GraphicsLib()
 {
     printf("hello from GraphicsLib destructor\n");
+    delete[] this->image;
 }
 
 void GraphicsLib::set_orthographic(double left, double right, double bottom, double top, double near, double far)
@@ -48,37 +51,29 @@ void GraphicsLib::set_perspective(double fov, double near, double far)
     this->projection->far = far;
 }
 
-void GraphicsLib::set_background_color(float r, float g, float b)
+void GraphicsLib::set_background_color(uint8_t r, uint8_t g, uint8_t b)
 {
-	unsigned int index = 0;
+    uint32_t color = r << RED_SHIFT & g << GREEN_SHIFT & b;
 
-	for ( int y = 0; y < this->height; ++y )
+	for (uint32_t i = 0; i < this->height * this->width; i++)
 	{
-	    for ( int x = 0; x < this->width; ++x )
-	    {
-        this->image[index].r = r;
-		this->image[index].g = g;
-		this->image[index].b = b;
-
-		++index;
-	    }
+        this->image[index] = color;
 	}
 }
 
-void GraphicsLib::plot_point(int x, int y, Color c)
+void GraphicsLib::plot_point(int x, int y, uint8_t r, uint8_t g, uint8_t b)
 {
-	int index = (x * this->width) + y;
+	uint32_t index = (x * this->width) + y;
+    uint32_t color = r << RED_SHIFT & g << GREEN_SHIFT & b;
 	
 	//ensure index is within bounds of the this->image vector
 	if( index >= 0 && index < this->width * this->height)
 	{
-		this->image[index].r = c.r;
-		this->image[index].g = c.g;
-		this->image[index].b = c.b;
+        this->image[index] = color;
 	}
 	else
 	{
-		printf("plot_point: ERROR point (%d, %d) is out of bounds for the current \n", x, y);
+		printf("plot_point: ERROR point (%d, %d) is out of bounds for the current window\n", x, y);
 	}
 }
 

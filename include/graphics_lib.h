@@ -7,19 +7,20 @@
 #include <vector2.h>
 #include <string>
 
-class Window;
+#define RED_SHIFT 8
+#define GREEN_SHIFT 4
 
 class GraphicsLib
 {
 public:
     GraphicsLib();
+    GraphicsLib(p_mode_t draw_mode, int width, int height);
     ~GraphicsLib();
-    void create_window(const char title[], uint32_t width, uint32_t height, p_mode_t draw_mode);
     void set_orthographic(double left, double right, double bottom, double top, double near, double far);
     void set_perspective(double fov, double near, double far);
-    void set_background_color(float r, float g, float b);
-    void plot_point(int x, int y, Color c);
-    void draw_line(int x0, int y0, int x1, int y1);
+    void set_background_color(uint8_t r, uint8_t g, uint8_t b);
+    void plot_point(uint32_t x, uint32_t y, uint8_t r, uint8_t g, uint8_t b);
+    void draw_line(uint32_t x0, uint32_t y0, uint32_t x1, uint32_t y1);
     void draw_triangle(Vector2 point_a, Color color_a, Vector2 point_b, Color color_b, Vector2 point_c, Color color_c);
     void begin_shape();
     void end_shape();
@@ -38,8 +39,11 @@ public:
     void ortho_cube2();
     void persp_cube();
     void persp_multi_cubes();
+    uint32_t* image;
+    uint32_t width;
+    uint32_t height;
+    uint32_t n_pixels;
     std::vector<Matrix> vertices;
-    Window* window;
     MatrixStack* matrix_stack;
     Projection* projection;
 };

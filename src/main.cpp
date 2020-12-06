@@ -11,9 +11,6 @@ int main(int argc, char *argv[]) {
     SDL_Event event;
     bool quit = false;
 
-    uint32_t pixels[WIDTH*HEIGHT] = {0};
-    memset(pixels, 255, 640 * 480 * sizeof(uint32_t));
-
     SDL_Init(SDL_INIT_VIDEO);
 
     win = SDL_CreateWindow("Hello, There!!!", posX, posY, WIDTH, HEIGHT, 0);
@@ -25,11 +22,10 @@ int main(int argc, char *argv[]) {
 	
     SDL_Texture * texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC, WIDTH, HEIGHT); 
 
-    //set pixel color to white	
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-
     //create Graphics Library object
     GraphicsLib gl = GraphicsLib(PROJECTION, WIDTH, HEIGHT);
+
+    gl.set_background_color(0, 0, 255);
 	
 	while (!quit)
 
@@ -92,7 +88,7 @@ int main(int argc, char *argv[]) {
 
 	    }
 
-        SDL_UpdateTexture(texture, NULL, pixels, 640 * sizeof(uint32_t));	
+        SDL_UpdateTexture(texture, NULL, gl.image, WIDTH  * sizeof(uint32_t));	
         SDL_RenderClear(renderer);
         SDL_RenderCopy(renderer, texture, NULL, NULL);
         SDL_RenderPresent(renderer);
