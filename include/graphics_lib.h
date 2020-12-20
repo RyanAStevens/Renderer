@@ -3,6 +3,7 @@
 
 #include <color.h>
 #include <matrix_stack.h>
+#include <matrix.h>
 #include <projection.h>
 #include <vector2.h>
 #include <string>
@@ -18,8 +19,8 @@ public:
     ~GraphicsLib();
     void set_orthographic(double left, double right, double bottom, double top, double near, double far);
     void set_perspective(double fov, double near, double far);
-    void set_background_color(uint8_t r, uint8_t g, uint8_t b);
-    void plot_point(uint32_t x, uint32_t y, uint8_t r, uint8_t g, uint8_t b);
+    void set_background_color(Color c);
+    void plot_point(uint32_t x, uint32_t y, Color c);
     void draw_line(uint32_t x0, uint32_t y0, uint32_t x1, uint32_t y1);
     void draw_triangle(Vector2 point_a, Color color_a, Vector2 point_b, Color color_b, Vector2 point_c, Color color_c);
     void begin_shape();

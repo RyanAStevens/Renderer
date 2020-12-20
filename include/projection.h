@@ -19,7 +19,7 @@ public:
     double left, right, bottom, top, near, far;
     double fov;
     uint32_t height, width;
-    p_mode_t type;
+    p_mode_t mode;
 };
 
 class Orthographic : public Projection

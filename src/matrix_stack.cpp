@@ -110,7 +110,7 @@ void MatrixStack::rotate_z(float theta)
    _stack.push(result);
 }
 
-void MatrixStack::pushMatrix()
+void MatrixStack::push_matrix()
 {
     _stack.push(_stack.top());
 }

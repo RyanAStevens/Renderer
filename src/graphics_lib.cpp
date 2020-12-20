@@ -51,25 +51,25 @@ void GraphicsLib::set_perspective(double fov, double near, double far)
     this->projection->far = far;
 }
 
-void GraphicsLib::set_background_color(uint8_t r, uint8_t g, uint8_t b)
+void GraphicsLib::set_background_color(Color c)
 {
-    uint32_t color = r << RED_SHIFT & g << GREEN_SHIFT & b;
+    uint32_t pixel_color = uint8_t(c.r * 255) << RED_SHIFT & uint8_t(c.g * 255) << GREEN_SHIFT & uint8_t(c.b * 255);
 
 	for (uint32_t i = 0; i < this->height * this->width; i++)
 	{
-        this->image[index] = color;
+        this->image[i] = pixel_color;
 	}
 }
 
-void GraphicsLib::plot_point(int x, int y, uint8_t r, uint8_t g, uint8_t b)
+void GraphicsLib::plot_point(uint32_t x, uint32_t y, Color c)
 {
 	uint32_t index = (x * this->width) + y;
-    uint32_t color = r << RED_SHIFT & g << GREEN_SHIFT & b;
+    uint32_t pixel_color = uint8_t(c.r * 255) << RED_SHIFT & uint8_t(c.g * 255) << GREEN_SHIFT & uint8_t(c.b * 255);
 	
 	//ensure index is within bounds of the this->image vector
 	if( index >= 0 && index < this->width * this->height)
 	{
-        this->image[index] = color;
+        this->image[index] = pixel_color;
 	}
 	else
 	{
@@ -77,7 +77,7 @@ void GraphicsLib::plot_point(int x, int y, uint8_t r, uint8_t g, uint8_t b)
 	}
 }
 
-void GraphicsLib::draw_line(int x0, int y0, int x1, int y1)
+void GraphicsLib::draw_line(uint32_t x0, uint32_t y0, uint32_t x1, uint32_t y1)
 {   
     float x_f = 0;
     float y_f = 0;
@@ -167,7 +167,7 @@ void GraphicsLib::begin_shape()
 
 void GraphicsLib::end_shape()
 {
-    Matrix transform(IDENTITY);
+    TransformMatrix transform;
     Matrix vert1(0,0,0);
     Matrix vert2(0,0,0);
     //draw the shape
@@ -177,25 +177,25 @@ void GraphicsLib::end_shape()
         vert1 = this->vertices[i];
         vert2 = this->vertices[i+1];
         this->matrix_stack->initialize();
-        transform = this->matrix_stack->mat_stack.back();
+        transform = this->matrix_stack->get_ctm();
         vert1 = transform*vert1;
         vert2 = transform*vert2;
         
         //perform view projection
-        if(0 == this->projMode.mode.compare("ORTHO"))
+        if(ORTHOGRAPHIC == this->projection->mode)
         {
-            vert1[0][0] = (vert1[0][0] - this->projMode.left)*(width/(this->projMode.right - this->projMode.left));
-            vert1[1][0] = (vert1[1][0] - this->projMode.bottom)*(width/(this->projMode.top - this->projMode.bottom));
+            vert1[0][0] = (vert1[0][0] - this->projection->left)*(width/(this->projection->right - this->projection->left));
+            vert1[1][0] = (vert1[1][0] - this->projection->bottom)*(width/(this->projection->top - this->projection->bottom));
             vert1[2][0] = 0;
-            vert2[0][0] = (vert2[0][0] - this->projMode.left)*(width/(this->projMode.right - this->projMode.left));
-            vert2[1][0] = (vert2[1][0] - this->projMode.bottom)*(width/(this->projMode.top - this->projMode.bottom));
+            vert2[0][0] = (vert2[0][0] - this->projection->left)*(width/(this->projection->right - this->projection->left));
+            vert2[1][0] = (vert2[1][0] - this->projection->bottom)*(width/(this->projection->top - this->projection->bottom));
             vert2[2][0] = 0;
         }
         else
         { // mode is perspective
-            if(0.0 != this->projMode.fov)
+            if(0.0 != this->projection->fov)
             {
-                double k = tan(this->projMode.fov*M_PI/90.0);
+                double k = tan(this->projection->fov*M_PI/90.0);
                 if(0.0 != vert1[2][0])
                 {
                     double xP1 = vert1[0][0] / abs(vert1[2][0]);
@@ -215,7 +215,7 @@ void GraphicsLib::end_shape()
             }
         }
         //draw line
-        this->graphics_lib_p->draw_line(vert1[0][0], height - vert1[1][0], vert2[0][0], height - vert2[1][0]);
+        draw_line(vert1[0][0], height - vert1[1][0], vert2[0][0], height - vert2[1][0]);
     }
 }
 

@@ -1,13 +1,5 @@
-#ifndef MATLIB_H_
-#define MATLIB_H_
-
-/* Ryan Stevens;
-    CS 3451 Computer Graphics;
-    Georgia Institute of Technology;
-    Spring 2017;
-*/
-
-// Matrix Stack Library -- My code from Project 1A
+#ifndef MATRIX_H_
+#define MATRIX_H_
 
 #include <math.h>
 #include <vector>
@@ -31,20 +23,4 @@ public:
     Matrix operator=(Matrix rhs);
 };
 
-typedef std::vector<Matrix> matrix_stack;
-
-class MatLib
-{
-public:
-        matrix_stack mat_stack;
-        void gtInitialize();
-        void gtPushMatrix();
-        void gtPopMatrix();
-        void gtTranslate(double x, double y, double z);
-        void gtScale(double x, double y, double z);
-        void gtRotateX(double theta);
-        void gtRotateY(double theta);
-        void gtRotateZ(double theta);
-};
-
-#endif //MATLIB_H_
+#endif //MATRIX_H_

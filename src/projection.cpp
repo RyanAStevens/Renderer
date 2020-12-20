@@ -14,25 +14,25 @@ Projection::Projection(uint32_t h, uint32_t w) : height(h), width(w)
 Orthographic::Orthographic()  
 {
     printf("hello from default Orthographic constructor\n");
-    this->type = ORTHOGRAPHIC;
+    this->mode = ORTHOGRAPHIC;
 }
 
 Orthographic::Orthographic(uint32_t h, uint32_t w) : Projection(h, w) 
 {
     printf("hello from h/w Orthographic constructor\n");
-    this->type = ORTHOGRAPHIC;
+    this->mode = ORTHOGRAPHIC;
 }
 
 Perspective::Perspective()  
 {
     printf("hello from default Perspective constructor\n");
-    this->type = PERSPECTIVE;
+    this->mode = PERSPECTIVE;
 }
 
 Perspective::Perspective(uint32_t h, uint32_t w) : Projection(h, w) 
 {
     printf("hello from h/w Perspective constructor\n");
-    this->type = PERSPECTIVE;
+    this->mode = PERSPECTIVE;
 }
 
 void Orthographic::project_vertex(Vector3 v)

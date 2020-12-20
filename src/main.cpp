@@ -1,4 +1,6 @@
 #include <SDL.h>
+#include <graphics_lib.h>
+#include <projection.h>
 
 #define WIDTH 640
 #define HEIGHT 480
@@ -23,14 +25,14 @@ int main(int argc, char *argv[]) {
     SDL_Texture * texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC, WIDTH, HEIGHT); 
 
     //create Graphics Library object
-    GraphicsLib gl = GraphicsLib(PROJECTION, WIDTH, HEIGHT);
+    GraphicsLib gl = GraphicsLib(PERSPECTIVE, WIDTH, HEIGHT);
 
-    gl.set_background_color(0, 0, 255);
+    gl.set_background_color(Color(0, 0, 255));
 	
 	while (!quit)
 
 	 {
-	     sdl_waitevent(&event);
+	     SDL_WaitEvent(&event);
 
 	     if(SDL_KEYDOWN == event.type)
 	     {
@@ -83,7 +85,7 @@ int main(int argc, char *argv[]) {
 				    quit = true;
 				    break;
             	default:
-                	printf("key not recognized: %d\n", key);
+                	printf("key not recognized: %d\n", event.key.keysym.sym);
 			}
 
 	    }

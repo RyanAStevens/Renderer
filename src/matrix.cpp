@@ -10,7 +10,7 @@
 // Matrix Stack Library -- My code from Project 1A
 
 #include <math.h>
-#include <matlib.h>
+#include <matrix.h>
 #include <stdio.h>
 
 Matrix::Matrix(matrix_constructor_t id)
@@ -20,7 +20,8 @@ Matrix::Matrix(matrix_constructor_t id)
         case IDENTITY:
             for(int i = 0; i < 4; i++)
             {
-                data.emplace_back(4, 0.0f);
+                std::vector<double> row(4, 0.0);
+                data.push_back(row);
             }
             data[0][0] = 1.0;
             data[1][1] = 1.0;
@@ -37,16 +38,17 @@ Matrix::Matrix(int n_rows, int n_cols)
 {
     for(int i = 0; i < n_rows; i++)
     {
-	    data.emplace_back(n_cols, 0.0f);
+        std::vector<double> row(n_cols, 0.0);
+        data.push_back(row);
     }
 }
 
 Matrix::Matrix(double x_in, double y_in, double z_in)
 {
-    std::vector<double> x = {x_in};
-    std::vector<double> y = {y_in};
-    std::vector<double> z = {z_in};
-    std::vector<double> h = {1.0};
+    std::vector<double> x (x_in, 1);
+    std::vector<double> y (y_in, 1);
+    std::vector<double> z (z_in, 1);
+    std::vector<double> h (1.0, 1);
     
     data.push_back(x);
     data.push_back(y);
@@ -79,9 +81,9 @@ Matrix Matrix::operator=(Matrix rhs)
     std::vector<std::vector<double> >::iterator it_i_dest;
     std::vector<double>::iterator it_j_orig;
     std::vector<double>::iterator it_j_dest;
-    for(it_i_orig = rhs.data.begin(), it_i_dest = this->data.begin(); it_i_orig != rhs.data.end(), it_i_dest != this->data.end(); ++it_i_orig, ++it_i_dest)
+    for(it_i_orig = rhs.data.begin(), it_i_dest = this->data.begin(); (it_i_orig != rhs.data.end()) || (it_i_dest != this->data.end()); ++it_i_orig, ++it_i_dest)
     {
-        for(it_j_orig = (*it_i_orig).begin(), it_j_dest= (*it_i_dest).begin(); it_j_orig != (*it_i_orig).end(), it_j_dest != (*it_i_dest).end(); ++it_j_orig, ++it_j_dest)
+        for(it_j_orig = (*it_i_orig).begin(), it_j_dest= (*it_i_dest).begin(); (it_j_orig != (*it_i_orig).end()) || (it_j_dest != (*it_i_dest).end()); ++it_j_orig, ++it_j_dest)
         {
             *it_j_dest = *it_j_orig;
         }
@@ -132,94 +134,4 @@ Matrix Matrix::operator*(Matrix rhs)
 std::vector<double>& Matrix::operator[](int i)
 {
     return this->data[i];
-}
-
-void MatLib::gtInitialize()
-{
-    // initialize stack with a single 4x4 identity matrix
-
-    this->mat_stack.clear();
-    this->mat_stack.push_back(Matrix(IDENTITY));
-}
-
-void MatLib::gtPushMatrix()
-{
-    //copy top of stack and push onto stack
-    this->mat_stack.push_back(this->mat_stack.back());
-}
-
-void MatLib::gtPopMatrix()
-{
-    // check to see if stack can be popped
-    if(this->mat_stack.size() > 1)
-    {
-        this->mat_stack.pop_back();
-    }
-    else
-    {
-        printf("cannot pop the matrix stack\n");
-    }
-}
-
-void MatLib::gtTranslate(double x, double y, double z)
-{
-    // create translation matrix
-    Matrix T(IDENTITY);
-    T[0][3] = x;
-    T[1][3] = y;
-    T[2][3] = z;
-    
-    //multiply by CTM
-    this->mat_stack.push_back(this->mat_stack.back()*T);
-}
-
-void MatLib::gtScale(double x, double y, double z)
-{
-    // create scale matrix
-    Matrix S(IDENTITY);
-    S[0][0] = x;
-    S[1][1] = y;
-    S[2][2] = z;
-
-    //multiply by CTM
-    this->mat_stack.push_back(this->mat_stack.back()*S);
-}
-
-void MatLib::gtRotateX(double theta)
-{
-    // create rotation matrix
-    Matrix Rx(IDENTITY);
-    Rx[1][1] = cos(theta*M_PI/180.0);
-    Rx[1][2] = -sin(theta*M_PI/180.0);
-    Rx[2][1] = sin(theta*M_PI/180.0);
-    Rx[2][2] = cos(theta*M_PI/180.0);
-
-    //multiply Rx by CTM
-    this->mat_stack.push_back(this->mat_stack.back()*Rx);
-}
-
-void MatLib::gtRotateY(double theta)
-{
-    // create rotation matrix
-    Matrix Ry(IDENTITY);
-    Ry[0][0] = cos(theta*M_PI/180.0);
-    Ry[0][2] = sin(theta*M_PI/180.0);
-    Ry[2][0] = -sin(theta*M_PI/180.0);
-    Ry[2][2] = cos(theta*M_PI/180.0);
-
-    //multiply by CTM
-    this->mat_stack.push_back(this->mat_stack.back()*Ry);
-}
-
-void MatLib::gtRotateZ(double theta)
-{
-    // create rotation matrix
-    Matrix Rz(IDENTITY);
-    Rz[0][0] = cos(theta*M_PI/180.0);
-    Rz[0][1] = -sin(theta*M_PI/180.0);
-    Rz[1][0] = sin(theta*M_PI/180.0);
-    Rz[1][1] = cos(theta*M_PI/180.0);
-
-    //multiply by CTM
-    this->mat_stack.push_back(this->mat_stack.back()*Rz);
-}
+}   
