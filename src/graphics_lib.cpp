@@ -4,6 +4,8 @@
 #include <math.h>
 #include <stdio.h>
 
+#include <stack_trace.h>
+
 GraphicsLib::GraphicsLib()
 {
     printf("hello from GraphicsLib constructor\n");
@@ -11,17 +13,20 @@ GraphicsLib::GraphicsLib()
 
 GraphicsLib::GraphicsLib(p_mode_t draw_mode, int width, int height)
 {
-            this->width = width;
-            this->height = height;
-            this->n_pixels = width * height;
-            this->image = new uint32_t[n_pixels];
+            printf("hello from GraphicsLib(p_mode_t draw_mode, int width, int height) constructor\n");
+            width = width;
+            height = height;
+            n_pixels = width * height;
+            image = new uint32_t[n_pixels];
+            vertices = new std::vector<Matrix>;
+            matrix_stack = new MatrixStack;
             switch(draw_mode)
             {
                 case ORTHOGRAPHIC:
-                    this->projection = new Orthographic(width, height);
+                    projection = new Orthographic(width, height);
                     break;
                 case PERSPECTIVE:
-                    this->projection = new Perspective(width, height);
+                    projection = new Perspective(width, height);
                     break;
                 default:
                     printf("GraphicsLib constructor ERROR - drawing mode is not recognized");
@@ -31,45 +36,45 @@ GraphicsLib::GraphicsLib(p_mode_t draw_mode, int width, int height)
 GraphicsLib::~GraphicsLib()
 {
     printf("hello from GraphicsLib destructor\n");
-    delete[] this->image;
+    delete[] image;
 }
 
 void GraphicsLib::set_orthographic(double left, double right, double bottom, double top, double near, double far)
 {
-    this->projection->left = left;
-    this->projection->right = right;
-    this->projection->bottom = bottom;
-    this->projection->top = top; 
-    this->projection->near = near;
-    this->projection->far = far;
+    projection->left = left;
+    projection->right = right;
+    projection->bottom = bottom;
+    projection->top = top; 
+    projection->near = near;
+    projection->far = far;
 }
 
 void GraphicsLib::set_perspective(double fov, double near, double far)
 {
-    this->projection->fov = fov; 
-    this->projection->near = near;
-    this->projection->far = far;
+    projection->fov = fov; 
+    projection->near = near;
+    projection->far = far;
 }
 
 void GraphicsLib::set_background_color(Color c)
 {
     uint32_t pixel_color = uint8_t(c.r * 255) << RED_SHIFT & uint8_t(c.g * 255) << GREEN_SHIFT & uint8_t(c.b * 255);
 
-	for (uint32_t i = 0; i < this->height * this->width; i++)
+	for (uint32_t i = 0; i < height * width; i++)
 	{
-        this->image[i] = pixel_color;
+        image[i] = pixel_color;
 	}
 }
 
 void GraphicsLib::plot_point(uint32_t x, uint32_t y, Color c)
 {
-	uint32_t index = (x * this->width) + y;
+	uint32_t index = (x * width) + y;
     uint32_t pixel_color = uint8_t(c.r * 255) << RED_SHIFT & uint8_t(c.g * 255) << GREEN_SHIFT & uint8_t(c.b * 255);
 	
-	//ensure index is within bounds of the this->image vector
-	if( index >= 0 && index < this->width * this->height)
+	//ensure index is within bounds of the image vector
+	if( index >= 0 && index < width * height)
 	{
-        this->image[index] = pixel_color;
+        image[index] = pixel_color;
 	}
 	else
 	{
@@ -132,9 +137,9 @@ void GraphicsLib::draw_triangle(Vector2 point_a, Color color_a, Vector2 point_b,
     double XcXa_diff = Xc - Xa;
     double gamma_const = Xa*Yb - Xb*Ya;
     double beta_const = Xa*Yc - Xc*Ya;
-    for ( int y = 0; y < this->height; ++y )
+    for ( int y = 0; y < height; ++y )
 	{
-	    for ( int x = 0; x < this->width; ++x )
+	    for ( int x = 0; x < width; ++x )
 	    {
             //calculate barycentric coordinates
             double gamma = ((YaYb_diff * x) + (XbXa_diff * y) + gamma_const) / 
@@ -162,7 +167,7 @@ void GraphicsLib::draw_triangle(Vector2 point_a, Color color_a, Vector2 point_b,
 void GraphicsLib::begin_shape()
 {
     //initialize point array
-    this->vertices.clear();
+    vertices->clear();
 }
 
 void GraphicsLib::end_shape()
@@ -171,31 +176,31 @@ void GraphicsLib::end_shape()
     Matrix vert1(0,0,0);
     Matrix vert2(0,0,0);
     //draw the shape
-    for(int i = 0; i < this->vertices.size(); i += 2)
+    for(int i = 0; i < vertices->size(); i += 2)
     {
         //perform transformation
-        vert1 = this->vertices[i];
-        vert2 = this->vertices[i+1];
-        this->matrix_stack->initialize();
-        transform = this->matrix_stack->get_ctm();
+        vert1 = (*vertices)[i];
+        vert2 = (*vertices)[i+1];
+        matrix_stack->initialize();
+        transform = matrix_stack->get_ctm();
         vert1 = transform*vert1;
         vert2 = transform*vert2;
         
         //perform view projection
-        if(ORTHOGRAPHIC == this->projection->mode)
+        if(ORTHOGRAPHIC == projection->mode)
         {
-            vert1[0][0] = (vert1[0][0] - this->projection->left)*(width/(this->projection->right - this->projection->left));
-            vert1[1][0] = (vert1[1][0] - this->projection->bottom)*(width/(this->projection->top - this->projection->bottom));
+            vert1[0][0] = (vert1[0][0] - projection->left)*(width/(projection->right - projection->left));
+            vert1[1][0] = (vert1[1][0] - projection->bottom)*(width/(projection->top - projection->bottom));
             vert1[2][0] = 0;
-            vert2[0][0] = (vert2[0][0] - this->projection->left)*(width/(this->projection->right - this->projection->left));
-            vert2[1][0] = (vert2[1][0] - this->projection->bottom)*(width/(this->projection->top - this->projection->bottom));
+            vert2[0][0] = (vert2[0][0] - projection->left)*(width/(projection->right - projection->left));
+            vert2[1][0] = (vert2[1][0] - projection->bottom)*(width/(projection->top - projection->bottom));
             vert2[2][0] = 0;
         }
         else
         { // mode is perspective
-            if(0.0 != this->projection->fov)
+            if(0.0 != projection->fov)
             {
-                double k = tan(this->projection->fov*M_PI/90.0);
+                double k = tan(projection->fov*M_PI/90.0);
                 if(0.0 != vert1[2][0])
                 {
                     double xP1 = vert1[0][0] / abs(vert1[2][0]);
@@ -221,8 +226,11 @@ void GraphicsLib::end_shape()
 
 void GraphicsLib::add_vertex(double x_in, double y_in, double z_in)
 {
+    printf("hello from GraphicsLib::add_vertex\n");
     Matrix v(x_in, y_in, z_in);
-    vertices.push_back(v);
+    printf("vertices size = %lu\n", vertices->size());
+    vertices->push_back(v);
+    printf("goodbye from GraphicsLib::add_vertex\n");
 }
 
 // unit radius cirle
@@ -256,18 +264,27 @@ void GraphicsLib::square()
 {
     printf("hello from square\n");
   begin_shape ();
+    printf("square: 1\n");
 
   add_vertex (-50, -50, 0);
+    printf("square: 2\n");
   add_vertex (-50, 50, 0);
+    printf("square: 3\n");
   
   add_vertex (-50, 50, 0);
+    printf("square: 4\n");
   add_vertex (50, 50, 0);
 
+    printf("square: 5\n");
   add_vertex (50, 50, 0);
+    printf("square: 6\n");
   add_vertex (50, -50, 0);
+    printf("square: 7\n");
 
   add_vertex (50, -50, 0);
+    printf("square: 8\n");
   add_vertex (-50, -50, 0);
+    printf("square: 9\n");
 
   end_shape();
     printf("goodbye from square\n");
@@ -469,6 +486,7 @@ void GraphicsLib::face_test()
 void GraphicsLib::ortho_test()
 {
     printf("hello from ortho_test\n");
+    //print_stacktrace();
     matrix_stack->initialize();
     set_orthographic (-100, 100, -100, 100, -100, 100);
     square();

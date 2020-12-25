@@ -2,6 +2,7 @@
 
 TransformMatrix::TransformMatrix()
 {
+    printf("hello from default TransformMatrix constructor\n");
         this->row[0] = Vector3H(1, 0, 0, 0);
         this->row[1] = Vector3H(0, 1, 0, 0);
         this->row[2] = Vector3H(0, 0, 1, 0);
@@ -10,6 +11,7 @@ TransformMatrix::TransformMatrix()
 
 TransformMatrix::TransformMatrix(Vector3H r0, Vector3H r1, Vector3H r2, Vector3H r3)
 {
+    printf("hello from TransformMatrix(Vector3H) constructor\n");
         this->row[0] = r0;
         this->row[1] = r1;
         this->row[2] = r2;

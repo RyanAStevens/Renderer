@@ -16,7 +16,7 @@ public:
     Matrix(int n_rows, int n_cols);
     Matrix(double x_in, double y_in, double z_in);
     ~Matrix();
-    std::vector<std::vector<double> > data;
+    std::vector<std::vector<double> >* data;
     void print();
     std::vector<double>& operator[](int i);
     Matrix operator*(Matrix rhs);

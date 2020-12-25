@@ -4,12 +4,19 @@ Transformation matrix stack
 #include <iostream>
 #include <math.h>
 #include <matrix_stack.h>
+#include <stack_trace.h>
 
 #define CON_RAD 0.01745329251  
 
 MatrixStack::MatrixStack()
 {
+    printf("hello from MatrixStack default constructor\n");
+        std::cout << "_stack.size() = " << _stack.size() << std::endl;
+        std::cout << "_stack.empty() = " << _stack.empty() << std::endl;
     _stack.push(TransformMatrix());
+        std::cout << "_stack.size() = " << _stack.size() << std::endl;
+        std::cout << "_stack.empty() = " << _stack.empty() << std::endl;
+    printf("hello from MatrixStack default constructor\n");
 }
 
 MatrixStack::~MatrixStack()
@@ -18,13 +25,18 @@ MatrixStack::~MatrixStack()
 
 //stack will only have the identity matrix
 void MatrixStack::initialize()
-{
+{   
+    printf("hello from MatrixStack::initialize\n");
+    print_stacktrace(); 
     //identity matrix is added on construction
     //,so pop everything down to that
     while(_stack.size() > 1)
     {
+        std::cout << "_stack.size() = " << _stack.size() << std::endl;
+        std::cout << "_stack.empty() = " << _stack.empty() << std::endl;
         _stack.pop();
     }
+    printf("goodbyefrom MatrixStack::initialize\n");
 }
 
 void MatrixStack::print_ctm()

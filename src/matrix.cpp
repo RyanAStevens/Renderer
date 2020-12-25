@@ -12,21 +12,23 @@
 #include <math.h>
 #include <matrix.h>
 #include <stdio.h>
+#include <stack_trace.h>
 
 Matrix::Matrix(matrix_constructor_t id)
 {
+    printf("hello from Matrix(matrix_constructor_t id)\n");
     switch(id)
     {
         case IDENTITY:
             for(int i = 0; i < 4; i++)
             {
                 std::vector<double> row(4, 0.0);
-                data.push_back(row);
+                data->push_back(row);
             }
-            data[0][0] = 1.0;
-            data[1][1] = 1.0;
-            data[2][2] = 1.0;
-            data[3][3] = 1.0;
+            (*data)[0][0] = 1.0;
+            (*data)[1][1] = 1.0;
+            (*data)[2][2] = 1.0;
+            (*data)[3][3] = 1.0;
             break;
         default:
             ;
@@ -36,24 +38,39 @@ Matrix::Matrix(matrix_constructor_t id)
 
 Matrix::Matrix(int n_rows, int n_cols)
 {
+    printf("hello from Matrix(int n_rows, int n_cols)\n");
+    print_stacktrace();
+    data = new std::vector<std::vector<double> >;
     for(int i = 0; i < n_rows; i++)
-    {
+    {   
+        printf("i = %d\n", i);
         std::vector<double> row(n_cols, 0.0);
-        data.push_back(row);
+        printf("data->size() = %lu\n", data->size());
+        data->push_back(row);
     }
+    printf("goodbye from Matrix(int n_rows, int n_cols)\n");
 }
 
 Matrix::Matrix(double x_in, double y_in, double z_in)
 {
-    std::vector<double> x (x_in, 1);
-    std::vector<double> y (y_in, 1);
-    std::vector<double> z (z_in, 1);
-    std::vector<double> h (1.0, 1);
+    printf("hello from Matrix(double x_in, double y_in, double z_in)\n");
+
+    std::vector<double> x (1, x_in);
+    printf(" Matrix(double x_in, double y_in, double z_in): 1\n");
+    std::vector<double> y (1, y_in);
+    printf(" Matrix(double x_in, double y_in, double z_in): 2\n");
+    std::vector<double> z (1, z_in);
+    printf(" Matrix(double x_in, double y_in, double z_in): 3\n");
+    std::vector<double> h (1, 1.0);
+    printf(" Matrix(double x_in, double y_in, double z_in): 4\n");
     
-    data.push_back(x);
-    data.push_back(y);
-    data.push_back(z);
-    data.push_back(h);
+    data = new std::vector<std::vector<double> >;
+    printf(" Matrix(double x_in, double y_in, double z_in): 5\n");
+    
+    data->push_back(x);
+    data->push_back(y);
+    data->push_back(z);
+    data->push_back(h);
 }
 
 Matrix::~Matrix()
@@ -64,7 +81,7 @@ void Matrix::print()
 {
     std::vector<std::vector<double> >::iterator it_i;
     std::vector<double>::iterator it_j;
-    for(it_i = this->data.begin(); it_i != this->data.end(); ++it_i)
+    for(it_i = data->begin(); it_i != data->end(); ++it_i)
     {   
         printf("| ");
         for(it_j = it_i->begin(); it_j != it_i->end(); ++it_j)
@@ -81,7 +98,7 @@ Matrix Matrix::operator=(Matrix rhs)
     std::vector<std::vector<double> >::iterator it_i_dest;
     std::vector<double>::iterator it_j_orig;
     std::vector<double>::iterator it_j_dest;
-    for(it_i_orig = rhs.data.begin(), it_i_dest = this->data.begin(); (it_i_orig != rhs.data.end()) || (it_i_dest != this->data.end()); ++it_i_orig, ++it_i_dest)
+    for(it_i_orig = rhs.data->begin(), it_i_dest = data->begin(); (it_i_orig != rhs.data->end()) || (it_i_dest != data->end()); ++it_i_orig, ++it_i_dest)
     {
         for(it_j_orig = (*it_i_orig).begin(), it_j_dest= (*it_i_dest).begin(); (it_j_orig != (*it_i_orig).end()) || (it_j_dest != (*it_i_dest).end()); ++it_j_orig, ++it_j_dest)
         {
@@ -96,15 +113,15 @@ Matrix Matrix::operator=(Matrix rhs)
 Matrix Matrix::operator*(Matrix rhs)
 {
     //A(l x m) * B(m x n) = C(l x n)
-    int l = this->data.size();
-    int n = rhs.data.front().size();
-    int m = rhs.data.size();
+    int l = data->size();
+    int n = rhs.data->front().size();
+    int m = rhs.data->size();
 
     //initialize the return matrix
     Matrix product_matrix(l, n);
     
     //check for proper input
-    if(this->data.front().size() != rhs.data.size())
+    if(data->front().size() != rhs.data->size())
     {
         printf("Error: Number of columns in A must match number of rows in B");
         return product_matrix;
@@ -122,7 +139,7 @@ Matrix Matrix::operator*(Matrix rhs)
             for(int k = 0; k < m; k++)
             {
        // printf("k = %d\n", k);
-                product_matrix[index/n][index%n] = product_matrix[index/n][index%n] + (this->data[i][k] * rhs[k][j]);
+                product_matrix[index/n][index%n] = product_matrix[index/n][index%n] + ((*data)[i][k] * rhs[k][j]);
             }
             index = index + 1;
         }
@@ -133,5 +150,5 @@ Matrix Matrix::operator*(Matrix rhs)
 
 std::vector<double>& Matrix::operator[](int i)
 {
-    return this->data[i];
+    return (*data)[i];
 }   

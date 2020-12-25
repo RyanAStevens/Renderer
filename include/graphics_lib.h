@@ -44,7 +44,7 @@ public:
     uint32_t width;
     uint32_t height;
     uint32_t n_pixels;
-    std::vector<Matrix> vertices;
+    std::vector<Matrix>* vertices;
     MatrixStack* matrix_stack;
     Projection* projection;
 };
