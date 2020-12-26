@@ -27,7 +27,6 @@ MatrixStack::~MatrixStack()
 void MatrixStack::initialize()
 {   
     printf("hello from MatrixStack::initialize\n");
-    print_stacktrace(); 
     //identity matrix is added on construction
     //,so pop everything down to that
     while(_stack.size() > 1)

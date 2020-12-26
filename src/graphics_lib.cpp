@@ -3,6 +3,7 @@
 #include <color.h>
 #include <math.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #include <stack_trace.h>
 
@@ -68,6 +69,7 @@ void GraphicsLib::set_background_color(Color c)
 
 void GraphicsLib::plot_point(uint32_t x, uint32_t y, Color c)
 {
+    sleep(1);
 	uint32_t index = (x * width) + y;
     uint32_t pixel_color = uint8_t(c.r * 255) << RED_SHIFT & uint8_t(c.g * 255) << GREEN_SHIFT & uint8_t(c.b * 255);
 	
@@ -172,28 +174,43 @@ void GraphicsLib::begin_shape()
 
 void GraphicsLib::end_shape()
 {
+    printf("hello from GraphicsLib::end_shape\n");
     TransformMatrix transform;
     Matrix vert1(0,0,0);
     Matrix vert2(0,0,0);
     //draw the shape
     for(int i = 0; i < vertices->size(); i += 2)
     {
+        printf("i = %d\n", i);
         //perform transformation
         vert1 = (*vertices)[i];
         vert2 = (*vertices)[i+1];
+        printf("before transform: vert1[2][0]: %f, vert2[2][0]: %f\n", vert1[2][0], vert2[2][0]);
         matrix_stack->initialize();
         transform = matrix_stack->get_ctm();
         vert1 = transform*vert1;
         vert2 = transform*vert2;
+        printf("after transform: vert1[2][0]: %f, vert2[2][0]: %f\n", vert1[2][0], vert2[2][0]);
         
         //perform view projection
         if(ORTHOGRAPHIC == projection->mode)
         {
+            printf("end_shape projection\n");
+            printf("vert1[0][0]: %f\n", vert1[0][0]);
+            printf("vert1[1][0]: %f\n", vert1[1][0]);
             vert1[0][0] = (vert1[0][0] - projection->left)*(width/(projection->right - projection->left));
+            printf("vert1[0][0]: %f, projection->left: %f, width: %d, projection->right: %f\n", vert1[0][0], projection->left, width, projection->right);
             vert1[1][0] = (vert1[1][0] - projection->bottom)*(width/(projection->top - projection->bottom));
+            printf("vert1[1][0]: %f, projection->bottom: %f, width: %d, projection->top: %f\n", vert1[1][0], projection->bottom, width, projection->top);
             vert1[2][0] = 0;
+            printf("vert1[0][0]: %f\n", vert1[0][0]);
+            printf("vert1[1][0]: %f\n", vert1[1][0]);
+            printf("vert2[0][0]: %f\n", vert2[0][0]);
+            printf("vert2[1][0]: %f\n", vert2[1][0]);
             vert2[0][0] = (vert2[0][0] - projection->left)*(width/(projection->right - projection->left));
             vert2[1][0] = (vert2[1][0] - projection->bottom)*(width/(projection->top - projection->bottom));
+            printf("vert2[0][0]: %f\n", vert2[0][0]);
+            printf("vert2[1][0]: %f\n", vert2[1][0]);
             vert2[2][0] = 0;
         }
         else
@@ -201,10 +218,13 @@ void GraphicsLib::end_shape()
             if(0.0 != projection->fov)
             {
                 double k = tan(projection->fov*M_PI/90.0);
+                printf("end_shape perspective: k = %f\n", k);
                 if(0.0 != vert1[2][0])
                 {
                     double xP1 = vert1[0][0] / abs(vert1[2][0]);
+                    printf("end_shape perspective: xP1 = %f\n", xP1);
                     double yP1 = vert1[1][0] / abs(vert1[2][0]);
+                    printf("end_shape perspective: yP1 = %f\n", yP1);
                     vert1[0][0] = (xP1 + k)*(width/(2*k));
                     vert1[1][0] = (yP1 + k)*(height/(2*k));
                 }
@@ -212,7 +232,9 @@ void GraphicsLib::end_shape()
                 if(0.0 != vert2[2][0])
                 {
                     double xP2 = vert2[0][0] / abs(vert2[2][0]);
+                    printf("end_shape perspective: xP2 = %f\n", xP2);
                     double yP2 = vert2[1][0] / abs(vert2[2][0]);
+                    printf("end_shape perspective: yP2 = %f\n", yP2);
                     vert2[0][0] = (xP2 + k)*(width/(2*k));
                     vert2[1][0] = (yP2 + k)*(height/(2*k));
                 }
@@ -220,17 +242,16 @@ void GraphicsLib::end_shape()
             }
         }
         //draw line
+        printf("vert1[0][0]: %f height: %d vert1[1][0]: %f vert2[0][0]: %f height: %d vert2[1][0]: %f\n", vert1[0][0], height, vert1[1][0], vert2[0][0], height, vert2[1][0]);
         draw_line(vert1[0][0], height - vert1[1][0], vert2[0][0], height - vert2[1][0]);
     }
+    printf("goodbye from GraphicsLib::end_shape\n");
 }
 
 void GraphicsLib::add_vertex(double x_in, double y_in, double z_in)
 {
-    printf("hello from GraphicsLib::add_vertex\n");
     Matrix v(x_in, y_in, z_in);
-    printf("vertices size = %lu\n", vertices->size());
     vertices->push_back(v);
-    printf("goodbye from GraphicsLib::add_vertex\n");
 }
 
 // unit radius cirle
@@ -264,27 +285,15 @@ void GraphicsLib::square()
 {
     printf("hello from square\n");
   begin_shape ();
-    printf("square: 1\n");
 
   add_vertex (-50, -50, 0);
-    printf("square: 2\n");
   add_vertex (-50, 50, 0);
-    printf("square: 3\n");
-  
   add_vertex (-50, 50, 0);
-    printf("square: 4\n");
   add_vertex (50, 50, 0);
-
-    printf("square: 5\n");
   add_vertex (50, 50, 0);
-    printf("square: 6\n");
   add_vertex (50, -50, 0);
-    printf("square: 7\n");
-
   add_vertex (50, -50, 0);
-    printf("square: 8\n");
   add_vertex (-50, -50, 0);
-    printf("square: 9\n");
 
   end_shape();
     printf("goodbye from square\n");
@@ -486,7 +495,6 @@ void GraphicsLib::face_test()
 void GraphicsLib::ortho_test()
 {
     printf("hello from ortho_test\n");
-    //print_stacktrace();
     matrix_stack->initialize();
     set_orthographic (-100, 100, -100, 100, -100, 100);
     square();

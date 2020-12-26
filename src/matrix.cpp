@@ -38,34 +38,22 @@ Matrix::Matrix(matrix_constructor_t id)
 
 Matrix::Matrix(int n_rows, int n_cols)
 {
-    printf("hello from Matrix(int n_rows, int n_cols)\n");
-    print_stacktrace();
     data = new std::vector<std::vector<double> >;
     for(int i = 0; i < n_rows; i++)
     {   
-        printf("i = %d\n", i);
         std::vector<double> row(n_cols, 0.0);
-        printf("data->size() = %lu\n", data->size());
         data->push_back(row);
     }
-    printf("goodbye from Matrix(int n_rows, int n_cols)\n");
 }
 
 Matrix::Matrix(double x_in, double y_in, double z_in)
 {
-    printf("hello from Matrix(double x_in, double y_in, double z_in)\n");
-
     std::vector<double> x (1, x_in);
-    printf(" Matrix(double x_in, double y_in, double z_in): 1\n");
     std::vector<double> y (1, y_in);
-    printf(" Matrix(double x_in, double y_in, double z_in): 2\n");
     std::vector<double> z (1, z_in);
-    printf(" Matrix(double x_in, double y_in, double z_in): 3\n");
     std::vector<double> h (1, 1.0);
-    printf(" Matrix(double x_in, double y_in, double z_in): 4\n");
     
     data = new std::vector<std::vector<double> >;
-    printf(" Matrix(double x_in, double y_in, double z_in): 5\n");
     
     data->push_back(x);
     data->push_back(y);

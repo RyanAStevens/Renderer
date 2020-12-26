@@ -43,10 +43,11 @@ TransformMatrix TransformMatrix::operator*(const TransformMatrix& rhs)
 
 Matrix TransformMatrix::operator*(const Matrix& rhs)
 {
+    printf("hello from TransformMatrix::operator*(const Matrix& rhs)\n");
     //A(l x m) * B(m x n) = C(l x n)
     int l = 4;
-    int n = rhs.data.front().size();
-    int m = rhs.data.size();
+    int n = rhs.data->front().size();
+    int m = rhs.data->size();
 
     //initialize the return matrix
     Matrix product_matrix(l, n);
@@ -62,19 +63,21 @@ Matrix TransformMatrix::operator*(const Matrix& rhs)
     int index = 0;
     for(int i = 0; i < l; i++)
     {
-       // printf("i = %d\n", i);
+        //printf("i = %d\n", i);
         for(int j = 0; j < n; j++)
         {
-       // printf("j = %d\n", j);
+        //printf("j = %d\n", j);
             for(int k = 0; k < m; k++)
             {
-       // printf("k = %d\n", k);
-                product_matrix[index/n][index%n] = product_matrix[index/n][index%n] + (this->row[i].components[k] * rhs.data[k][j]);
+        //printf("k = %d\n", k);
+                product_matrix[index/n][index%n] = product_matrix[index/n][index%n] + (row[i].components[k] * (*(rhs.data))[k][j]);
+                printf("index: %d n: %d row[i].components[k]: %f (*(rhs.data))[k][j]): %f\n", index, n, row[i].components[k], (*(rhs.data))[k][j]);
+                printf("product_matrix[%d][%d] = %f\n", index/n, index%n, product_matrix[index/n][index%n]);
             }
             index = index + 1;
         }
     }
-   // printf("goodbye from Matrix::operator*\n");
+    printf("goodbye from TransformMatrix::operator*(const Matrix& rhs)\n");
     return product_matrix;
 }
 
