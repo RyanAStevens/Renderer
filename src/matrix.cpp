@@ -18,6 +18,16 @@ Matrix::Matrix()
 {
     printf("hello from default Matrix constructor\n");
     data = new std::vector<Vector3H>;
+    for(int i = 0; i < 4; i++)
+    {
+        Vector3H row;
+        data->push_back(row);
+    }
+    (*data)[0][0] = 1.0;
+    (*data)[1][1] = 1.0;
+    (*data)[2][2] = 1.0;
+    (*data)[3][3] = 1.0;
+    printf("goodbye from default Matrix constructor\n");
 }
 
 Matrix::Matrix(int num_rows)

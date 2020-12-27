@@ -13,7 +13,7 @@ MatrixStack::MatrixStack()
     printf("hello from MatrixStack default constructor\n");
         std::cout << "_stack.size() = " << _stack.size() << std::endl;
         std::cout << "_stack.empty() = " << _stack.empty() << std::endl;
-    _stack.push(TransformMatrix());
+    _stack.push(Matrix());
         std::cout << "_stack.size() = " << _stack.size() << std::endl;
         std::cout << "_stack.empty() = " << _stack.empty() << std::endl;
     printf("hello from MatrixStack default constructor\n");
@@ -40,84 +40,93 @@ void MatrixStack::initialize()
 
 void MatrixStack::print_ctm()
 {
-    TransformMatrix tm = _stack.top();
+    Matrix tm = _stack.top();
     std::cout << "-------------\n";
     int i = 0;
     int j = 0;
-    for(; i < NUM_ROWS; i++)
+    for(; i < 4; i++)
     {
-        for(j=0; j < NUM_COMPS; j++)
+        for(j=0; j < 4; j++)
         {
-            std::cout << tm.row[i].components[j] << ' ';
+            std::cout << (*tm.data)[i].components[j] << ' ';
         }
         std::cout << '\n';
     }
     std::cout << "-------------\n";
 }
 
-TransformMatrix& MatrixStack::get_ctm()
+Matrix& MatrixStack::get_ctm()
 {
     return _stack.top();
 }
 
 void MatrixStack::translate(float x, float y, float z)
 {
-   TransformMatrix tm = TransformMatrix();
-   tm.row[0].components[3] = x;
-   tm.row[1].components[3] = y;
-   tm.row[2].components[3] = z;
+   Matrix tm = Matrix();
+   (*tm.data)[0].components[3] = x;
+   (*tm.data)[1].components[3] = y;
+   (*tm.data)[2].components[3] = z;
 
-   TransformMatrix result = _stack.top()*tm;
+   Matrix result = _stack.top()*tm;
    _stack.push(result);
 }
 
 void MatrixStack::scale(float x, float y, float z)
 {
-   TransformMatrix tm = TransformMatrix();
-   tm.row[0].components[0] = x;
-   tm.row[1].components[1] = y;
-   tm.row[2].components[2] = z;
+   Matrix tm = Matrix();
+   (*tm.data)[0].components[0] = x;
+   (*tm.data)[1].components[1] = y;
+   (*tm.data)[2].components[2] = z;
 
-   TransformMatrix result = _stack.top()*tm;
+   Matrix result = _stack.top()*tm;
    _stack.push(result);
 }
 
 void MatrixStack::rotate_x(float theta)
 {
    float thetaRad = theta * CON_RAD;
-   TransformMatrix tm = TransformMatrix();
-   tm.row[1].components[1] = cos(thetaRad);
-   tm.row[1].components[2] = -1*sin(thetaRad);
-   tm.row[2].components[1] = sin(thetaRad);
-   tm.row[2].components[2] = cos(thetaRad);
+   Matrix tm = Matrix();
+   (*tm.data)[1].components[1] = cos(thetaRad);
+   (*tm.data)[1].components[2] = -1*sin(thetaRad);
+   (*tm.data)[2].components[1] = sin(thetaRad);
+   (*tm.data)[2].components[2] = cos(thetaRad);
 
-   TransformMatrix result = _stack.top()*tm;
+   Matrix result = _stack.top()*tm;
    _stack.push(result);
 }
 
 void MatrixStack::rotate_y(float theta)
 {
+   printf("hello from MatrixStack::rotate_y\n");
    float thetaRad = theta * CON_RAD;
-   TransformMatrix tm = TransformMatrix();
-   tm.row[0].components[0] = cos(thetaRad);
-   tm.row[0].components[2] = sin(thetaRad);
-   tm.row[2].components[0] = -1*sin(thetaRad);
-   tm.row[2].components[2] = cos(thetaRad);
+   printf("MatrixStack::rotate_y 1\n");
+   Matrix tm = Matrix();
+   printf("MatrixStack::rotate_y 2\n");
 
-   TransformMatrix result = _stack.top()*tm;
+   (*tm.data)[0].components[0] = cos(thetaRad);
+   printf("MatrixStack::rotate_y 3\n");
+   (*tm.data)[0].components[2] = sin(thetaRad);
+   printf("MatrixStack::rotate_y 4\n");
+   (*tm.data)[2].components[0] = -1*sin(thetaRad);
+   printf("MatrixStack::rotate_y 5\n");
+   (*tm.data)[2].components[2] = cos(thetaRad);
+   printf("MatrixStack::rotate_y 6\n");
+
+   Matrix result = _stack.top()*tm;
+   printf("MatrixStack::rotate_y 7\n");
    _stack.push(result);
 }
 
 void MatrixStack::rotate_z(float theta)
 {
    float thetaRad = theta * CON_RAD;
-   TransformMatrix tm = TransformMatrix();
-   tm.row[0].components[0] = cos(thetaRad);
-   tm.row[0].components[1] = -1*sin(thetaRad);
-   tm.row[1].components[0] = sin(thetaRad);
-   tm.row[1].components[1] = cos(thetaRad);
+   Matrix tm = Matrix();
+   (*tm.data)[0].components[0] = cos(thetaRad);
+   (*tm.data)[0].components[1] = -1*sin(thetaRad);
+   (*tm.data)[1].components[0] = sin(thetaRad);
+   (*tm.data)[1].components[1] = cos(thetaRad);
 
-   TransformMatrix result = _stack.top()*tm;
+   Matrix result = _stack.top()*tm;
    _stack.push(result);
 }
 

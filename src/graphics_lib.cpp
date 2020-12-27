@@ -42,12 +42,14 @@ GraphicsLib::~GraphicsLib()
 
 void GraphicsLib::set_orthographic(double left, double right, double bottom, double top, double near, double far)
 {
+    printf("hello from set_orthographic\n");
     projection->left = left;
     projection->right = right;
     projection->bottom = bottom;
     projection->top = top; 
     projection->near = near;
     projection->far = far;
+    printf("goodbye from set_orthographic\n");
 }
 
 void GraphicsLib::set_perspective(double fov, double near, double far)
@@ -175,7 +177,7 @@ void GraphicsLib::begin_shape()
 void GraphicsLib::end_shape()
 {
     printf("hello from GraphicsLib::end_shape\n");
-    TransformMatrix transform;
+    Matrix transform;
     Matrix vert1(0,0,0);
     Matrix vert2(0,0,0);
     //draw the shape
@@ -525,10 +527,15 @@ void GraphicsLib::ortho_cube()
 {
     printf("hello from ortho_cube\n");
     matrix_stack->initialize();
+    printf("ortho_cube 1\n");
     set_orthographic (-2, 2, -2, 2, -2, 2);
+    printf("ortho_cube 2\n");
     matrix_stack->push_matrix();
+    printf("ortho_cube 3\n");
     matrix_stack->rotate_y(17);
+    printf("ortho_cube 4\n");
     cube();
+    printf("ortho_cube 5\n");
     matrix_stack->pop_matrix();
     printf("goodbye from ortho_cube\n");
 }
