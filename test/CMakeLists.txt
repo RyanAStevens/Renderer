@@ -3,10 +3,10 @@ project(test)
 
 # Locate GTest
 find_package(GTest REQUIRED)
-include_directories(${GTEST_INCLUDE_DIRS} test_include ../include/graphics_lib)
+include_directories(${GTEST_INCLUDE_DIRS} test_include ../include/)
 
 set(CMAKE_CXX_FLAGS "-std=c++11")
-set(GRAPHICS_LIB_SOURCE_DIR "../src/graphics_lib")
+set(GRAPHICS_LIB_SOURCE_DIR "../src/")
 
 set(SOURCES
     ${GRAPHICS_LIB_SOURCE_DIR}/vector2.cpp
