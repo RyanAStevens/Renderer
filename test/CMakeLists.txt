@@ -12,7 +12,7 @@ set(SOURCES
     ${GRAPHICS_LIB_SOURCE_DIR}/vector2.cpp
     ${GRAPHICS_LIB_SOURCE_DIR}/vector3.cpp
     ${GRAPHICS_LIB_SOURCE_DIR}/matrix_stack.cpp
- #   ${GRAPHICS_LIB_SOURCE_DIR}/transform_matrix.cpp
+    ${GRAPHICS_LIB_SOURCE_DIR}/matrix.cpp
     ${GRAPHICS_LIB_SOURCE_DIR}/vector3h.cpp
     ${GRAPHICS_LIB_SOURCE_DIR}/color.cpp
    )
@@ -21,7 +21,7 @@ set(TEST_SOURCES
     test_main.cpp
     test_src/vector2_test.cpp
     test_src/vector3_test.cpp
-#    test_src/transform_matrix_test.cpp
+    test_src/matrix_test.cpp
     test_src/matrix_stack_test.cpp
     test_src/color_test.cpp
    )

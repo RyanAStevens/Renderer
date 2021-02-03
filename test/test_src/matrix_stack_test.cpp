@@ -26,156 +26,156 @@ void MatrixStackTest::TearDown() {
 TEST_F(MatrixStackTest, InitOnly) {
     matStack->initialize();
 
-    TransformMatrix ctm = matStack->get_ctm();
-    EXPECT_EQ(ctm.row[0].components[0], 1);
-    EXPECT_EQ(ctm.row[0].components[1], 0);
-    EXPECT_EQ(ctm.row[0].components[2], 0);
-    EXPECT_EQ(ctm.row[0].components[3], 0);
+    Matrix ctm = matStack->get_ctm();
+    EXPECT_EQ((*ctm.data)[0][0], 1);
+    EXPECT_EQ((*ctm.data)[0][1], 0);
+    EXPECT_EQ((*ctm.data)[0][2], 0);
+    EXPECT_EQ((*ctm.data)[0][3], 0);
 
-    EXPECT_EQ(ctm.row[1].components[0], 0);
-    EXPECT_EQ(ctm.row[1].components[1], 1);
-    EXPECT_EQ(ctm.row[1].components[2], 0);
-    EXPECT_EQ(ctm.row[1].components[3], 0);
+    EXPECT_EQ((*ctm.data)[1][0], 0);
+    EXPECT_EQ((*ctm.data)[1][1], 1);
+    EXPECT_EQ((*ctm.data)[1][2], 0);
+    EXPECT_EQ((*ctm.data)[1][3], 0);
     
-    EXPECT_EQ(ctm.row[2].components[0], 0);
-    EXPECT_EQ(ctm.row[2].components[1], 0);
-    EXPECT_EQ(ctm.row[2].components[2], 1);
-    EXPECT_EQ(ctm.row[2].components[3], 0);
+    EXPECT_EQ((*ctm.data)[2][0], 0);
+    EXPECT_EQ((*ctm.data)[2][1], 0);
+    EXPECT_EQ((*ctm.data)[2][2], 1);
+    EXPECT_EQ((*ctm.data)[2][3], 0);
     
-    EXPECT_EQ(ctm.row[3].components[0], 0);
-    EXPECT_EQ(ctm.row[3].components[1], 0);
-    EXPECT_EQ(ctm.row[3].components[2], 0);
-    EXPECT_EQ(ctm.row[3].components[3], 1);
+    EXPECT_EQ((*ctm.data)[3][0], 0);
+    EXPECT_EQ((*ctm.data)[3][1], 0);
+    EXPECT_EQ((*ctm.data)[3][2], 0);
+    EXPECT_EQ((*ctm.data)[3][3], 1);
 }
     
 TEST_F(MatrixStackTest, Traslate) {
     matStack->initialize();
     matStack->translate(3,2,1.5);
 
-    TransformMatrix ctm = matStack->get_ctm();
-    EXPECT_EQ(ctm.row[0].components[0], 1);
-    EXPECT_EQ(ctm.row[0].components[1], 0);
-    EXPECT_EQ(ctm.row[0].components[2], 0);
-    EXPECT_EQ(ctm.row[0].components[3], 3.0);
+    Matrix ctm = matStack->get_ctm();
+    EXPECT_EQ((*ctm.data)[0][0], 1);
+    EXPECT_EQ((*ctm.data)[0][1], 0);
+    EXPECT_EQ((*ctm.data)[0][2], 0);
+    EXPECT_EQ((*ctm.data)[0][3], 3.0);
 
-    EXPECT_EQ(ctm.row[1].components[0], 0);
-    EXPECT_EQ(ctm.row[1].components[1], 1);
-    EXPECT_EQ(ctm.row[1].components[2], 0);
-    EXPECT_EQ(ctm.row[1].components[3], 2.0);
+    EXPECT_EQ((*ctm.data)[1][0], 0);
+    EXPECT_EQ((*ctm.data)[1][1], 1);
+    EXPECT_EQ((*ctm.data)[1][2], 0);
+    EXPECT_EQ((*ctm.data)[1][3], 2.0);
     
-    EXPECT_EQ(ctm.row[2].components[0], 0);
-    EXPECT_EQ(ctm.row[2].components[1], 0);
-    EXPECT_EQ(ctm.row[2].components[2], 1);
-    EXPECT_EQ(ctm.row[2].components[3], 1.5);
+    EXPECT_EQ((*ctm.data)[2][0], 0);
+    EXPECT_EQ((*ctm.data)[2][1], 0);
+    EXPECT_EQ((*ctm.data)[2][2], 1);
+    EXPECT_EQ((*ctm.data)[2][3], 1.5);
     
-    EXPECT_EQ(ctm.row[3].components[0], 0);
-    EXPECT_EQ(ctm.row[3].components[1], 0);
-    EXPECT_EQ(ctm.row[3].components[2], 0);
-    EXPECT_EQ(ctm.row[3].components[3], 1.0);
+    EXPECT_EQ((*ctm.data)[3][0], 0);
+    EXPECT_EQ((*ctm.data)[3][1], 0);
+    EXPECT_EQ((*ctm.data)[3][2], 0);
+    EXPECT_EQ((*ctm.data)[3][3], 1.0);
 }
 
 TEST_F(MatrixStackTest, Scale) {
     matStack->initialize();
     matStack->scale(2,3,4);
 
-    TransformMatrix ctm = matStack->get_ctm();
-    EXPECT_EQ(ctm.row[0].components[0], 2);
-    EXPECT_EQ(ctm.row[0].components[1], 0);
-    EXPECT_EQ(ctm.row[0].components[2], 0);
-    EXPECT_EQ(ctm.row[0].components[3], 0);
+    Matrix ctm = matStack->get_ctm();
+    EXPECT_EQ((*ctm.data)[0][0], 2);
+    EXPECT_EQ((*ctm.data)[0][1], 0);
+    EXPECT_EQ((*ctm.data)[0][2], 0);
+    EXPECT_EQ((*ctm.data)[0][3], 0);
 
-    EXPECT_EQ(ctm.row[1].components[0], 0);
-    EXPECT_EQ(ctm.row[1].components[1], 3);
-    EXPECT_EQ(ctm.row[1].components[2], 0);
-    EXPECT_EQ(ctm.row[1].components[3], 0);
+    EXPECT_EQ((*ctm.data)[1][0], 0);
+    EXPECT_EQ((*ctm.data)[1][1], 3);
+    EXPECT_EQ((*ctm.data)[1][2], 0);
+    EXPECT_EQ((*ctm.data)[1][3], 0);
     
-    EXPECT_EQ(ctm.row[2].components[0], 0);
-    EXPECT_EQ(ctm.row[2].components[1], 0);
-    EXPECT_EQ(ctm.row[2].components[2], 4);
-    EXPECT_EQ(ctm.row[2].components[3], 0);
+    EXPECT_EQ((*ctm.data)[2][0], 0);
+    EXPECT_EQ((*ctm.data)[2][1], 0);
+    EXPECT_EQ((*ctm.data)[2][2], 4);
+    EXPECT_EQ((*ctm.data)[2][3], 0);
     
-    EXPECT_EQ(ctm.row[3].components[0], 0);
-    EXPECT_EQ(ctm.row[3].components[1], 0);
-    EXPECT_EQ(ctm.row[3].components[2], 0);
-    EXPECT_EQ(ctm.row[3].components[3], 1);
+    EXPECT_EQ((*ctm.data)[3][0], 0);
+    EXPECT_EQ((*ctm.data)[3][1], 0);
+    EXPECT_EQ((*ctm.data)[3][2], 0);
+    EXPECT_EQ((*ctm.data)[3][3], 1);
 }
 
 TEST_F(MatrixStackTest, RotateX) {
     matStack->initialize();
-    matStack->rotateX(90);
+    matStack->rotate_x(90);
 
-    TransformMatrix ctm = matStack->get_ctm();
-    EXPECT_EQ(ctm.row[0].components[0], 1);
-    EXPECT_EQ(ctm.row[0].components[1], 0.0);
-    EXPECT_EQ(ctm.row[0].components[2], 0.0);
-    EXPECT_EQ(ctm.row[0].components[3], 0);
+    Matrix ctm = matStack->get_ctm();
+    EXPECT_EQ((*ctm.data)[0][0], 1);
+    EXPECT_EQ((*ctm.data)[0][1], 0.0);
+    EXPECT_EQ((*ctm.data)[0][2], 0.0);
+    EXPECT_EQ((*ctm.data)[0][3], 0);
 
-    EXPECT_EQ(ctm.row[1].components[0], 0);
-    EXPECT_EQ(ctm.row[1].components[1], -4.371138828673792886547744274139404296875e-08);
-    EXPECT_EQ(ctm.row[1].components[2], -1.0);
-    EXPECT_EQ(ctm.row[1].components[3], 0);
+    EXPECT_EQ((*ctm.data)[1][0], 0);
+    EXPECT_EQ((*ctm.data)[1][1], -4.371138828673792886547744274139404296875e-08);
+    EXPECT_EQ((*ctm.data)[1][2], -1.0);
+    EXPECT_EQ((*ctm.data)[1][3], 0);
     
-    EXPECT_EQ(ctm.row[2].components[0], 0);
-    EXPECT_EQ(ctm.row[2].components[1], 1.0);
-    EXPECT_EQ(ctm.row[2].components[2], -4.371138828673792886547744274139404296875e-08);
-    EXPECT_EQ(ctm.row[2].components[3], 0);
+    EXPECT_EQ((*ctm.data)[2][0], 0);
+    EXPECT_EQ((*ctm.data)[2][1], 1.0);
+    EXPECT_EQ((*ctm.data)[2][2], -4.371138828673792886547744274139404296875e-08);
+    EXPECT_EQ((*ctm.data)[2][3], 0);
     
-    EXPECT_EQ(ctm.row[3].components[0], 0);
-    EXPECT_EQ(ctm.row[3].components[1], 0);
-    EXPECT_EQ(ctm.row[3].components[2], 0);
-    EXPECT_EQ(ctm.row[3].components[3], 1);
+    EXPECT_EQ((*ctm.data)[3][0], 0);
+    EXPECT_EQ((*ctm.data)[3][1], 0);
+    EXPECT_EQ((*ctm.data)[3][2], 0);
+    EXPECT_EQ((*ctm.data)[3][3], 1);
 }
 
 TEST_F(MatrixStackTest, RotateY) {
     matStack->initialize();
-    matStack->rotateY(-15);
+    matStack->rotate_y(-15);
 
-    TransformMatrix ctm = matStack->get_ctm();
-    EXPECT_EQ(ctm.row[0].components[0], 0.9659258127212524);
-    EXPECT_EQ(ctm.row[0].components[1], 0);
-    EXPECT_EQ(ctm.row[0].components[2], -0.258819043636322021484375);
-    EXPECT_EQ(ctm.row[0].components[3], 0);
+    Matrix ctm = matStack->get_ctm();
+    EXPECT_EQ((*ctm.data)[0][0], 0.9659258127212524);
+    EXPECT_EQ((*ctm.data)[0][1], 0);
+    EXPECT_EQ((*ctm.data)[0][2], -0.258819043636322021484375);
+    EXPECT_EQ((*ctm.data)[0][3], 0);
 
-    EXPECT_EQ(ctm.row[1].components[0], 0.0);
-    EXPECT_EQ(ctm.row[1].components[1], 1);
-    EXPECT_EQ(ctm.row[1].components[2], 0.0);
-    EXPECT_EQ(ctm.row[1].components[3], 0);
+    EXPECT_EQ((*ctm.data)[1][0], 0.0);
+    EXPECT_EQ((*ctm.data)[1][1], 1);
+    EXPECT_EQ((*ctm.data)[1][2], 0.0);
+    EXPECT_EQ((*ctm.data)[1][3], 0);
     
-    EXPECT_EQ(ctm.row[2].components[0], 0.258819043636322021484375);
-    EXPECT_EQ(ctm.row[2].components[1], 0);
-    EXPECT_EQ(ctm.row[2].components[2], 0.9659258127212524);
-    EXPECT_EQ(ctm.row[2].components[3], 0);
+    EXPECT_EQ((*ctm.data)[2][0], 0.258819043636322021484375);
+    EXPECT_EQ((*ctm.data)[2][1], 0);
+    EXPECT_EQ((*ctm.data)[2][2], 0.9659258127212524);
+    EXPECT_EQ((*ctm.data)[2][3], 0);
     
-    EXPECT_EQ(ctm.row[3].components[0], 0.0);
-    EXPECT_EQ(ctm.row[3].components[1], 0.0);
-    EXPECT_EQ(ctm.row[3].components[2], 0);
-    EXPECT_EQ(ctm.row[3].components[3], 1);
+    EXPECT_EQ((*ctm.data)[3][0], 0.0);
+    EXPECT_EQ((*ctm.data)[3][1], 0.0);
+    EXPECT_EQ((*ctm.data)[3][2], 0);
+    EXPECT_EQ((*ctm.data)[3][3], 1);
 }
 
 TEST_F(MatrixStackTest, RotateZ) {
     matStack->initialize();
-    matStack->rotateZ(45);
+    matStack->rotate_z(45);
 
-    TransformMatrix ctm = matStack->get_ctm();
-    EXPECT_EQ(ctm.row[0].components[0],0.7071067690849304199218750);
-    EXPECT_EQ(ctm.row[0].components[1],-0.7071067690849304199218750);
-    EXPECT_EQ(ctm.row[0].components[2], 0);
-    EXPECT_EQ(ctm.row[0].components[3], 0);
+    Matrix ctm = matStack->get_ctm();
+    EXPECT_EQ((*ctm.data)[0][0],0.7071067690849304199218750);
+    EXPECT_EQ((*ctm.data)[0][1],-0.7071067690849304199218750);
+    EXPECT_EQ((*ctm.data)[0][2], 0);
+    EXPECT_EQ((*ctm.data)[0][3], 0);
 
-    EXPECT_EQ(ctm.row[1].components[0], 0.7071067690849304199218750);
-    EXPECT_EQ(ctm.row[1].components[1], 0.7071067690849304199218750);
-    EXPECT_EQ(ctm.row[1].components[2], 0);
-    EXPECT_EQ(ctm.row[1].components[3], 0);
+    EXPECT_EQ((*ctm.data)[1][0], 0.7071067690849304199218750);
+    EXPECT_EQ((*ctm.data)[1][1], 0.7071067690849304199218750);
+    EXPECT_EQ((*ctm.data)[1][2], 0);
+    EXPECT_EQ((*ctm.data)[1][3], 0);
     
-    EXPECT_EQ(ctm.row[2].components[0], 0);
-    EXPECT_EQ(ctm.row[2].components[1], 0);
-    EXPECT_EQ(ctm.row[2].components[2], 1);
-    EXPECT_EQ(ctm.row[2].components[3], 0);
+    EXPECT_EQ((*ctm.data)[2][0], 0);
+    EXPECT_EQ((*ctm.data)[2][1], 0);
+    EXPECT_EQ((*ctm.data)[2][2], 1);
+    EXPECT_EQ((*ctm.data)[2][3], 0);
     
-    EXPECT_EQ(ctm.row[3].components[0], 0);
-    EXPECT_EQ(ctm.row[3].components[1], 0);
-    EXPECT_EQ(ctm.row[3].components[2], 0);
-    EXPECT_EQ(ctm.row[3].components[3], 1);
+    EXPECT_EQ((*ctm.data)[3][0], 0);
+    EXPECT_EQ((*ctm.data)[3][1], 0);
+    EXPECT_EQ((*ctm.data)[3][2], 0);
+    EXPECT_EQ((*ctm.data)[3][3], 1);
 }
 
 TEST_F(MatrixStackTest, TranslateScale) {
@@ -183,26 +183,26 @@ TEST_F(MatrixStackTest, TranslateScale) {
     matStack->translate(1.5,2.5,3.5);
     matStack->scale(2,2,2);
 
-    TransformMatrix ctm = matStack->get_ctm();
-    EXPECT_EQ(ctm.row[0].components[0], 2.0);
-    EXPECT_EQ(ctm.row[0].components[1], 0);
-    EXPECT_EQ(ctm.row[0].components[2], 0);
-    EXPECT_EQ(ctm.row[0].components[3], 1.5);
+    Matrix ctm = matStack->get_ctm();
+    EXPECT_EQ((*ctm.data)[0][0], 2.0);
+    EXPECT_EQ((*ctm.data)[0][1], 0);
+    EXPECT_EQ((*ctm.data)[0][2], 0);
+    EXPECT_EQ((*ctm.data)[0][3], 1.5);
 
-    EXPECT_EQ(ctm.row[1].components[0], 0);
-    EXPECT_EQ(ctm.row[1].components[1], 2.0);
-    EXPECT_EQ(ctm.row[1].components[2], 0);
-    EXPECT_EQ(ctm.row[1].components[3], 2.5);
+    EXPECT_EQ((*ctm.data)[1][0], 0);
+    EXPECT_EQ((*ctm.data)[1][1], 2.0);
+    EXPECT_EQ((*ctm.data)[1][2], 0);
+    EXPECT_EQ((*ctm.data)[1][3], 2.5);
     
-    EXPECT_EQ(ctm.row[2].components[0], 0);
-    EXPECT_EQ(ctm.row[2].components[1], 0);
-    EXPECT_EQ(ctm.row[2].components[2], 2.0);
-    EXPECT_EQ(ctm.row[2].components[3], 3.5);
+    EXPECT_EQ((*ctm.data)[2][0], 0);
+    EXPECT_EQ((*ctm.data)[2][1], 0);
+    EXPECT_EQ((*ctm.data)[2][2], 2.0);
+    EXPECT_EQ((*ctm.data)[2][3], 3.5);
     
-    EXPECT_EQ(ctm.row[3].components[0], 0);
-    EXPECT_EQ(ctm.row[3].components[1], 0);
-    EXPECT_EQ(ctm.row[3].components[2], 0);
-    EXPECT_EQ(ctm.row[3].components[3], 1.0);
+    EXPECT_EQ((*ctm.data)[3][0], 0);
+    EXPECT_EQ((*ctm.data)[3][1], 0);
+    EXPECT_EQ((*ctm.data)[3][2], 0);
+    EXPECT_EQ((*ctm.data)[3][3], 1.0);
 }
 
 TEST_F(MatrixStackTest, ScaleTranslate) {
@@ -210,81 +210,81 @@ TEST_F(MatrixStackTest, ScaleTranslate) {
     matStack->scale(2,2,2);
     matStack->translate(1.5,2.5,3.5);
 
-    TransformMatrix ctm = matStack->get_ctm();
-    EXPECT_EQ(ctm.row[0].components[0], 2);
-    EXPECT_EQ(ctm.row[0].components[1], 0);
-    EXPECT_EQ(ctm.row[0].components[2], 0);
-    EXPECT_EQ(ctm.row[0].components[3], 3.0);
+    Matrix ctm = matStack->get_ctm();
+    EXPECT_EQ((*ctm.data)[0][0], 2);
+    EXPECT_EQ((*ctm.data)[0][1], 0);
+    EXPECT_EQ((*ctm.data)[0][2], 0);
+    EXPECT_EQ((*ctm.data)[0][3], 3.0);
 
-    EXPECT_EQ(ctm.row[1].components[0], 0);
-    EXPECT_EQ(ctm.row[1].components[1], 2);
-    EXPECT_EQ(ctm.row[1].components[2], 0);
-    EXPECT_EQ(ctm.row[1].components[3], 5.0);
+    EXPECT_EQ((*ctm.data)[1][0], 0);
+    EXPECT_EQ((*ctm.data)[1][1], 2);
+    EXPECT_EQ((*ctm.data)[1][2], 0);
+    EXPECT_EQ((*ctm.data)[1][3], 5.0);
     
-    EXPECT_EQ(ctm.row[2].components[0], 0);
-    EXPECT_EQ(ctm.row[2].components[1], 0);
-    EXPECT_EQ(ctm.row[2].components[2], 2);
-    EXPECT_EQ(ctm.row[2].components[3], 7.0);
+    EXPECT_EQ((*ctm.data)[2][0], 0);
+    EXPECT_EQ((*ctm.data)[2][1], 0);
+    EXPECT_EQ((*ctm.data)[2][2], 2);
+    EXPECT_EQ((*ctm.data)[2][3], 7.0);
     
-    EXPECT_EQ(ctm.row[3].components[0], 0);
-    EXPECT_EQ(ctm.row[3].components[1], 0);
-    EXPECT_EQ(ctm.row[3].components[2], 0);
-    EXPECT_EQ(ctm.row[3].components[3], 1.0);
+    EXPECT_EQ((*ctm.data)[3][0], 0);
+    EXPECT_EQ((*ctm.data)[3][1], 0);
+    EXPECT_EQ((*ctm.data)[3][2], 0);
+    EXPECT_EQ((*ctm.data)[3][3], 1.0);
 }
 
 TEST_F(MatrixStackTest, ScalePushTranslatePop) {
     matStack->initialize();
     matStack->scale(2,2,2);
-    matStack->pushMatrix();
+    matStack->push_matrix();
     matStack->translate(1.5,2.5,3.5);
 
-    TransformMatrix ctm = matStack->get_ctm();
-    EXPECT_EQ(ctm.row[0].components[0], 2);
-    EXPECT_EQ(ctm.row[0].components[1], 0);
-    EXPECT_EQ(ctm.row[0].components[2], 0);
-    EXPECT_EQ(ctm.row[0].components[3], 3.0);
+    Matrix ctm = matStack->get_ctm();
+    EXPECT_EQ((*ctm.data)[0][0], 2);
+    EXPECT_EQ((*ctm.data)[0][1], 0);
+    EXPECT_EQ((*ctm.data)[0][2], 0);
+    EXPECT_EQ((*ctm.data)[0][3], 3.0);
 
-    EXPECT_EQ(ctm.row[1].components[0], 0);
-    EXPECT_EQ(ctm.row[1].components[1], 2);
-    EXPECT_EQ(ctm.row[1].components[2], 0);
-    EXPECT_EQ(ctm.row[1].components[3], 5.0);
+    EXPECT_EQ((*ctm.data)[1][0], 0);
+    EXPECT_EQ((*ctm.data)[1][1], 2);
+    EXPECT_EQ((*ctm.data)[1][2], 0);
+    EXPECT_EQ((*ctm.data)[1][3], 5.0);
     
-    EXPECT_EQ(ctm.row[2].components[0], 0);
-    EXPECT_EQ(ctm.row[2].components[1], 0);
-    EXPECT_EQ(ctm.row[2].components[2], 2);
-    EXPECT_EQ(ctm.row[2].components[3], 7.0);
+    EXPECT_EQ((*ctm.data)[2][0], 0);
+    EXPECT_EQ((*ctm.data)[2][1], 0);
+    EXPECT_EQ((*ctm.data)[2][2], 2);
+    EXPECT_EQ((*ctm.data)[2][3], 7.0);
     
-    EXPECT_EQ(ctm.row[3].components[0], 0);
-    EXPECT_EQ(ctm.row[3].components[1], 0);
-    EXPECT_EQ(ctm.row[3].components[2], 0);
-    EXPECT_EQ(ctm.row[3].components[3], 1.0);
+    EXPECT_EQ((*ctm.data)[3][0], 0);
+    EXPECT_EQ((*ctm.data)[3][1], 0);
+    EXPECT_EQ((*ctm.data)[3][2], 0);
+    EXPECT_EQ((*ctm.data)[3][3], 1.0);
     
-    matStack->popMatrix();
+    matStack->pop_matrix();
     ctm = matStack->get_ctm();
-    EXPECT_EQ(ctm.row[0].components[0], 2);
-    EXPECT_EQ(ctm.row[0].components[1], 0);
-    EXPECT_EQ(ctm.row[0].components[2], 0);
-    EXPECT_EQ(ctm.row[0].components[3], 0);
+    EXPECT_EQ((*ctm.data)[0][0], 2);
+    EXPECT_EQ((*ctm.data)[0][1], 0);
+    EXPECT_EQ((*ctm.data)[0][2], 0);
+    EXPECT_EQ((*ctm.data)[0][3], 0);
 
-    EXPECT_EQ(ctm.row[1].components[0], 0);
-    EXPECT_EQ(ctm.row[1].components[1], 2);
-    EXPECT_EQ(ctm.row[1].components[2], 0);
-    EXPECT_EQ(ctm.row[1].components[3], 0);
+    EXPECT_EQ((*ctm.data)[1][0], 0);
+    EXPECT_EQ((*ctm.data)[1][1], 2);
+    EXPECT_EQ((*ctm.data)[1][2], 0);
+    EXPECT_EQ((*ctm.data)[1][3], 0);
     
-    EXPECT_EQ(ctm.row[2].components[0], 0);
-    EXPECT_EQ(ctm.row[2].components[1], 0);
-    EXPECT_EQ(ctm.row[2].components[2], 2);
-    EXPECT_EQ(ctm.row[2].components[3], 0);
+    EXPECT_EQ((*ctm.data)[2][0], 0);
+    EXPECT_EQ((*ctm.data)[2][1], 0);
+    EXPECT_EQ((*ctm.data)[2][2], 2);
+    EXPECT_EQ((*ctm.data)[2][3], 0);
     
-    EXPECT_EQ(ctm.row[3].components[0], 0);
-    EXPECT_EQ(ctm.row[3].components[1], 0);
-    EXPECT_EQ(ctm.row[3].components[2], 0);
-    EXPECT_EQ(ctm.row[3].components[3], 1);
+    EXPECT_EQ((*ctm.data)[3][0], 0);
+    EXPECT_EQ((*ctm.data)[3][1], 0);
+    EXPECT_EQ((*ctm.data)[3][2], 0);
+    EXPECT_EQ((*ctm.data)[3][3], 1);
 }
 
 TEST_F(MatrixStackTest, InitPop) {
     matStack->initialize();
-    EXPECT_EQ(matStack->popMatrix(), 0);
+    EXPECT_EQ(matStack->pop_matrix(), 0);
 }
 
 TEST_F(MatrixStackTest, PrintAll) {
@@ -302,24 +302,24 @@ TEST_F(MatrixStackTest, PrintAll) {
     matStack->scale(2,3,4);
     matStack->print_ctm();
 
-    std::cout << "matStack->initialize();\nmatStack->rotateX(90);\n";
+    std::cout << "matStack->initialize();\nmatStack->rotate_x(90);\n";
     matStack->initialize();
-    matStack->rotateX(90);
+    matStack->rotate_x(90);
     matStack->print_ctm();
 
-    std::cout << "matStack->initialize();\nmatStack->rotateY(-15);\n";
+    std::cout << "matStack->initialize();\nmatStack->rotate_y(-15);\n";
     matStack->initialize();
-    matStack->rotateY(-15);
+    matStack->rotate_y(-15);
     matStack->print_ctm();
 
-    std::cout << "matStack->initialize();\nmatStack->pushMatrix();\nmatStack->rotateZ(45);\n;";
+    std::cout << "matStack->initialize();\nmatStack->push_matrix();\nmatStack->rotate_z(45);\n;";
     matStack->initialize();
-    matStack->pushMatrix();
-    matStack->rotateZ(45);
+    matStack->push_matrix();
+    matStack->rotate_z(45);
     matStack->print_ctm();
     
-    std::cout << "matStack->popMatrix();\n";
-    matStack->popMatrix();
+    std::cout << "matStack->pop_matrix();\n";
+    matStack->pop_matrix();
     matStack->print_ctm();
 
     std::cout << "matStack->initialize();\n";
@@ -342,16 +342,16 @@ TEST_F(MatrixStackTest, PrintAll) {
     matStack->translate(1.5,2.5,3.5);
     matStack->print_ctm();
 
-    std::cout << "matStack->initialize();\nmatStack->scale(2,2,2);\nmatStack->pushMatrix();\nmatStack->translate(1.5,2.5,3.5);\nmatStack->popMatrix();\n";
+    std::cout << "matStack->initialize();\nmatStack->scale(2,2,2);\nmatStack->push_matrix();\nmatStack->translate(1.5,2.5,3.5);\nmatStack->pop_matrix();\n";
     matStack->initialize();
     matStack->scale(2,2,2);
-    matStack->pushMatrix();
+    matStack->push_matrix();
     matStack->translate(1.5,2.5,3.5);
-    matStack->popMatrix();
+    matStack->pop_matrix();
     matStack->print_ctm();
 
-    std::cout << "matStack->initialize();\nmatStack->popMatrix();\nmatStack->popMatrix();\n";
+    std::cout << "matStack->initialize();\nmatStack->pop_matrix();\nmatStack->pop_matrix();\n";
     matStack->initialize();
-    matStack->popMatrix();
-    matStack->popMatrix();
+    matStack->pop_matrix();
+    matStack->pop_matrix();
 }

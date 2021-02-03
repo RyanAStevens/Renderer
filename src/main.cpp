@@ -6,6 +6,10 @@
 #define HEIGHT 480
 
 int main(int argc, char *argv[]) {
+    printf("~~~~~~~~~~~~~~~~~~~~begin main~~~~~~~~~~~~~~~~~~~~\n");
+    Matrix A(4);
+    Matrix B(1);
+    Matrix C(1);
     SDL_Window *win = NULL;
     SDL_Renderer *renderer = NULL;
     int posX = 100, posY = 100;
@@ -17,20 +21,25 @@ int main(int argc, char *argv[]) {
 
     win = SDL_CreateWindow("Hello, There!!!", posX, posY, WIDTH, HEIGHT, 0);
 
+    printf("main 5\n");
     renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
+    printf("main 6\n");
 
     //make the window black
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	
+    printf("main 7\n");
     SDL_Texture * texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC, WIDTH, HEIGHT); 
+    printf("main 8\n");
 
     //create Graphics Library object
     GraphicsLib gl = GraphicsLib(PERSPECTIVE, WIDTH, HEIGHT);
+    printf("main 9\n");
 
     gl.set_background_color(Color(0, 0, 255));
+    printf("main 10\n");
 	
-	while (!quit)
-
+	 while (!quit)
 	 {
 	     SDL_WaitEvent(&event);
 
@@ -59,8 +68,29 @@ int main(int argc, char *argv[]) {
 				    gl.faces();
 				    break;
 			    case SDLK_6:
-				    printf("onKeyDown calling ortho_cube\n");
-				    gl.ortho_cube();
+				    printf("case SDLK_6:\n");
+                    A[0][0] = 1.0;
+                    A[1][1] = 1.0;
+                    A[2][2] = 1.0;
+                    A[3][3] = 1.0;
+                    
+                    B[0][0] = 1.0;
+                    B[0][1] = 2.0;
+                    B[0][2] = 3.0;
+                    B[0][3] = 4.0;
+
+				    printf("before A.print();\n");
+                    A.print();
+				    printf("before B.print();\n");
+                    B.print();
+				    printf("before C = A*B;\n");
+                    (A*B).print();
+                   // C = A*B;
+				   //printf("before C.print();\n");
+                   // C.print();
+				    printf("exiting case SDLK_6:\n");
+
+				    //gl.ortho_cube();
 				    break;
 			    case SDLK_7:
 				    printf("onKeyDown calling ortho_cube2\n");
@@ -95,11 +125,15 @@ int main(int argc, char *argv[]) {
         SDL_RenderCopy(renderer, texture, NULL, NULL);
         SDL_RenderPresent(renderer);
 	 }
+    
+    printf("shite 1\n");
 
     SDL_DestroyWindow(win);
+    printf("shite 2\n");
     SDL_DestroyRenderer(renderer);
+    printf("shite 3\n");
 
     SDL_Quit();
-
+    printf("~~~~~~~~~~~~~~~~~~~~end main~~~~~~~~~~~~~~~~~~~~\n");
     return 0;
 }

@@ -40,12 +40,12 @@ public:
     void ortho_cube2();
     void persp_cube();
     void persp_multi_cubes();
-    uint32_t* image;
     uint32_t width;
     uint32_t height;
     uint32_t n_pixels;
-    std::vector<Matrix>* vertices;
-    MatrixStack* matrix_stack;
+    uint32_t* image;
+    std::vector<Matrix> vertices;
+    MatrixStack matrix_stack;
     Projection* projection;
 };
 

@@ -12,15 +12,14 @@ GraphicsLib::GraphicsLib()
     printf("hello from GraphicsLib constructor\n");
 }
 
-GraphicsLib::GraphicsLib(p_mode_t draw_mode, int width, int height)
+GraphicsLib::GraphicsLib(p_mode_t draw_mode, int w, int h)
 {
             printf("hello from GraphicsLib(p_mode_t draw_mode, int width, int height) constructor\n");
-            width = width;
-            height = height;
-            n_pixels = width * height;
+            width = w;
+            height = h;
+            n_pixels = w * h;
+            printf("w %d, h %d, n_pix %d\n", width, height, n_pixels);
             image = new uint32_t[n_pixels];
-            vertices = new std::vector<Matrix>;
-            matrix_stack = new MatrixStack;
             switch(draw_mode)
             {
                 case ORTHOGRAPHIC:
@@ -37,7 +36,12 @@ GraphicsLib::GraphicsLib(p_mode_t draw_mode, int width, int height)
 GraphicsLib::~GraphicsLib()
 {
     printf("hello from GraphicsLib destructor\n");
+    /*
     delete[] image;
+    delete vertices;
+    delete matrix_stack;
+    delete projection;
+    */
 }
 
 void GraphicsLib::set_orthographic(double left, double right, double bottom, double top, double near, double far)
@@ -61,12 +65,18 @@ void GraphicsLib::set_perspective(double fov, double near, double far)
 
 void GraphicsLib::set_background_color(Color c)
 {
+    printf("hello from GraphicsLib::set_background_color(Color c)\n");
     uint32_t pixel_color = uint8_t(c.r * 255) << RED_SHIFT & uint8_t(c.g * 255) << GREEN_SHIFT & uint8_t(c.b * 255);
-
+    printf("hello2 from GraphicsLib::set_background_color(Color c)\n");
+    
+    printf("NULL == image: %d\n", NULL == image);
+    printf("height: %d width: %d w*h = %d\n", height, width, height * width);
 	for (uint32_t i = 0; i < height * width; i++)
 	{
+    //    printf("accessing image[%d]\n", i);
         image[i] = pixel_color;
 	}
+    printf("goodbye from GraphicsLib::set_background_color(Color c)\n");
 }
 
 void GraphicsLib::plot_point(uint32_t x, uint32_t y, Color c)
@@ -171,7 +181,7 @@ void GraphicsLib::draw_triangle(Vector2 point_a, Color color_a, Vector2 point_b,
 void GraphicsLib::begin_shape()
 {
     //initialize point array
-    vertices->clear();
+    vertices.clear();
 }
 
 void GraphicsLib::end_shape()
@@ -181,15 +191,15 @@ void GraphicsLib::end_shape()
     Matrix vert1(0,0,0);
     Matrix vert2(0,0,0);
     //draw the shape
-    for(int i = 0; i < vertices->size(); i += 2)
+    for(int i = 0; i < vertices.size(); i += 2)
     {
         printf("i = %d\n", i);
         //perform transformation
-        vert1 = (*vertices)[i];
-        vert2 = (*vertices)[i+1];
+        vert1 = vertices[i];
+        vert2 = vertices[i+1];
         printf("before transform: vert1[2][0]: %f, vert2[2][0]: %f\n", vert1[2][0], vert2[2][0]);
-        matrix_stack->initialize();
-        transform = matrix_stack->get_ctm();
+        matrix_stack.initialize();
+        transform = matrix_stack.get_ctm();
         vert1 = transform*vert1;
         vert2 = transform*vert2;
         printf("after transform: vert1[2][0]: %f, vert2[2][0]: %f\n", vert1[2][0], vert2[2][0]);
@@ -253,7 +263,7 @@ void GraphicsLib::end_shape()
 void GraphicsLib::add_vertex(double x_in, double y_in, double z_in)
 {
     Matrix v(x_in, y_in, z_in);
-    vertices->push_back(v);
+    vertices.push_back(v);
 }
 
 // unit radius cirle
@@ -357,39 +367,39 @@ void GraphicsLib::face()
 {
     printf("hello from face\n");
     // head
-    matrix_stack->push_matrix();
-    matrix_stack->translate (0.5, 0.5, 0);
-    matrix_stack->scale (0.4, 0.4, 1.0);
+    matrix_stack.push_matrix();
+    matrix_stack.translate (0.5, 0.5, 0);
+    matrix_stack.scale (0.4, 0.4, 1.0);
     circle();
-    matrix_stack->pop_matrix();
+    matrix_stack.pop_matrix();
 
     // right eye
-    matrix_stack->push_matrix();
-    matrix_stack->translate (0.7, 0.7, 0.0);
-    matrix_stack->scale (0.1, 0.1, 1.0);
+    matrix_stack.push_matrix();
+    matrix_stack.translate (0.7, 0.7, 0.0);
+    matrix_stack.scale (0.1, 0.1, 1.0);
     circle();
-    matrix_stack->pop_matrix();
+    matrix_stack.pop_matrix();
 
     // // left eye
-    matrix_stack->push_matrix();
-    matrix_stack->translate (0.3, 0.7, 0.0);
-    matrix_stack->scale (0.1, 0.1, 1.0);
+    matrix_stack.push_matrix();
+    matrix_stack.translate (0.3, 0.7, 0.0);
+    matrix_stack.scale (0.1, 0.1, 1.0);
     circle();
-    matrix_stack->pop_matrix();
+    matrix_stack.pop_matrix();
 
     // nose
-    matrix_stack->push_matrix();
-    matrix_stack->translate (0.5, 0.5, 0.0);
-    matrix_stack->scale (0.07, 0.07, 1.0);
+    matrix_stack.push_matrix();
+    matrix_stack.translate (0.5, 0.5, 0.0);
+    matrix_stack.scale (0.07, 0.07, 1.0);
     circle();
-    matrix_stack->pop_matrix();
+    matrix_stack.pop_matrix();
 
     // mouth
-    matrix_stack->push_matrix();
-    matrix_stack->translate (0.5, 0.25, 0.0);
-    matrix_stack->scale (0.2, 0.1, 1.0);
+    matrix_stack.push_matrix();
+    matrix_stack.translate (0.5, 0.25, 0.0);
+    matrix_stack.scale (0.2, 0.1, 1.0);
     circle();
-    matrix_stack->pop_matrix();
+    matrix_stack.pop_matrix();
     printf("goodbye from face\n");
 }
 
@@ -397,51 +407,51 @@ void GraphicsLib::face()
 void GraphicsLib::faces()
 {
     printf("hello from faces\n");
-    matrix_stack->initialize ();
+    matrix_stack.initialize ();
     
     set_orthographic (0, 1, 0, 1, -1, 1);
     
-    matrix_stack->push_matrix();
-    matrix_stack->translate (0.75, 0.25, 0.0);
-    matrix_stack->scale (0.5, 0.5, 1.0);
-    matrix_stack->translate (-0.5, -0.5, 0.0);
+    matrix_stack.push_matrix();
+    matrix_stack.translate (0.75, 0.25, 0.0);
+    matrix_stack.scale (0.5, 0.5, 1.0);
+    matrix_stack.translate (-0.5, -0.5, 0.0);
     face();
-    matrix_stack->pop_matrix();
+    matrix_stack.pop_matrix();
     
-    matrix_stack->push_matrix();
-    matrix_stack->translate (0.25, 0.25, 0.0);
-    matrix_stack->scale (0.5, 0.5, 1.0);
-    matrix_stack->translate (-0.5, -0.5, 0.0);
+    matrix_stack.push_matrix();
+    matrix_stack.translate (0.25, 0.25, 0.0);
+    matrix_stack.scale (0.5, 0.5, 1.0);
+    matrix_stack.translate (-0.5, -0.5, 0.0);
     face();
-    matrix_stack->pop_matrix();
+    matrix_stack.pop_matrix();
     
-    matrix_stack->push_matrix();
-    matrix_stack->translate (0.75, 0.75, 0.0);
-    matrix_stack->scale (0.5, 0.5, 1.0);
-    matrix_stack->translate (-0.5, -0.5, 0.0);
+    matrix_stack.push_matrix();
+    matrix_stack.translate (0.75, 0.75, 0.0);
+    matrix_stack.scale (0.5, 0.5, 1.0);
+    matrix_stack.translate (-0.5, -0.5, 0.0);
     face();
-    matrix_stack->pop_matrix();
+    matrix_stack.pop_matrix();
     
-    matrix_stack->push_matrix();
-    matrix_stack->translate (0.25, 0.75, 0.0);
-    matrix_stack->scale (0.5, 0.5, 1.0);
-    matrix_stack->rotate_z (30);
-    matrix_stack->translate (-0.5, -0.5, 0.0);
+    matrix_stack.push_matrix();
+    matrix_stack.translate (0.25, 0.75, 0.0);
+    matrix_stack.scale (0.5, 0.5, 1.0);
+    matrix_stack.rotate_z (30);
+    matrix_stack.translate (-0.5, -0.5, 0.0);
     face();
-    matrix_stack->pop_matrix();
+    matrix_stack.pop_matrix();
     printf("goodbye from faces\n");
 } 
 
 void GraphicsLib::persp_initials()
 {
     printf("hello from persp_initials\n");
-    matrix_stack->initialize();
+    matrix_stack.initialize();
     set_perspective (60, -100, 100);
-    matrix_stack->push_matrix();
-    matrix_stack->translate(0, 0, -4);
-    matrix_stack->rotate_z(-45);
-    matrix_stack->rotate_x(-45);
-    matrix_stack->rotate_y(-45);
+    matrix_stack.push_matrix();
+    matrix_stack.translate(0, 0, -4);
+    matrix_stack.rotate_z(-45);
+    matrix_stack.rotate_x(-45);
+    matrix_stack.rotate_y(-45);
 
     begin_shape();
 
@@ -481,14 +491,14 @@ void GraphicsLib::persp_initials()
     add_vertex(0.2, -1, 0);
 
     end_shape();
-    matrix_stack->pop_matrix();
+    matrix_stack.pop_matrix();
     printf("goodbye from persp_initials\n");
 }
 
 void GraphicsLib::face_test()
 {
     printf("hello from face_test\n");
-    matrix_stack->initialize();
+    matrix_stack.initialize();
     set_orthographic (0, 1, 0, 1, -1, 1);
     face();
     printf("goodbye from face_test\n");
@@ -497,7 +507,7 @@ void GraphicsLib::face_test()
 void GraphicsLib::ortho_test()
 {
     printf("hello from ortho_test\n");
-    matrix_stack->initialize();
+    matrix_stack.initialize();
     set_orthographic (-100, 100, -100, 100, -100, 100);
     square();
     printf("goodbye from ortho_test\n");
@@ -506,8 +516,8 @@ void GraphicsLib::ortho_test()
 void GraphicsLib::ortho_test_scale()
 {
     printf("hello from ortho_test_scale\n");
-    matrix_stack->initialize();
-    matrix_stack->scale(1,0.5,1);
+    matrix_stack.initialize();
+    matrix_stack.scale(1,0.5,1);
     set_orthographic (-100, 100, -100, 100, -100, 100);
     square();
     printf("goodbye from ortho_test_scale\n");
@@ -516,8 +526,8 @@ void GraphicsLib::ortho_test_scale()
 void GraphicsLib::ortho_test_rotate()
 {
     printf("hello from ortho_test_rotate\n");
-    matrix_stack->initialize();
-    matrix_stack->rotate_z(20);
+    matrix_stack.initialize();
+    matrix_stack.rotate_z(20);
     set_orthographic (-100, 100, -100, 100, -100, 100);
     square();
     printf("goodbye from ortho_test_rotate\n");
@@ -526,74 +536,74 @@ void GraphicsLib::ortho_test_rotate()
 void GraphicsLib::ortho_cube()
 {
     printf("hello from ortho_cube\n");
-    matrix_stack->initialize();
+    matrix_stack.initialize();
     printf("ortho_cube 1\n");
     set_orthographic (-2, 2, -2, 2, -2, 2);
     printf("ortho_cube 2\n");
-    matrix_stack->push_matrix();
+    matrix_stack.push_matrix();
     printf("ortho_cube 3\n");
-    matrix_stack->rotate_y(17);
+    matrix_stack.rotate_y(17);
     printf("ortho_cube 4\n");
     cube();
     printf("ortho_cube 5\n");
-    matrix_stack->pop_matrix();
+    matrix_stack.pop_matrix();
     printf("goodbye from ortho_cube\n");
 }
 
 void GraphicsLib::ortho_cube2()
 {
     printf("hello from ortho_cube2\n");
-    matrix_stack->initialize();
+    matrix_stack.initialize();
     set_orthographic (-2, 2, -2, 2, -2, 2);
-    matrix_stack->push_matrix();
-    matrix_stack->rotate_z(5);
-    matrix_stack->rotate_x(25);
-    matrix_stack->rotate_y(20);
+    matrix_stack.push_matrix();
+    matrix_stack.rotate_z(5);
+    matrix_stack.rotate_x(25);
+    matrix_stack.rotate_y(20);
     cube();
-    matrix_stack->pop_matrix();
+    matrix_stack.pop_matrix();
     printf("goodbye from ortho_cube2\n");
 }
 
 void GraphicsLib::persp_cube()
 {
     printf("hello from persp_cube\n");
-    matrix_stack->initialize();
+    matrix_stack.initialize();
     set_perspective (60, -100, 100);
-    matrix_stack->push_matrix();
-    matrix_stack->translate(0, 0, -4);
+    matrix_stack.push_matrix();
+    matrix_stack.translate(0, 0, -4);
     cube();
-    matrix_stack->pop_matrix();
+    matrix_stack.pop_matrix();
     printf("goodbye from persp_cube\n");
 }
 
 void GraphicsLib::persp_multi_cubes()
 {
     printf("hello from persp_multi_cubes\n");
-    matrix_stack->initialize();
+    matrix_stack.initialize();
     set_perspective (60, -100, 100);
-    matrix_stack->push_matrix();
-    matrix_stack->translate(0, 0, -20);
-    matrix_stack->rotate_z(5);
-    matrix_stack->rotate_x(25);
-    matrix_stack->rotate_y(20);
+    matrix_stack.push_matrix();
+    matrix_stack.translate(0, 0, -20);
+    matrix_stack.rotate_z(5);
+    matrix_stack.rotate_x(25);
+    matrix_stack.rotate_y(20);
     
     // draw several cubes in three lines (x, y, z)
     for(int delta = -12; delta <= 13; delta += 3)
     {
-        matrix_stack->push_matrix();
-        matrix_stack->translate(delta, 0, 0);
+        matrix_stack.push_matrix();
+        matrix_stack.translate(delta, 0, 0);
         cube();
-        matrix_stack->pop_matrix();
-        matrix_stack->push_matrix();
-        matrix_stack->translate(0, delta, 0);
+        matrix_stack.pop_matrix();
+        matrix_stack.push_matrix();
+        matrix_stack.translate(0, delta, 0);
         cube();
-        matrix_stack->pop_matrix();
-        matrix_stack->push_matrix();
-        matrix_stack->translate(0, 0, delta);
+        matrix_stack.pop_matrix();
+        matrix_stack.push_matrix();
+        matrix_stack.translate(0, 0, delta);
         cube();
-        matrix_stack->pop_matrix();
+        matrix_stack.pop_matrix();
     }    
 
-    matrix_stack->pop_matrix();
+    matrix_stack.pop_matrix();
     printf("goodbye from persp_multi_cubes\n");
 }

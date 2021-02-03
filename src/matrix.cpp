@@ -20,8 +20,8 @@ Matrix::Matrix()
     data = new std::vector<Vector3H>;
     for(int i = 0; i < 4; i++)
     {
-        Vector3H row;
-        data->push_back(row);
+        Vector3H column;
+        data->push_back(column);
     }
     (*data)[0][0] = 1.0;
     (*data)[1][1] = 1.0;
@@ -30,16 +30,16 @@ Matrix::Matrix()
     printf("goodbye from default Matrix constructor\n");
 }
 
-Matrix::Matrix(int num_rows)
+Matrix::Matrix(int n_columns)
 {
     printf("hello from Matrix(int num_rows)\n");
    
     data = new std::vector<Vector3H>;
     
-    for(int i = 0; i < num_rows; i++)
+    for(int i = 0; i < n_columns; i++)
     {
-        Vector3H row;
-        data->push_back(row);
+        Vector3H column;
+        data->push_back(column);
     }
 }
 
@@ -54,8 +54,8 @@ Matrix::Matrix(matrix_constructor_t id)
         case IDENTITY:
             for(int i = 0; i < 4; i++)
             {
-                Vector3H row;
-                data->push_back(row);
+                Vector3H column;
+                data->push_back(column);
             }
             (*data)[0][0] = 1.0;
             (*data)[1][1] = 1.0;
@@ -68,14 +68,26 @@ Matrix::Matrix(matrix_constructor_t id)
     
 }
 
+Matrix::Matrix(Vector3H r0, Vector3H r1, Vector3H r2, Vector3H r3)
+{
+    printf("hello from Matrix(Vector3H) constructor\n");
+    
+    data = new std::vector<Vector3H>;
+   
+    data->push_back(r0);
+    data->push_back(r1);
+    data->push_back(r2);
+    data->push_back(r3);
+}
+
 Matrix::Matrix(double x_in, double y_in, double z_in)
 {
     data = new std::vector<Vector3H>;
     
     for(int i = 0; i < 4; i++)
     {
-        Vector3H row;
-        data->push_back(row);
+        Vector3H column;
+        data->push_back(column);
     }
     
     (*data)[0][0] = x_in;
@@ -86,66 +98,75 @@ Matrix::Matrix(double x_in, double y_in, double z_in)
 
 Matrix::~Matrix()
 {
+    printf("hello from Matrix destructor\n");
+//    if(NULL != data) delete data;
 }
 
 void Matrix::print()
 {
-    std::vector<Vector3H>::iterator row;
-    for(row = data->begin(); row != data->end(); ++row)
+    printf("hello from Matrix::print()\n");
+    printf("data->size(): %lu\n", data->size());
+    printf("Z\n");
+    for(int column = 0; column < data->size(); column++)
     {   
         printf("| ");
-        for(int col = 0; col < 4; col++)
+        for(int row = 0; row < 4; row++)
         {
-            printf("%5.2f ", (*row)[col]);
+            printf("%5.2f ", (*data)[column][row]);
         }
         printf("|\n");
     }
+    printf("goodbye from Matrix::print()\n\n\n\n");
 }
 
-Matrix Matrix::operator=(Matrix rhs)
+Matrix& Matrix::operator=(Matrix rhs)
 {
-    std::vector<Vector3H>::iterator it_i_orig;
-    std::vector<Vector3H>::iterator it_i_dest;
-    for(it_i_orig = rhs.data->begin(), it_i_dest = data->begin(); (it_i_orig != rhs.data->end()) || (it_i_dest != data->end()); ++it_i_orig, ++it_i_dest)
+    if(rhs.data->size() == data->size())
     {
-        for(int col = 0; col < 4; col++)
-        {
-            (*it_i_dest)[col] = (*it_i_orig)[col];
-        }
+            std::vector<Vector3H>::iterator it_i_orig;
+            std::vector<Vector3H>::iterator it_i_dest;
+            for(it_i_orig = rhs.data->begin(), it_i_dest = data->begin(); (it_i_orig != rhs.data->end()) || (it_i_dest != data->end()); ++it_i_orig, ++it_i_dest)
+            {
+                for(int row = 0; row < 4; row++)
+                {
+                    (*it_i_dest)[row] = (*it_i_orig)[row];
+                }
+            }
+    }
+    else
+    {
+        printf("ERROR: cannot assign. matrix size mismatch\n");
     }
 
+    printf("operator=: exit\n");
 	return *this;
 }
 
 Matrix Matrix::operator*(Matrix rhs)
 {
     //A(l x m) * B(m x n) = C(l x n)
-    int l = data->size();
-    int n = 4;
-    int m = rhs.data->size();
+    int l = 4;
+    int n = rhs.data->size();
+    int m = 4;
 
     //initialize the return matrix
-    Matrix ret(l);
+    Matrix ret(n);
     
-    //check for proper input
-    if(4 != m)
-    {
-        printf("Error: Number of columns in A must match number of rows in B");
-        return ret;
-    }
         float sum = 0;
-        for(int row = 0; row < l; row++)
+        for(int column = 0; column < l; column++)
         {
-           for(int col = 0; col < n; col++)
+           for(int row = 0; row < n; row++)
            {
                sum = 0;
                for(int i = 0; i < m; i++)
                {
-                   sum += (*data)[row][i] * (*rhs.data)[i][col];
+                   sum += (*data)[column][i] * (*rhs.data)[i][row];
                }
-               (*ret.data)[row][col] = sum;
+               (*ret.data)[column][row] = sum;
            }
         }
+        ret.print();
+    printf("operator*: exit\n");
         return ret;
 }
 

@@ -1,8 +1,8 @@
 #ifndef MATRIX_STACK_H_
 #define MATRIX_STACK_H_
 
-#include <matrix.h>
 #include <stack>
+#include <matrix.h>
 
 //class MatrixStack : public std::stack {
 class MatrixStack {
