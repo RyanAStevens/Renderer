@@ -315,6 +315,7 @@ void GraphicsLib::cube()
 {
     printf("hello from cube\n");
     begin_shape();
+    printf("cube: 1\n");
     
     // top square
     
@@ -358,6 +359,7 @@ void GraphicsLib::cube()
     add_vertex ( 1.0, -1.0, -1.0);
     add_vertex ( 1.0, -1.0,  1.0);
    
+    printf("cube: 2\n");
     end_shape();
     printf("goodbye from cube\n");
 }

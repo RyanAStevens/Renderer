@@ -1,4 +1,5 @@
 #include <transform_matrix.h>
+#include <cstdio>
 
 TransformMatrix::TransformMatrix() : Matrix(IDENTITY)
 {

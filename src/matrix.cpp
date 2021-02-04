@@ -98,7 +98,6 @@ Matrix::Matrix(double x_in, double y_in, double z_in)
 
 Matrix::~Matrix()
 {
-    printf("hello from Matrix destructor\n");
 //    if(NULL != data) delete data;
 }
 
@@ -138,7 +137,6 @@ Matrix& Matrix::operator=(Matrix rhs)
         printf("ERROR: cannot assign. matrix size mismatch\n");
     }
 
-    printf("operator=: exit\n");
 	return *this;
 }
 
@@ -165,8 +163,6 @@ Matrix Matrix::operator*(Matrix rhs)
                (*ret.data)[column][row] = sum;
            }
         }
-        ret.print();
-    printf("operator*: exit\n");
         return ret;
 }
 

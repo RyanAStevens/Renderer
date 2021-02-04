@@ -68,29 +68,8 @@ int main(int argc, char *argv[]) {
 				    gl.faces();
 				    break;
 			    case SDLK_6:
-				    printf("case SDLK_6:\n");
-                    A[0][0] = 1.0;
-                    A[1][1] = 1.0;
-                    A[2][2] = 1.0;
-                    A[3][3] = 1.0;
-                    
-                    B[0][0] = 1.0;
-                    B[0][1] = 2.0;
-                    B[0][2] = 3.0;
-                    B[0][3] = 4.0;
-
-				    printf("before A.print();\n");
-                    A.print();
-				    printf("before B.print();\n");
-                    B.print();
-				    printf("before C = A*B;\n");
-                    (A*B).print();
-                   // C = A*B;
-				   //printf("before C.print();\n");
-                   // C.print();
-				    printf("exiting case SDLK_6:\n");
-
-				    //gl.ortho_cube();
+				    printf("ortho_cube\n");
+				    gl.ortho_cube();
 				    break;
 			    case SDLK_7:
 				    printf("onKeyDown calling ortho_cube2\n");

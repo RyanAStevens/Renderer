@@ -7,8 +7,6 @@ CXXFLAGS= -I$(INC_DIR) -I/usr/local/include/SDL2
 LIBS= -L/usr/local/lib -lSDL2
 CXX=g++
 
-#Why arent you being added to git???!?!?!?!??!
-
 $(TARGET):$(OBJECTS)
 	$(CXX) main.cpp -ggdb -o $@ $^ $(CXXFLAGS) $(LIBS)
 
