@@ -286,7 +286,7 @@ TEST_F(MatrixStackTest, InitPop) {
     matStack->initialize();
     EXPECT_EQ(matStack->pop_matrix(), 0);
 }
-
+/*
 TEST_F(MatrixStackTest, PrintAll) {
     std::cout << "matStack->initialize();\n";
     matStack->initialize();
@@ -355,3 +355,4 @@ TEST_F(MatrixStackTest, PrintAll) {
     matStack->pop_matrix();
     matStack->pop_matrix();
 }
+*/

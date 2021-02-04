@@ -169,6 +169,33 @@ Users/ryan/Renderer/src/color.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/runTests.dir/build.make CMakeFiles/runTests.dir/Users/ryan/Renderer/src/color.cpp.s
 .PHONY : Users/ryan/Renderer/src/color.cpp.s
 
+Users/ryan/Renderer/src/graphics_lib.o: Users/ryan/Renderer/src/graphics_lib.cpp.o
+
+.PHONY : Users/ryan/Renderer/src/graphics_lib.o
+
+# target to build an object file
+Users/ryan/Renderer/src/graphics_lib.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/runTests.dir/build.make CMakeFiles/runTests.dir/Users/ryan/Renderer/src/graphics_lib.cpp.o
+.PHONY : Users/ryan/Renderer/src/graphics_lib.cpp.o
+
+Users/ryan/Renderer/src/graphics_lib.i: Users/ryan/Renderer/src/graphics_lib.cpp.i
+
+.PHONY : Users/ryan/Renderer/src/graphics_lib.i
+
+# target to preprocess a source file
+Users/ryan/Renderer/src/graphics_lib.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/runTests.dir/build.make CMakeFiles/runTests.dir/Users/ryan/Renderer/src/graphics_lib.cpp.i
+.PHONY : Users/ryan/Renderer/src/graphics_lib.cpp.i
+
+Users/ryan/Renderer/src/graphics_lib.s: Users/ryan/Renderer/src/graphics_lib.cpp.s
+
+.PHONY : Users/ryan/Renderer/src/graphics_lib.s
+
+# target to generate assembly for a file
+Users/ryan/Renderer/src/graphics_lib.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/runTests.dir/build.make CMakeFiles/runTests.dir/Users/ryan/Renderer/src/graphics_lib.cpp.s
+.PHONY : Users/ryan/Renderer/src/graphics_lib.cpp.s
+
 Users/ryan/Renderer/src/matrix.o: Users/ryan/Renderer/src/matrix.cpp.o
 
 .PHONY : Users/ryan/Renderer/src/matrix.o
@@ -222,6 +249,33 @@ Users/ryan/Renderer/src/matrix_stack.s: Users/ryan/Renderer/src/matrix_stack.cpp
 Users/ryan/Renderer/src/matrix_stack.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/runTests.dir/build.make CMakeFiles/runTests.dir/Users/ryan/Renderer/src/matrix_stack.cpp.s
 .PHONY : Users/ryan/Renderer/src/matrix_stack.cpp.s
+
+Users/ryan/Renderer/src/projection.o: Users/ryan/Renderer/src/projection.cpp.o
+
+.PHONY : Users/ryan/Renderer/src/projection.o
+
+# target to build an object file
+Users/ryan/Renderer/src/projection.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/runTests.dir/build.make CMakeFiles/runTests.dir/Users/ryan/Renderer/src/projection.cpp.o
+.PHONY : Users/ryan/Renderer/src/projection.cpp.o
+
+Users/ryan/Renderer/src/projection.i: Users/ryan/Renderer/src/projection.cpp.i
+
+.PHONY : Users/ryan/Renderer/src/projection.i
+
+# target to preprocess a source file
+Users/ryan/Renderer/src/projection.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/runTests.dir/build.make CMakeFiles/runTests.dir/Users/ryan/Renderer/src/projection.cpp.i
+.PHONY : Users/ryan/Renderer/src/projection.cpp.i
+
+Users/ryan/Renderer/src/projection.s: Users/ryan/Renderer/src/projection.cpp.s
+
+.PHONY : Users/ryan/Renderer/src/projection.s
+
+# target to generate assembly for a file
+Users/ryan/Renderer/src/projection.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/runTests.dir/build.make CMakeFiles/runTests.dir/Users/ryan/Renderer/src/projection.cpp.s
+.PHONY : Users/ryan/Renderer/src/projection.cpp.s
 
 Users/ryan/Renderer/src/vector2.o: Users/ryan/Renderer/src/vector2.cpp.o
 
@@ -358,6 +412,33 @@ test_src/color_test.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/runTests.dir/build.make CMakeFiles/runTests.dir/test_src/color_test.cpp.s
 .PHONY : test_src/color_test.cpp.s
 
+test_src/graphics_lib_test.o: test_src/graphics_lib_test.cpp.o
+
+.PHONY : test_src/graphics_lib_test.o
+
+# target to build an object file
+test_src/graphics_lib_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/runTests.dir/build.make CMakeFiles/runTests.dir/test_src/graphics_lib_test.cpp.o
+.PHONY : test_src/graphics_lib_test.cpp.o
+
+test_src/graphics_lib_test.i: test_src/graphics_lib_test.cpp.i
+
+.PHONY : test_src/graphics_lib_test.i
+
+# target to preprocess a source file
+test_src/graphics_lib_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/runTests.dir/build.make CMakeFiles/runTests.dir/test_src/graphics_lib_test.cpp.i
+.PHONY : test_src/graphics_lib_test.cpp.i
+
+test_src/graphics_lib_test.s: test_src/graphics_lib_test.cpp.s
+
+.PHONY : test_src/graphics_lib_test.s
+
+# target to generate assembly for a file
+test_src/graphics_lib_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/runTests.dir/build.make CMakeFiles/runTests.dir/test_src/graphics_lib_test.cpp.s
+.PHONY : test_src/graphics_lib_test.cpp.s
+
 test_src/matrix_stack_test.o: test_src/matrix_stack_test.cpp.o
 
 .PHONY : test_src/matrix_stack_test.o
@@ -478,12 +559,18 @@ help:
 	@echo "... Users/ryan/Renderer/src/color.o"
 	@echo "... Users/ryan/Renderer/src/color.i"
 	@echo "... Users/ryan/Renderer/src/color.s"
+	@echo "... Users/ryan/Renderer/src/graphics_lib.o"
+	@echo "... Users/ryan/Renderer/src/graphics_lib.i"
+	@echo "... Users/ryan/Renderer/src/graphics_lib.s"
 	@echo "... Users/ryan/Renderer/src/matrix.o"
 	@echo "... Users/ryan/Renderer/src/matrix.i"
 	@echo "... Users/ryan/Renderer/src/matrix.s"
 	@echo "... Users/ryan/Renderer/src/matrix_stack.o"
 	@echo "... Users/ryan/Renderer/src/matrix_stack.i"
 	@echo "... Users/ryan/Renderer/src/matrix_stack.s"
+	@echo "... Users/ryan/Renderer/src/projection.o"
+	@echo "... Users/ryan/Renderer/src/projection.i"
+	@echo "... Users/ryan/Renderer/src/projection.s"
 	@echo "... Users/ryan/Renderer/src/vector2.o"
 	@echo "... Users/ryan/Renderer/src/vector2.i"
 	@echo "... Users/ryan/Renderer/src/vector2.s"
@@ -499,6 +586,9 @@ help:
 	@echo "... test_src/color_test.o"
 	@echo "... test_src/color_test.i"
 	@echo "... test_src/color_test.s"
+	@echo "... test_src/graphics_lib_test.o"
+	@echo "... test_src/graphics_lib_test.i"
+	@echo "... test_src/graphics_lib_test.s"
 	@echo "... test_src/matrix_stack_test.o"
 	@echo "... test_src/matrix_stack_test.i"
 	@echo "... test_src/matrix_stack_test.s"

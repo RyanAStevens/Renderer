@@ -81,7 +81,6 @@ void GraphicsLib::set_background_color(Color c)
 
 void GraphicsLib::plot_point(uint32_t x, uint32_t y, Color c)
 {
-    sleep(1);
 	uint32_t index = (x * width) + y;
     uint32_t pixel_color = uint8_t(c.r * 255) << RED_SHIFT & uint8_t(c.g * 255) << GREEN_SHIFT & uint8_t(c.b * 255);
 	
@@ -98,14 +97,17 @@ void GraphicsLib::plot_point(uint32_t x, uint32_t y, Color c)
 
 void GraphicsLib::draw_line(uint32_t x0, uint32_t y0, uint32_t x1, uint32_t y1)
 {   
+    printf("draw_line hello\n");
     float x_f = 0;
     float y_f = 0;
     float t = 0.0f;
     //calculate slope
     float m = float(y1 - y0) / float(x1 - x0);
+    printf("draw_line: 1\n");
 
         if(x1 < x0 || y1 < y0)
         {
+    printf("draw_line: 1.5\n");
             int x1_tmp = x1;
             int y1_tmp = y1;
             x1 = x0;
@@ -114,10 +116,14 @@ void GraphicsLib::draw_line(uint32_t x0, uint32_t y0, uint32_t x1, uint32_t y1)
             y0 = y1_tmp;
         }
     
+    printf("draw_line: 2\n");
     if(m <= 1 && m >= -1)
     {
+        printf("x0 = %d x1 = %d\n", x0, x1);
+        sleep(5);
         for(int x = x0; x <= x1; x++)
         {
+    printf("draw_line x = %d\n", x);
             t = float(x - x0) / float(x1 - x0); 
             y_f = float(y0) + (float(y1 - y0) * t);
             plot_point(x, int(roundf(y_f)), Color(1.0f, 1.0f, 1.0f));
@@ -127,11 +133,13 @@ void GraphicsLib::draw_line(uint32_t x0, uint32_t y0, uint32_t x1, uint32_t y1)
     {
         for(int y = y0; y <= y1; y++)
         {
+    printf("draw_line y = %d\n", y);
             t = float(y - y0) / float(y1 - y0); 
             x_f = float(x0) + (float(x1 - x0) * t);
             plot_point(int(roundf(x_f)), y, Color(1.0f, 1.0f, 1.0f));
         }
     }
+    printf("draw_line goodbye\n");
 }
 
 void GraphicsLib::draw_triangle(Vector2 point_a, Color color_a, Vector2 point_b, Color color_b, Vector2 point_c, Color color_c)
@@ -254,7 +262,7 @@ void GraphicsLib::end_shape()
             }
         }
         //draw line
-        printf("vert1[0][0]: %f height: %d vert1[1][0]: %f vert2[0][0]: %f height: %d vert2[1][0]: %f\n", vert1[0][0], height, vert1[1][0], vert2[0][0], height, vert2[1][0]);
+        printf("vert1[0][0]: %f vert1[1][0]: %f vert2[0][0]: %f vert2[1][0]: %f height: %d\n", vert1[0][0], vert1[1][0], vert2[0][0], vert2[1][0], height);
         draw_line(vert1[0][0], height - vert1[1][0], vert2[0][0], height - vert2[1][0]);
     }
     printf("goodbye from GraphicsLib::end_shape\n");

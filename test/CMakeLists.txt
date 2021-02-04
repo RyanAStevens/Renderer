@@ -9,6 +9,8 @@ set(CMAKE_CXX_FLAGS "-std=c++11")
 set(GRAPHICS_LIB_SOURCE_DIR "../src/")
 
 set(SOURCES
+    ${GRAPHICS_LIB_SOURCE_DIR}/graphics_lib.cpp
+    ${GRAPHICS_LIB_SOURCE_DIR}/projection.cpp
     ${GRAPHICS_LIB_SOURCE_DIR}/vector2.cpp
     ${GRAPHICS_LIB_SOURCE_DIR}/vector3.cpp
     ${GRAPHICS_LIB_SOURCE_DIR}/matrix_stack.cpp
@@ -23,6 +25,7 @@ set(TEST_SOURCES
     test_src/vector3_test.cpp
     test_src/matrix_test.cpp
     test_src/matrix_stack_test.cpp
+    test_src/graphics_lib_test.cpp
     test_src/color_test.cpp
    )
 

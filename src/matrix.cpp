@@ -16,7 +16,6 @@
 
 Matrix::Matrix()
 {
-    printf("hello from default Matrix constructor\n");
     data = new std::vector<Vector3H>;
     for(int i = 0; i < 4; i++)
     {
@@ -27,12 +26,10 @@ Matrix::Matrix()
     (*data)[1][1] = 1.0;
     (*data)[2][2] = 1.0;
     (*data)[3][3] = 1.0;
-    printf("goodbye from default Matrix constructor\n");
 }
 
 Matrix::Matrix(int n_columns)
 {
-    printf("hello from Matrix(int num_rows)\n");
    
     data = new std::vector<Vector3H>;
     
@@ -45,8 +42,6 @@ Matrix::Matrix(int n_columns)
 
 Matrix::Matrix(matrix_constructor_t id)
 {
-    printf("hello from Matrix(matrix_constructor_t id)\n");
-   
     data = new std::vector<Vector3H>;
     
     switch(id)
@@ -70,8 +65,6 @@ Matrix::Matrix(matrix_constructor_t id)
 
 Matrix::Matrix(Vector3H r0, Vector3H r1, Vector3H r2, Vector3H r3)
 {
-    printf("hello from Matrix(Vector3H) constructor\n");
-    
     data = new std::vector<Vector3H>;
    
     data->push_back(r0);
@@ -103,9 +96,6 @@ Matrix::~Matrix()
 
 void Matrix::print()
 {
-    printf("hello from Matrix::print()\n");
-    printf("data->size(): %lu\n", data->size());
-    printf("Z\n");
     for(int column = 0; column < data->size(); column++)
     {   
         printf("| ");
@@ -115,7 +105,6 @@ void Matrix::print()
         }
         printf("|\n");
     }
-    printf("goodbye from Matrix::print()\n\n\n\n");
 }
 
 Matrix& Matrix::operator=(Matrix rhs)

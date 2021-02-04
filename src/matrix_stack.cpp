@@ -10,13 +10,7 @@ Transformation matrix stack
 
 MatrixStack::MatrixStack()
 {
-    printf("hello from MatrixStack default constructor\n");
-        std::cout << "_stack.size() = " << _stack.size() << std::endl;
-        std::cout << "_stack.empty() = " << _stack.empty() << std::endl;
     _stack.push(Matrix());
-        std::cout << "_stack.size() = " << _stack.size() << std::endl;
-        std::cout << "_stack.empty() = " << _stack.empty() << std::endl;
-    printf("hello from MatrixStack default constructor\n");
 }
 
 MatrixStack::~MatrixStack()
@@ -26,16 +20,12 @@ MatrixStack::~MatrixStack()
 //stack will only have the identity matrix
 void MatrixStack::initialize()
 {   
-    printf("hello from MatrixStack::initialize\n");
     //identity matrix is added on construction
     //,so pop everything down to that
     while(_stack.size() > 1)
     {
-        std::cout << "_stack.size() = " << _stack.size() << std::endl;
-        std::cout << "_stack.empty() = " << _stack.empty() << std::endl;
         _stack.pop();
     }
-    printf("goodbyefrom MatrixStack::initialize\n");
 }
 
 void MatrixStack::print_ctm()
@@ -97,23 +87,14 @@ void MatrixStack::rotate_x(float theta)
 
 void MatrixStack::rotate_y(float theta)
 {
-   printf("hello from MatrixStack::rotate_y\n");
    float thetaRad = theta * CON_RAD;
-   printf("MatrixStack::rotate_y 1\n");
    Matrix tm = Matrix();
-   printf("MatrixStack::rotate_y 2\n");
-
    (*tm.data)[0].components[0] = cos(thetaRad);
-   printf("MatrixStack::rotate_y 3\n");
    (*tm.data)[0].components[2] = sin(thetaRad);
-   printf("MatrixStack::rotate_y 4\n");
    (*tm.data)[2].components[0] = -1*sin(thetaRad);
-   printf("MatrixStack::rotate_y 5\n");
    (*tm.data)[2].components[2] = cos(thetaRad);
-   printf("MatrixStack::rotate_y 6\n");
 
    Matrix result = _stack.top()*tm;
-   printf("MatrixStack::rotate_y 7\n");
    _stack.push(result);
 }
 
