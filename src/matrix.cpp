@@ -77,16 +77,14 @@ Matrix::Matrix(double x_in, double y_in, double z_in)
 {
     data = new std::vector<Vector3H>;
     
-    for(int i = 0; i < 4; i++)
-    {
-        Vector3H column;
-        data->push_back(column);
-    }
-    
-    (*data)[0][0] = x_in;
-    (*data)[1][1] = y_in;
-    (*data)[2][2] = z_in;
-    (*data)[3][3] = 1.0;
+    Vector3H vertex;
+
+    vertex[0] = x_in;
+    vertex[1] = y_in;
+    vertex[2] = z_in;
+    vertex[3] = 1.0;
+
+    data->push_back(vertex);
 }
 
 Matrix::~Matrix()
@@ -132,24 +130,23 @@ Matrix& Matrix::operator=(Matrix rhs)
 Matrix Matrix::operator*(Matrix rhs)
 {
     //A(l x m) * B(m x n) = C(l x n)
-    int l = 4;
-    int n = rhs.data->size();
-    int m = 4;
-
+    int l = (this->data)->size();
+    int m = rhs.data->size();
+    int n = 4;
     //initialize the return matrix
-    Matrix ret(n);
+    Matrix ret(l);
     
         float sum = 0;
-        for(int column = 0; column < l; column++)
+        for(int row = 0; row < l; row++)
         {
-           for(int row = 0; row < n; row++)
+           for(int col = 0; col < n; col++)
            {
                sum = 0;
                for(int i = 0; i < m; i++)
                {
-                   sum += (*data)[column][i] * (*rhs.data)[i][row];
+                   sum += (*data)[row][i] * (*rhs.data)[i][col];
                }
-               (*ret.data)[column][row] = sum;
+               (*ret.data)[row][col] = sum;
            }
         }
         return ret;

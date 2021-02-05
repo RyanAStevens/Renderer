@@ -21,7 +21,7 @@ void GraphicsLibTest::SetUp() {
 void GraphicsLibTest::TearDown() {
 //    std::cout << "hello from google test TearDown().\n";
 }
-/*
+
 TEST_F(GraphicsLibTest, begin_end_shape_line) {
    gl->begin_shape ();
    gl->add_vertex (1, 1, 0);
@@ -31,4 +31,3 @@ TEST_F(GraphicsLibTest, begin_end_shape_line) {
    EXPECT_EQ(0, 0);
     
 }
-*/

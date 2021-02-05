@@ -32,12 +32,10 @@ TEST_F(MatrixTest, MatrixMultiplyOperator) {
         B[0][2] = 3.0;
         B[0][3] = 4.0;
 
-        C = A*B;
-        C.print();
-        /*
-        EXPECT_EQ((C.data)[0][0], 1.0);
-        EXPECT_EQ((C.data)[0][1], 2.0);
-        EXPECT_EQ((C.data)[0][2], 3.0);
-        EXPECT_EQ((C.data)[0][3], 4.0);
-        */
+        C = B*A;
+        
+        EXPECT_EQ(C[0][0], 1.0);
+        EXPECT_EQ(C[0][1], 2.0);
+        EXPECT_EQ(C[0][2], 3.0);
+        EXPECT_EQ(C[0][3], 4.0);
 }

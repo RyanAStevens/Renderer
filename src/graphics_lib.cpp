@@ -205,16 +205,27 @@ void GraphicsLib::end_shape()
         //perform transformation
         vert1 = vertices[i];
         vert2 = vertices[i+1];
-        printf("before transform: vert1[2][0]: %f, vert2[2][0]: %f\n", vert1[2][0], vert2[2][0]);
+        printf("vert1 before transform:\n");
+        vert1.print();
+        printf("vert2 before transform:\n");
+        vert2.print();
         matrix_stack.initialize();
         transform = matrix_stack.get_ctm();
-        vert1 = transform*vert1;
-        vert2 = transform*vert2;
-        printf("after transform: vert1[2][0]: %f, vert2[2][0]: %f\n", vert1[2][0], vert2[2][0]);
+        printf("transform matrix:\n");
+        transform.print();
+        vert1 = vert1*transform;
+        vert2 = vert2*transform;
+        printf("vert1 after transform:\n");
+        vert1.print();
+        printf("vert2 after transform:\n");
+        vert2.print();
+        
+        printf("end_shape: 1\n");
         
         //perform view projection
         if(ORTHOGRAPHIC == projection->mode)
         {
+        printf("end_shape: orthographic projection\n");
             printf("end_shape projection\n");
             printf("vert1[0][0]: %f\n", vert1[0][0]);
             printf("vert1[1][0]: %f\n", vert1[1][0]);
@@ -235,6 +246,7 @@ void GraphicsLib::end_shape()
         }
         else
         { // mode is perspective
+            printf("end_shape: perspective projection\n");
             if(0.0 != projection->fov)
             {
                 double k = tan(projection->fov*M_PI/90.0);
