@@ -89,7 +89,6 @@ Matrix::Matrix(double x_in, double y_in, double z_in)
 
 Matrix::~Matrix()
 {
-//    if(NULL != data) delete data;
 }
 
 void Matrix::print()

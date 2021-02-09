@@ -9,6 +9,12 @@ Projection::Projection() : height(0), width(0)
 Projection::Projection(uint32_t h, uint32_t w) : height(h), width(w) 
 {
     printf("hello from h/w Projection constructor\n");
+    left = -1.0;
+    right = 1.0; 
+    bottom = -1.0;
+    top = 1.0;
+    near = -1.0;
+    far = 1.0;
 }
 
 Orthographic::Orthographic()  
@@ -39,8 +45,6 @@ void Orthographic::project_vertex(Vector3 v)
 {
     v.components[0] = (v.components[0] - left)*(width/(right - left));
     v.components[1] = (v.components[1] - bottom)*(width/(top - bottom));
-    //v.components[0] = (v.components[0] - this->projection.left)*(this->projection.width/(this->projection.right - this->projection.left))
-    //v.components[1] = (v.components[1] - this->projection.bottom)*(this->projection.width/(this->projection.top - this->projection.bottom))
 }
 
 void Perspective::project_vertex(Vector3)
