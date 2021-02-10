@@ -69,7 +69,8 @@ int main(int argc, char *argv[]) {
 				    break;
 			    case SDLK_6:
 				    printf("ortho_cube\n");
-				    gl.ortho_cube();
+                    gl.draw_line(100, 100, 200, 200);
+				   // gl.ortho_cube();
 				    break;
 			    case SDLK_7:
 				    printf("onKeyDown calling ortho_cube2\n");

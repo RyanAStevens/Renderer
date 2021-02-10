@@ -81,9 +81,11 @@ void GraphicsLib::set_background_color(Color c)
 
 void GraphicsLib::plot_point(uint32_t x, uint32_t y, Color c)
 {
-	uint32_t index = (x * width) + y;
+	uint32_t index = (y * width) + x;
+
     uint32_t pixel_color = uint8_t(c.r * 255) << RED_SHIFT & uint8_t(c.g * 255) << GREEN_SHIFT & uint8_t(c.b * 255);
-	
+
+    //printf("plot_point: x = %u y = %u width = %d height = %d index = %u width * height = %d\n", x, y, width, height, index, width * height);
 	//ensure index is within bounds of the image vector
 	if( index >= 0 && index < width * height)
 	{
@@ -102,6 +104,7 @@ void GraphicsLib::draw_line(uint32_t x0, uint32_t y0, uint32_t x1, uint32_t y1)
     float t = 0.0f;
     //calculate slope
 
+    //printf("draw_line x0 = %d x1 = %d y0 = %d y1 = %d\n", x0, x1, y0, y1);
 if(x1 < x0 || y1 < y0)
 {
     int x1_tmp = x1;
@@ -113,12 +116,10 @@ if(x1 < x0 || y1 < y0)
 }
             
     float m = float(y1 - y0) / float(x1 - x0);
-    printf("draw_line x0 = %d x1 = %d y0 = %d y1 = %d m = %f\n", x0, x1, y0, y1, m);
-    
+   // printf("draw_line x0 = %d x1 = %d y0 = %d y1 = %d m = %f\n", x0, x1, y0, y1, m);
     
     if(m <= 1 && m >= -1)
     {
-        sleep(5);
         for(int x = x0; x <= x1; x++)
         {
             t = float(x - x0) / float(x1 - x0); 
@@ -130,7 +131,6 @@ if(x1 < x0 || y1 < y0)
     {
         for(int y = y0; y <= y1; y++)
         {
-            sleep(5);
             t = float(y - y0) / float(y1 - y0); 
             x_f = float(x0) + (float(x1 - x0) * t);
             plot_point(int(roundf(x_f)), y, Color(1.0f, 1.0f, 1.0f));
@@ -177,7 +177,6 @@ void GraphicsLib::draw_triangle(Vector2 point_a, Color color_a, Vector2 point_b,
                 //paint background
                 plot_point(x, y, Color(0.1, 0.2, 0.5));
             }
-
 	    }
 	}
 } 
@@ -207,6 +206,7 @@ void GraphicsLib::end_shape()
         //perform view projection
         if(ORTHOGRAPHIC == projection->mode)
         {
+            printf("GraphicsLib::end_shape mode is ORTHOGRAPHIC\n");
             vert1[0][0] = (vert1[0][0] - projection->left)*(width/(projection->right - projection->left));
             vert1[1][0] = (vert1[1][0] - projection->bottom)*(width/(projection->top - projection->bottom));
             vert1[2][0] = 0;
@@ -216,6 +216,7 @@ void GraphicsLib::end_shape()
         }
         else
         { // mode is perspective
+            printf("GraphicsLib::end_shape mode is perspective\n");
             if(0.0 != projection->fov)
             {
                 double k = tan(projection->fov*M_PI/90.0);
@@ -237,7 +238,7 @@ void GraphicsLib::end_shape()
             }
         }
         //draw line
-       // printf("vert1[0][0]: %f vert1[1][0]: %f vert2[0][0]: %f vert2[1][0]: %f height: %d\n", vert1[0][0], vert1[1][0], vert2[0][0], vert2[1][0], height);
+        printf("vert1[0][0]: %f vert1[1][0]: %f vert2[0][0]: %f vert2[1][0]: %f height: %d\n", vert1[0][0], vert1[1][0], vert2[0][0], vert2[1][0], height);
         draw_line(vert1[0][0], height - vert1[1][0], vert2[0][0], height - vert2[1][0]);
     }
     else

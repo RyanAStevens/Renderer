@@ -24,8 +24,8 @@ void GraphicsLibTest::TearDown() {
 
 TEST_F(GraphicsLibTest, begin_end_shape_line) {
    gl->begin_shape();
-   gl->add_vertex (1, 1, 0);
-   gl->add_vertex (2, 2, 0);
+   gl->add_vertex (0.25, 0.25, 0);
+   gl->add_vertex (0.5, 0.5, 0);
    gl->end_shape();
     
    EXPECT_EQ(0, 0);
