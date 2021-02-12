@@ -8,8 +8,8 @@
 #include <vector2.h>
 #include <string>
 
-#define RED_SHIFT 8
-#define GREEN_SHIFT 4
+#define RED_SHIFT 16
+#define GREEN_SHIFT 8
 
 class GraphicsLib
 {
@@ -21,7 +21,7 @@ public:
     void set_perspective(double fov, double near, double far);
     void set_background_color(Color c);
     void plot_point(uint32_t x, uint32_t y, Color c);
-    void draw_line(uint32_t x0, uint32_t y0, uint32_t x1, uint32_t y1);
+    void draw_line(uint32_t x0, uint32_t y0, uint32_t x1, uint32_t y1, Color c);
     void draw_triangle(Vector2 point_a, Color color_a, Vector2 point_b, Color color_b, Vector2 point_c, Color color_c);
     void begin_shape();
     void end_shape();

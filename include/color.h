@@ -9,6 +9,7 @@ public:
     float r;
     float g;
     float b;
+    void print();
     Color operator+(const Color& rhs);
     Color operator-(const Color& rhs);
     Color operator*(const Color& rhs);

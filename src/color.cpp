@@ -1,4 +1,5 @@
 #include <color.h>
+#include <stdio.h>
 
 Color::Color()
 {
@@ -54,3 +55,7 @@ Color Color::operator/(const double scalar)
                    this->b / scalar);
 }
 
+void Color::print()
+{
+   printf("Color: r %f g %f b %f\n", this->r, this->g, this->b); 
+}

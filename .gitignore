@@ -3,6 +3,8 @@ CMakeFiles
 cmake_install.cmake
 Makefile
 GraphicsAreFun
+GraphicsAreFun.dSYM
+
 
 runTests
 

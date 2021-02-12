@@ -1,15 +1,13 @@
 #include <SDL.h>
 #include <graphics_lib.h>
 #include <projection.h>
+#include <unistd.h>
 
 #define WIDTH 640
 #define HEIGHT 480
 
-int main(int argc, char *argv[]) {
-    printf("~~~~~~~~~~~~~~~~~~~~begin main~~~~~~~~~~~~~~~~~~~~\n");
-    Matrix A(4);
-    Matrix B(1);
-    Matrix C(1);
+int main(int argc, char *argv[]) 
+{
     SDL_Window *win = NULL;
     SDL_Renderer *renderer = NULL;
     int posX = 100, posY = 100;
@@ -33,12 +31,10 @@ int main(int argc, char *argv[]) {
     printf("main 8\n");
 
     //create Graphics Library object
-    GraphicsLib gl = GraphicsLib(PERSPECTIVE, WIDTH, HEIGHT);
+    GraphicsLib gl = GraphicsLib(ORTHOGRAPHIC, WIDTH, HEIGHT);
     printf("main 9\n");
-
-    gl.set_background_color(Color(0, 0, 255));
+    gl.set_background_color(Color(1.0, 1.0, 1.0));
     printf("main 10\n");
-	
 	 while (!quit)
 	 {
 	     SDL_WaitEvent(&event);
@@ -69,7 +65,7 @@ int main(int argc, char *argv[]) {
 				    break;
 			    case SDLK_6:
 				    printf("ortho_cube\n");
-                    gl.draw_line(100, 100, 200, 200);
+                    gl.draw_line(100, 100, 200, 200, Color(1.0, 0.0, 0.0));
 				   // gl.ortho_cube();
 				    break;
 			    case SDLK_7:
@@ -99,21 +95,16 @@ int main(int argc, char *argv[]) {
 			}
 
 	    }
-
+        
         SDL_UpdateTexture(texture, NULL, gl.image, WIDTH  * sizeof(uint32_t));	
         SDL_RenderClear(renderer);
         SDL_RenderCopy(renderer, texture, NULL, NULL);
         SDL_RenderPresent(renderer);
 	 }
-    
-    printf("shite 1\n");
 
     SDL_DestroyWindow(win);
-    printf("shite 2\n");
     SDL_DestroyRenderer(renderer);
-    printf("shite 3\n");
 
     SDL_Quit();
-    printf("~~~~~~~~~~~~~~~~~~~~end main~~~~~~~~~~~~~~~~~~~~\n");
     return 0;
 }

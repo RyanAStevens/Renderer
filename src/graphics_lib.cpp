@@ -20,6 +20,10 @@ GraphicsLib::GraphicsLib(p_mode_t draw_mode, int w, int h)
             n_pixels = w * h;
             printf("w %d, h %d, n_pix %d\n", width, height, n_pixels);
             image = new uint32_t[n_pixels];
+            for(int i = 0; i < width*height; i++)
+            {
+                image[i] = 0x0000FF00;
+            }
             switch(draw_mode)
             {
                 case ORTHOGRAPHIC:
@@ -65,27 +69,18 @@ void GraphicsLib::set_perspective(double fov, double near, double far)
 
 void GraphicsLib::set_background_color(Color c)
 {
-    printf("hello from GraphicsLib::set_background_color(Color c)\n");
-    uint32_t pixel_color = uint8_t(c.r * 255) << RED_SHIFT & uint8_t(c.g * 255) << GREEN_SHIFT & uint8_t(c.b * 255);
-    printf("hello2 from GraphicsLib::set_background_color(Color c)\n");
-    
-    printf("NULL == image: %d\n", NULL == image);
-    printf("height: %d width: %d w*h = %d\n", height, width, height * width);
+    uint32_t pixel_color = uint8_t(c.r * 255) << RED_SHIFT | uint8_t(c.g * 255) << GREEN_SHIFT | uint8_t(c.b * 255);
 	for (uint32_t i = 0; i < height * width; i++)
 	{
-    //    printf("accessing image[%d]\n", i);
         image[i] = pixel_color;
 	}
-    printf("goodbye from GraphicsLib::set_background_color(Color c)\n");
 }
 
 void GraphicsLib::plot_point(uint32_t x, uint32_t y, Color c)
 {
 	uint32_t index = (y * width) + x;
 
-    uint32_t pixel_color = uint8_t(c.r * 255) << RED_SHIFT & uint8_t(c.g * 255) << GREEN_SHIFT & uint8_t(c.b * 255);
-
-    //printf("plot_point: x = %u y = %u width = %d height = %d index = %u width * height = %d\n", x, y, width, height, index, width * height);
+    uint32_t pixel_color = uint8_t(c.r * 255) << RED_SHIFT | uint8_t(c.g * 255) << GREEN_SHIFT | uint8_t(c.b * 255);
 	//ensure index is within bounds of the image vector
 	if( index >= 0 && index < width * height)
 	{
@@ -97,14 +92,13 @@ void GraphicsLib::plot_point(uint32_t x, uint32_t y, Color c)
 	}
 }
 
-void GraphicsLib::draw_line(uint32_t x0, uint32_t y0, uint32_t x1, uint32_t y1)
+void GraphicsLib::draw_line(uint32_t x0, uint32_t y0, uint32_t x1, uint32_t y1, Color c)
 {   
     float x_f = 0;
     float y_f = 0;
     float t = 0.0f;
     //calculate slope
 
-    //printf("draw_line x0 = %d x1 = %d y0 = %d y1 = %d\n", x0, x1, y0, y1);
 if(x1 < x0 || y1 < y0)
 {
     int x1_tmp = x1;
@@ -116,7 +110,6 @@ if(x1 < x0 || y1 < y0)
 }
             
     float m = float(y1 - y0) / float(x1 - x0);
-   // printf("draw_line x0 = %d x1 = %d y0 = %d y1 = %d m = %f\n", x0, x1, y0, y1, m);
     
     if(m <= 1 && m >= -1)
     {
@@ -124,7 +117,7 @@ if(x1 < x0 || y1 < y0)
         {
             t = float(x - x0) / float(x1 - x0); 
             y_f = float(y0) + (float(y1 - y0) * t);
-            plot_point(x, int(roundf(y_f)), Color(1.0f, 1.0f, 1.0f));
+            plot_point(x, int(roundf(y_f)), c);
         }
     }
     else
@@ -133,7 +126,7 @@ if(x1 < x0 || y1 < y0)
         {
             t = float(y - y0) / float(y1 - y0); 
             x_f = float(x0) + (float(x1 - x0) * t);
-            plot_point(int(roundf(x_f)), y, Color(1.0f, 1.0f, 1.0f));
+            plot_point(int(roundf(x_f)), y, c);
         }
     }
 }
@@ -239,7 +232,7 @@ void GraphicsLib::end_shape()
         }
         //draw line
         printf("vert1[0][0]: %f vert1[1][0]: %f vert2[0][0]: %f vert2[1][0]: %f height: %d\n", vert1[0][0], vert1[1][0], vert2[0][0], vert2[1][0], height);
-        draw_line(vert1[0][0], height - vert1[1][0], vert2[0][0], height - vert2[1][0]);
+        draw_line(vert1[0][0], height - vert1[1][0], vert2[0][0], height - vert2[1][0], Color(0.0, 0.5, 1.0));
     }
     else
     {
