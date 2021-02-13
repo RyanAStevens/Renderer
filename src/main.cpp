@@ -44,8 +44,8 @@ int main(int argc, char *argv[])
             switch( event.key.keysym.sym )
             {
 			    case SDLK_1:
-				    printf("onKeyDown calling ortho_test\n");
-				    gl.ortho_test();
+				    printf("1: draw square\n");
+				    gl.square();
 				    break;
 			    case SDLK_2:
 				    printf("onKeyDown calling ortho_test_scale\n");
@@ -65,8 +65,7 @@ int main(int argc, char *argv[])
 				    break;
 			    case SDLK_6:
 				    printf("ortho_cube\n");
-                    gl.draw_line(100, 100, 200, 200, Color(1.0, 0.0, 0.0));
-				   // gl.ortho_cube();
+				    gl.ortho_cube();
 				    break;
 			    case SDLK_7:
 				    printf("onKeyDown calling ortho_cube2\n");

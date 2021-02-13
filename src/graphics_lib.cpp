@@ -4,6 +4,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <limits>
 
 #include <stack_trace.h>
 
@@ -20,10 +21,12 @@ GraphicsLib::GraphicsLib(p_mode_t draw_mode, int w, int h)
             n_pixels = w * h;
             printf("w %d, h %d, n_pix %d\n", width, height, n_pixels);
             image = new uint32_t[n_pixels];
+            /*
             for(int i = 0; i < width*height; i++)
             {
                 image[i] = 0x0000FF00;
             }
+            */
             switch(draw_mode)
             {
                 case ORTHOGRAPHIC:
@@ -79,7 +82,7 @@ void GraphicsLib::set_background_color(Color c)
 void GraphicsLib::plot_point(uint32_t x, uint32_t y, Color c)
 {
 	uint32_t index = (y * width) + x;
-
+    printf("plot_point: x = %u y = %u index = %u\n", x, y, index);
     uint32_t pixel_color = uint8_t(c.r * 255) << RED_SHIFT | uint8_t(c.g * 255) << GREEN_SHIFT | uint8_t(c.b * 255);
 	//ensure index is within bounds of the image vector
 	if( index >= 0 && index < width * height)
@@ -94,22 +97,35 @@ void GraphicsLib::plot_point(uint32_t x, uint32_t y, Color c)
 
 void GraphicsLib::draw_line(uint32_t x0, uint32_t y0, uint32_t x1, uint32_t y1, Color c)
 {   
+    float m = 0;
     float x_f = 0;
     float y_f = 0;
     float t = 0.0f;
     //calculate slope
 
-if(x1 < x0 || y1 < y0)
-{
-    int x1_tmp = x1;
-    int y1_tmp = y1;
-    x1 = x0;
-    y1 = y0;
-    x0 = x1_tmp;
-    y0 = y1_tmp;
-}
-            
-    float m = float(y1 - y0) / float(x1 - x0);
+    printf("draw_line: x0 = %u y0 = %u x1 = %u y1 = %u\n", x0, y0, x1, y1);
+
+        if(x1 < x0 || y1 < y0)
+        {
+            int x1_tmp = x1;
+            int y1_tmp = y1;
+            x1 = x0;
+            y1 = y0;
+            x0 = x1_tmp;
+            y0 = y1_tmp;
+        }
+           
+        if(x0 == x1)
+        {
+            //vertical line, infinite slope
+            m = std::numeric_limits<float>::max();
+        }
+        else
+        {
+            m = float(y1 - y0) / float(x1 - x0);
+        }
+    printf("draw_line: float(y1 - y0) = %f float(x1 - x0) = %f\n", float(y1 - y0), float(x1 - x0));
+    printf("draw_line: x0 = %u y0 = %u x1 = %u y1 = %u m = %f\n", x0, y0, x1, y1, m);
     
     if(m <= 1 && m >= -1)
     {
@@ -200,12 +216,34 @@ void GraphicsLib::end_shape()
         if(ORTHOGRAPHIC == projection->mode)
         {
             printf("GraphicsLib::end_shape mode is ORTHOGRAPHIC\n");
+            printf("projection->left = %f projection->right = %f projection->top = %f projection->bottom = %f\n", projection->left, projection->right, projection->top, projection->bottom);
+
+
+            printf("GraphicsLib::end_shape: vert1\n");
+            vert1.print();
+            printf("vert1[0][0] - projection->left = %f (width/(projection->right - projection->left) = %f\n", vert1[0][0] - projection->left, width/(projection->right - projection->left));
+            printf("vert1[0][0] - projection->left)*(width/(projection->right - projection->left) = %f\n", (vert1[0][0] - projection->left)*(width/(projection->right - projection->left)));
             vert1[0][0] = (vert1[0][0] - projection->left)*(width/(projection->right - projection->left));
-            vert1[1][0] = (vert1[1][0] - projection->bottom)*(width/(projection->top - projection->bottom));
-            vert1[2][0] = 0;
+
+            vert1.print();
+            printf("vert1[0][1](%f) - projection->bottom(%f) = %f (height/(projection->top - projection->bottom) = %f\n", vert1[0][1], projection->bottom, vert1[0][1] - projection->bottom, height/(projection->top - projection->bottom));
+            printf("vert1[0][1] - projection->bottom)*(height/(projection->top - projection->bottom) = %f\n", (vert1[0][1] - projection->bottom)*(height/(projection->top - projection->bottom)));
+            vert1[0][1] = (vert1[0][1] - projection->bottom)*(height/(projection->top - projection->bottom));
+
+
+
+            vert1[0][2] = 0;
+            vert1.print();
+          
+
+
+
+            printf("GraphicsLib::end_shape: vert2\n");
+            vert2.print();
             vert2[0][0] = (vert2[0][0] - projection->left)*(width/(projection->right - projection->left));
-            vert2[1][0] = (vert2[1][0] - projection->bottom)*(width/(projection->top - projection->bottom));
-            vert2[2][0] = 0;
+            vert2[0][1] = (vert2[0][1] - projection->bottom)*(height/(projection->top - projection->bottom));
+            vert2[0][2] = 0;
+            vert2.print();
         }
         else
         { // mode is perspective
@@ -231,7 +269,11 @@ void GraphicsLib::end_shape()
             }
         }
         //draw line
-        printf("vert1[0][0]: %f vert1[1][0]: %f vert2[0][0]: %f vert2[1][0]: %f height: %d\n", vert1[0][0], vert1[1][0], vert2[0][0], vert2[1][0], height);
+            printf("GraphicsLib::end_shape: vert1\n");
+            vert1.print();
+            printf("GraphicsLib::end_shape: vert2\n");
+            vert2.print();
+       // prinf("vert1[0][0]: %f vert1[1][0]: %f vert2[0][0]: %f vert2[1][0]: %f height: %d\n", vert1[0][0], vert1[1][0], vert2[0][0], vert2[1][0], height);
         draw_line(vert1[0][0], height - vert1[1][0], vert2[0][0], height - vert2[1][0], Color(0.0, 0.5, 1.0));
     }
     else
@@ -280,14 +322,14 @@ void GraphicsLib::square()
     printf("hello from square\n");
   begin_shape ();
 
-  add_vertex (-50, -50, 0);
-  add_vertex (-50, 50, 0);
-  add_vertex (-50, 50, 0);
-  add_vertex (50, 50, 0);
-  add_vertex (50, 50, 0);
-  add_vertex (50, -50, 0);
-  add_vertex (50, -50, 0);
-  add_vertex (-50, -50, 0);
+  add_vertex (-0.5, -0.5, 0);
+  add_vertex (0.5, -0.5, 0);
+  add_vertex (0.5, -0.5, 0);
+  add_vertex (0.5, 0.5, 0);
+  add_vertex (0.5, 0.5, 0);
+  add_vertex (-0.5, 0.5, 0);
+  add_vertex (-0.5, 0.5, 0);
+  add_vertex (-0.5, -0.5, 0);
 
   end_shape();
     printf("goodbye from square\n");
