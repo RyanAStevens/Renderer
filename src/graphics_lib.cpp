@@ -216,34 +216,25 @@ void GraphicsLib::end_shape()
         if(ORTHOGRAPHIC == projection->mode)
         {
             printf("GraphicsLib::end_shape mode is ORTHOGRAPHIC\n");
+/*
             printf("projection->left = %f projection->right = %f projection->top = %f projection->bottom = %f\n", projection->left, projection->right, projection->top, projection->bottom);
-
-
             printf("GraphicsLib::end_shape: vert1\n");
             vert1.print();
             printf("vert1[0][0] - projection->left = %f (width/(projection->right - projection->left) = %f\n", vert1[0][0] - projection->left, width/(projection->right - projection->left));
             printf("vert1[0][0] - projection->left)*(width/(projection->right - projection->left) = %f\n", (vert1[0][0] - projection->left)*(width/(projection->right - projection->left)));
+            */
             vert1[0][0] = (vert1[0][0] - projection->left)*(width/(projection->right - projection->left));
-
+/*
             vert1.print();
             printf("vert1[0][1](%f) - projection->bottom(%f) = %f (height/(projection->top - projection->bottom) = %f\n", vert1[0][1], projection->bottom, vert1[0][1] - projection->bottom, height/(projection->top - projection->bottom));
             printf("vert1[0][1] - projection->bottom)*(height/(projection->top - projection->bottom) = %f\n", (vert1[0][1] - projection->bottom)*(height/(projection->top - projection->bottom)));
+            */
             vert1[0][1] = (vert1[0][1] - projection->bottom)*(height/(projection->top - projection->bottom));
-
-
-
             vert1[0][2] = 0;
-            vert1.print();
-          
 
-
-
-            printf("GraphicsLib::end_shape: vert2\n");
-            vert2.print();
             vert2[0][0] = (vert2[0][0] - projection->left)*(width/(projection->right - projection->left));
             vert2[0][1] = (vert2[0][1] - projection->bottom)*(height/(projection->top - projection->bottom));
             vert2[0][2] = 0;
-            vert2.print();
         }
         else
         { // mode is perspective
@@ -274,7 +265,7 @@ void GraphicsLib::end_shape()
             printf("GraphicsLib::end_shape: vert2\n");
             vert2.print();
        // prinf("vert1[0][0]: %f vert1[1][0]: %f vert2[0][0]: %f vert2[1][0]: %f height: %d\n", vert1[0][0], vert1[1][0], vert2[0][0], vert2[1][0], height);
-        draw_line(vert1[0][0], height - vert1[1][0], vert2[0][0], height - vert2[1][0], Color(0.0, 0.5, 1.0));
+        draw_line(vert1[0][0], height - vert1[0][1], vert2[0][0], height - vert2[0][1], Color(0.0, 0.5, 1.0));
     }
     else
     {
