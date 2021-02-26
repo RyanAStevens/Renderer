@@ -20,6 +20,7 @@ public:
     double fov;
     uint32_t height, width;
     p_mode_t mode;
+    Matrix *matrix;
 };
 
 class Orthographic : public Projection

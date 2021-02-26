@@ -44,16 +44,29 @@ Matrix::Matrix(matrix_constructor_t id)
 {
     data = new std::vector<Vector3H>;
     
+    for(int i = 0; i < 4; i++)
+    {
+        Vector3H column;
+        data->push_back(column);
+    }
+    
     switch(id)
     {
         case IDENTITY:
-            for(int i = 0; i < 4; i++)
-            {
-                Vector3H column;
-                data->push_back(column);
-            }
             (*data)[0][0] = 1.0;
             (*data)[1][1] = 1.0;
+            (*data)[2][2] = 1.0;
+            (*data)[3][3] = 1.0;
+            break;
+        case INVERT_X:
+            (*data)[0][0] = -1.0;
+            (*data)[1][1] = 1.0;
+            (*data)[2][2] = 1.0;
+            (*data)[3][3] = 1.0;
+            break;
+        case INVERT_Y:
+            (*data)[0][0] = 1.0;
+            (*data)[1][1] = -1.0;
             (*data)[2][2] = 1.0;
             (*data)[3][3] = 1.0;
             break;
