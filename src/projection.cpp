@@ -28,12 +28,12 @@ Orthographic::Orthographic(uint32_t h, uint32_t w) : Projection(h, w)
 {
     printf("hello from h/w Orthographic constructor\n");
     mode = ORTHOGRAPHIC;
-    matrix[0][0] = 2.0 / (right - left);
-    matrix[1][1] = 2.0 / (top - bottom);
-    matrix[2][2] = -2.0 / (far - near);
-    matrix[3][0] = -1.0 * (right + left) / (right - left);
-    matrix[3][1] = -1.0 * (top + bottom) / (top - bottom);
-    matrix[3][2] = -1.0 * (far + near) / (far - near);
+    (*matrix)[0][0] = 2.0 / (right - left);
+    (*matrix)[1][1] = 2.0 / (top - bottom);
+    (*matrix)[2][2] = -2.0 / (far - near);
+    (*matrix)[3][0] = -1.0 * (right + left) / (right - left);
+    (*matrix)[3][1] = -1.0 * (top + bottom) / (top - bottom);
+    (*matrix)[3][2] = -1.0 * (far + near) / (far - near);
 
 }
 

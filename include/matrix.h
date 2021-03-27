@@ -7,7 +7,9 @@
 
 enum matrix_constructor_t
 {
-   IDENTITY 
+   IDENTITY,
+   INVERT_X,
+   INVERT_Y
 };
 
 class Matrix
@@ -15,7 +17,7 @@ class Matrix
 public:
     Matrix();
     Matrix(matrix_constructor_t id);
-    Matrix(int n_columns);
+    Matrix(int n_r, int n_c);
     Matrix(Vector3H, Vector3H, Vector3H, Vector3H);
     Matrix(double x_in, double y_in, double z_in);
     ~Matrix();
@@ -27,6 +29,8 @@ public:
     void print();
     
     std::vector<Vector3H>* data;
+    int n_rows;
+    int n_cols;
 };
 
 #endif //MATRIX_H_

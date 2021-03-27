@@ -21,7 +21,7 @@ public:
     void set_perspective(double fov, double near, double far);
     void set_background_color(Color c);
     void plot_point(uint32_t x, uint32_t y, Color c);
-    void draw_line(uint32_t x0, uint32_t y0, uint32_t x1, uint32_t y1, Color c);
+    void draw_line(Vertex vert1, Vertex vert2, Color c);
     void draw_triangle(Vector2 point_a, Color color_a, Vector2 point_b, Color color_b, Vector2 point_c, Color color_c);
     void begin_shape();
     void end_shape();
@@ -44,7 +44,7 @@ public:
     uint32_t height;
     uint32_t n_pixels;
     uint32_t* image;
-    std::vector<Matrix> vertices;
+    std::vector<Vertex> vertices;
     MatrixStack matrix_stack;
     Projection* projection;
 };

@@ -28,12 +28,13 @@ Matrix::Matrix()
     (*data)[3][3] = 1.0;
 }
 
-Matrix::Matrix(int n_columns)
+Matrix::Matrix(int n_r, int n_c) : n_rows(n_r), n_cols(n_c)
 {
-   
+    //keeping n_r as an input for possible future implementation where 
+    //#rows might be something other than 4(Vector3H has 4 elements)
     data = new std::vector<Vector3H>;
     
-    for(int i = 0; i < n_columns; i++)
+    for(int i = 0; i < n_c; i++)
     {
         Vector3H column;
         data->push_back(column);
@@ -42,6 +43,7 @@ Matrix::Matrix(int n_columns)
 
 Matrix::Matrix(matrix_constructor_t id)
 {
+    n_rows = 4;
     data = new std::vector<Vector3H>;
     
     for(int i = 0; i < 4; i++)
@@ -53,23 +55,35 @@ Matrix::Matrix(matrix_constructor_t id)
     switch(id)
     {
         case IDENTITY:
+            n_cols = 4;
             (*data)[0][0] = 1.0;
             (*data)[1][1] = 1.0;
             (*data)[2][2] = 1.0;
             (*data)[3][3] = 1.0;
             break;
         case INVERT_X:
+            n_cols = 4;
             (*data)[0][0] = -1.0;
             (*data)[1][1] = 1.0;
             (*data)[2][2] = 1.0;
             (*data)[3][3] = 1.0;
             break;
         case INVERT_Y:
+            n_cols = 4;
             (*data)[0][0] = 1.0;
             (*data)[1][1] = -1.0;
             (*data)[2][2] = 1.0;
             (*data)[3][3] = 1.0;
             break;
+            /*
+        case VERTEX:
+            n_cols = 1;
+            (*data)[0][0] = 1.0;
+            (*data)[1][1] = -1.0;
+            (*data)[2][2] = 1.0;
+            (*data)[3][3] = 1.0;
+            break;
+            */
         default:
             ;
     }
@@ -137,31 +151,6 @@ Matrix& Matrix::operator=(Matrix rhs)
     }
 
 	return *this;
-}
-
-Matrix Matrix::operator*(Matrix rhs)
-{
-    //A(l x m) * B(m x n) = C(l x n)
-    int l = (this->data)->size();
-    int m = rhs.data->size();
-    int n = 4;
-    //initialize the return matrix
-    Matrix ret(l);
-    
-        float sum = 0;
-        for(int row = 0; row < l; row++)
-        {
-           for(int col = 0; col < n; col++)
-           {
-               sum = 0;
-               for(int i = 0; i < m; i++)
-               {
-                   sum += (*data)[row][i] * (*rhs.data)[i][col];
-               }
-               (*ret.data)[row][col] = sum;
-           }
-        }
-        return ret;
 }
 
 Vector3H& Matrix::operator[](int i)

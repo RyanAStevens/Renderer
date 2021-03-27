@@ -56,14 +56,14 @@ void GraphicsLib::set_orthographic(double left, double right, double bottom, dou
     projection->far = far;
 
     //scale
-    projection->matrix[0][0] = 2 / (right - left);
-    projection->matrix[1][1] = 2 / (top - bottom);
-    projection->matrix[2][2] = -2 / (far - near);
+    (*projection->matrix)[0][0] = 2 / (right - left);
+    (*projection->matrix)[1][1] = 2 / (top - bottom);
+    (*projection->matrix)[2][2] = -2 / (far - near);
 
     //translate
-    projection->matrix[0][3] = -1 * (right + left) / (right - left);
-    projection->matrix[1][3] = -1 * (top + bottom) / (top - bottom);
-    projection->matrix[2][3] = -1 * (far + near) / (far - near);
+    (*projection->matrix)[0][3] = -1 * (right + left) / (right - left);
+    (*projection->matrix)[1][3] = -1 * (top + bottom) / (top - bottom);
+    (*projection->matrix)[2][3] = -1 * (far + near) / (far - near);
     
     printf("goodbye from set_orthographic\n");
 }
@@ -100,16 +100,21 @@ void GraphicsLib::plot_point(uint32_t x, uint32_t y, Color c)
 	}
 }
 
-void GraphicsLib::draw_line(uint32_t x0, uint32_t y0, uint32_t x1, uint32_t y1, Color c)
+void GraphicsLib::draw_line(Vertex vert1, Vertex vert2, Color c)
 {   
     float m = 0;
     float x_f = 0;
     float y_f = 0;
     float t = 0.0f;
+
+    uint32_t x0 = vert1[0][0];
+    uint32_t y0 = vert1[0][1];
+    uint32_t x1 = vert2[0][1];
+    uint32_t y1 = vert2[0][1];
+    
+    printf("draw_line: x0 = %u y0 = %u x1 = %u y1 = %u\n", x0, y0, x1, y1); 
+
     //calculate slope
-
-    printf("draw_line: x0 = %u y0 = %u x1 = %u y1 = %u\n", x0, y0, x1, y1);
-
         if(x1 < x0 || y1 < y0)
         {
             int x1_tmp = x1;
@@ -155,49 +160,6 @@ void GraphicsLib::draw_line(uint32_t x0, uint32_t y0, uint32_t x1, uint32_t y1, 
     }
 }
 
-void GraphicsLib::draw_triangle(Vector2 point_a, Color color_a, Vector2 point_b, Color color_b, Vector2 point_c, Color color_c)
-{
-    //implicit line eqn
-    //(y0 - y1)x + (x1 - x0)y + x0y1 - x1y0 = 0
-    
-    double Xa = point_a.components[0];
-    double Ya = point_a.components[1];
-    double Xb = point_b.components[0];
-    double Yb = point_b.components[1];
-    double Xc = point_c.components[0];
-    double Yc = point_c.components[1];
-    double YaYb_diff = Ya - Yb;
-    double XbXa_diff = Xb - Xa;
-    double YaYc_diff = Ya - Yc;
-    double XcXa_diff = Xc - Xa;
-    double gamma_const = Xa*Yb - Xb*Ya;
-    double beta_const = Xa*Yc - Xc*Ya;
-    for ( int y = 0; y < height; ++y )
-	{
-	    for ( int x = 0; x < width; ++x )
-	    {
-            //calculate barycentric coordinates
-            double gamma = ((YaYb_diff * x) + (XbXa_diff * y) + gamma_const) / 
-                    ((YaYb_diff * Xc) + (XbXa_diff * Yc) + gamma_const);
-            double beta = ((YaYc_diff * x) + (XcXa_diff * y) + beta_const) / 
-                    ((YaYc_diff * Xb) + (XcXa_diff * Yb) + beta_const);
-            double alpha = 1 - beta - gamma;
-            
-            if( alpha > 0 && alpha < 1 && beta > 0 && beta < 1 && gamma > 0 && gamma < 1)
-            {
-                //point is in the triangle
-                Color point_color = color_a * alpha + color_b * beta + color_c * gamma;
-                plot_point(x, y, point_color);
-            }
-            else
-            {
-                //paint background
-                plot_point(x, y, Color(0.1, 0.2, 0.5));
-            }
-	    }
-	}
-} 
-
 void GraphicsLib::begin_shape()
 {
     //initialize point array
@@ -209,17 +171,17 @@ void GraphicsLib::end_shape()
         printf("hello from GraphicsLib::end_shape\n");
         if(NULL != projection)
         {
-            Matrix inv_m = Matrix(INVERT_Y);
+            Transform inv_m = Transform(INVERT_Y);
             //draw the shape
             for(int i = 0; i < vertices.size(); i += 2)
             {
                 //perform transformation
-                Matrix vert1 = vertices[i];
-                Matrix vert2 = vertices[i+1];
-                Matrix ctm = matrix_stack.get_ctm();
+                Vertex vert1 = vertices[i];
+                Vertex vert2 = vertices[i+1];
+                Transform ctm = matrix_stack.get_ctm();
                 
-                vert1 = ctm * projection->matrix * inv_m * vert1;
-                vert2 = ctm * projection->matrix * inv_m * vert2;
+                vert1 = ctm * (*projection->matrix) * inv_m * vert1;
+                vert2 = ctm * (*projection->matrix) * inv_m * vert2;
 
                 //draw line
                 draw_line(vert1, vert2, Color(0.0, 0.5, 1.0));
@@ -234,7 +196,7 @@ void GraphicsLib::end_shape()
 
 void GraphicsLib::add_vertex(double x_in, double y_in, double z_in)
 {
-    Matrix v(x_in, y_in, z_in);
+    Vertex v(x_in, y_in, z_in);
     vertices.push_back(v);
 }
 
