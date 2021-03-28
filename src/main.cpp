@@ -19,28 +19,23 @@ int main(int argc, char *argv[])
 
     win = SDL_CreateWindow("Hello, There!!!", posX, posY, WIDTH, HEIGHT, 0);
 
-    printf("main 5\n");
     renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
-    printf("main 6\n");
 
     //make the window black
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	
-    printf("main 7\n");
     SDL_Texture * texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC, WIDTH, HEIGHT); 
-    printf("main 8\n");
 
-    //create Graphics Library object
-    GraphicsLib gl = GraphicsLib(ORTHOGRAPHIC, WIDTH, HEIGHT);
-    printf("main 9\n");
-    gl.set_background_color(Color(1.0, 1.0, 1.0));
-    printf("main 10\n");
-	 while (!quit)
+     //create Graphics Library object
+     GraphicsLib gl = GraphicsLib(ORTHOGRAPHIC, WIDTH, HEIGHT);
+	 
+     while (!quit)
 	 {
 	     SDL_WaitEvent(&event);
 
 	     if(SDL_KEYDOWN == event.type)
 	     {
+            gl.clear_image(Color(1.0, 1.0, 1.0));
             switch( event.key.keysym.sym )
             {
 			    case SDLK_1:

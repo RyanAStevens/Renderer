@@ -21,7 +21,7 @@ public:
     ~GraphicsLib();
     void set_orthographic(double left, double right, double bottom, double top, double near, double far);
     void set_perspective(double fov, double near, double far);
-    void set_background_color(Color c);
+    void clear_image(Color c);
     void plot_point(uint32_t x, uint32_t y, Color c);
     void draw_line(Vertex vert1, Vertex vert2, Color c);
     void draw_triangle(Vector2 point_a, Color color_a, Vector2 point_b, Color color_b, Vector2 point_c, Color color_c);

@@ -75,7 +75,7 @@ void GraphicsLib::set_perspective(double fov, double near, double far)
     projection->far = far;
 }
 
-void GraphicsLib::set_background_color(Color c)
+void GraphicsLib::clear_image(Color c)
 {
     uint32_t pixel_color = uint8_t(c.r * 255) << RED_SHIFT | uint8_t(c.g * 255) << GREEN_SHIFT | uint8_t(c.b * 255);
 	for (uint32_t i = 0; i < height * width; i++)
