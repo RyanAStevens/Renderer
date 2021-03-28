@@ -2,7 +2,7 @@
 #define PROJECTION_H_
 
 #include <vector3.h>
-#include <matrix.h>
+#include <transform_matrix.h>
 #include <string>
 #include <stdint.h>
 
@@ -21,7 +21,7 @@ public:
     double fov;
     uint32_t height, width;
     p_mode_t mode;
-    Matrix *matrix;
+    TransformMatrix *matrix;
 };
 
 class Orthographic : public Projection

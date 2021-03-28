@@ -92,6 +92,7 @@ void GraphicsLib::plot_point(uint32_t x, uint32_t y, Color c)
 	//ensure index is within bounds of the image vector
 	if( index >= 0 && index < width * height)
 	{
+        printf("plot_point: (%u, %u) index=%u pixel_color=%u\n", x, y, index, pixel_color);
         image[index] = pixel_color;
 	}
 	else
@@ -102,60 +103,65 @@ void GraphicsLib::plot_point(uint32_t x, uint32_t y, Color c)
 
 void GraphicsLib::draw_line(Vertex vert1, Vertex vert2, Color c)
 {   
-    float m = 0;
-    float x_f = 0;
-    float y_f = 0;
-    float t = 0.0f;
+    double m = 0;
+    double x_f = 0;
+    double y_f = 0;
+    double t = 0.0f;
 
-    uint32_t x0 = vert1[0][0];
-    uint32_t y0 = vert1[0][1];
-    uint32_t x1 = vert2[0][1];
-    uint32_t y1 = vert2[0][1];
+    double x0 = vert1.x();
+    double y0 = vert1.y();
+    double x1 = vert2.x();
+    double y1 = vert2.y();
+   
+    //swap order if needed
+    if(x1 < x0 || y1 < y0)
+    {
+        double x1_tmp = x1;
+        double y1_tmp = y1;
+        x1 = x0;
+        y1 = y0;
+        x0 = x1_tmp;
+        y0 = y1_tmp;
+    }
+       
+    //map points to screen space
+    x0 = (x0+1.0)*width/2.0; 
+    y0 = (y0+1.0)*height/2.0;
+    x1 = (x1+1.0)*width/2.0; 
+    y1 = (y1+1.0)*height/2.0;
     
-    printf("draw_line: x0 = %u y0 = %u x1 = %u y1 = %u\n", x0, y0, x1, y1); 
-
     //calculate slope
-        if(x1 < x0 || y1 < y0)
-        {
-            int x1_tmp = x1;
-            int y1_tmp = y1;
-            x1 = x0;
-            y1 = y0;
-            x0 = x1_tmp;
-            y0 = y1_tmp;
-        }
-           
-        if(x0 == x1)
-        {
-            //vertical line, infinite slope
-            m = std::numeric_limits<float>::max();
-        }
-        else
-        {
-            m = float(y1 - y0) / float(x1 - x0);
-        }
-    printf("draw_line: float(y1 - y0) = %f float(x1 - x0) = %f\n", float(y1 - y0), float(x1 - x0));
-    printf("draw_line: x0 = %u y0 = %u x1 = %u y1 = %u m = %f\n", x0, y0, x1, y1, m);
+    if(x0 == x1)
+    {
+        //vertical line, infinite slope
+        m = std::numeric_limits<double>::max();
+    }
+    else
+    {
+        m = (y1 - y0) / (x1 - x0);
+    }
+    
+    //printf("draw_line: x0 = %f y0 = %f x1 = %f y1 = %f m = %f\n", x0, y0, x1, y1, m);
     
     if(m <= 1 && m >= -1)
     {
-        for(int x = x0; x <= x1; x++)
+        for(double x = x0; x <= x1; x++)
         {
-            t = float(x - x0) / float(x1 - x0); 
-            y_f = float(y0) + (float(y1 - y0) * t);
-            plot_point(x, int(roundf(y_f)), c);
+            t = (x - x0) / (x1 - x0); 
+            y_f = y0 + ((y1 - y0) * t);
+            //map points to screen space
+
+            plot_point(int(x), int(y_f), c);
         }
     }
     else
     {
-        for(int y = y0; y <= y1; y++)
+        for(double y = y0; y <= y1; y++)
         {
             
-            t = float(y - y0) / float(y1 - y0); 
-            x_f = float(x0) + (float(x1 - x0) * t);
-   //         printf("t = %f\n", t);
-            //printf("t'%f' = float(y - y0)'%f' / float(y1 - y0)'%f' x_f'%f' = float(x0)'%f' + (float(x1 - x0)'%f' * t'%f')\n", t, float(y - y0), float(y1 - y0),  x_f, float(x0), float(x1 - x0), t);
-            plot_point(int(roundf(x_f)), y, c);
+            t = (y - y0) / (y1 - y0); 
+            x_f = x0 + ((x1 - x0) * t);
+            plot_point(int(x_f), int(y), c);
         }
     }
 }
@@ -171,17 +177,19 @@ void GraphicsLib::end_shape()
         printf("hello from GraphicsLib::end_shape\n");
         if(NULL != projection)
         {
-            Transform inv_m = Transform(INVERT_Y);
+            TransformMatrix inv_m = TransformMatrix(INVERT_Y);
             //draw the shape
             for(int i = 0; i < vertices.size(); i += 2)
             {
                 //perform transformation
                 Vertex vert1 = vertices[i];
                 Vertex vert2 = vertices[i+1];
-                Transform ctm = matrix_stack.get_ctm();
+                TransformMatrix ctm = matrix_stack.get_ctm();
                 
                 vert1 = ctm * (*projection->matrix) * inv_m * vert1;
                 vert2 = ctm * (*projection->matrix) * inv_m * vert2;
+                vert1.print();
+                vert2.print();
 
                 //draw line
                 draw_line(vert1, vert2, Color(0.0, 0.5, 1.0));

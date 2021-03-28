@@ -6,6 +6,8 @@
 #include <matrix.h>
 #include <projection.h>
 #include <vector2.h>
+#include <vertex.h>
+#include <transform_matrix.h>
 #include <string>
 
 #define RED_SHIFT 16

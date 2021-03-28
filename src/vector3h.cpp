@@ -6,7 +6,6 @@ A homogeneous 3D vector class that stores an x y and z component. It should
 
 Vector3H::Vector3H()
 {
-//	std::cout << "Hello from default Vector3H constructor\n";	
     components[0] = 0.0;
     components[1] = 0.0;
     components[2] = 0.0;

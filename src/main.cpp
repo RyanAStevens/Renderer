@@ -94,7 +94,6 @@ int main(int argc, char *argv[])
 			}
 
 	    }
-        
         SDL_UpdateTexture(texture, NULL, gl.image, WIDTH  * sizeof(uint32_t));	
         SDL_RenderClear(renderer);
         SDL_RenderCopy(renderer, texture, NULL, NULL);

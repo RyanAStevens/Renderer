@@ -9,7 +9,8 @@ enum matrix_constructor_t
 {
    IDENTITY,
    INVERT_X,
-   INVERT_Y
+   INVERT_Y,
+   VERTEX
 };
 
 class Matrix

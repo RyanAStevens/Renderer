@@ -9,7 +9,7 @@ Projection::Projection() : height(0), width(0)
 Projection::Projection(uint32_t h, uint32_t w) : height(h), width(w) 
 {
     printf("hello from h/w Projection constructor\n");
-    matrix = new Matrix(IDENTITY);
+    matrix = new TransformMatrix(IDENTITY);
     left = -1.0;
     right = 1.0; 
     bottom = -1.0;

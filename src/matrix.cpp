@@ -75,15 +75,6 @@ Matrix::Matrix(matrix_constructor_t id)
             (*data)[2][2] = 1.0;
             (*data)[3][3] = 1.0;
             break;
-            /*
-        case VERTEX:
-            n_cols = 1;
-            (*data)[0][0] = 1.0;
-            (*data)[1][1] = -1.0;
-            (*data)[2][2] = 1.0;
-            (*data)[3][3] = 1.0;
-            break;
-            */
         default:
             ;
     }

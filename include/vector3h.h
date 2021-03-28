@@ -1,5 +1,5 @@
 /*
-A homogeneour 3D vector.
+A homogeneous 3D vector.
 */
 
 #ifndef VECTOR3H_H_

@@ -2,7 +2,7 @@
 #define MATRIX_STACK_H_
 
 #include <stack>
-#include <matrix.h>
+#include <transform_matrix.h>
 
 //class MatrixStack : public std::stack {
 class MatrixStack {
@@ -11,7 +11,7 @@ public:
 	~MatrixStack();
     void initialize();
     void print_ctm();
-    Matrix& get_ctm();
+    TransformMatrix& get_ctm();
     void translate(float x,float y,float z);
     void scale(float x,float y,float z);
     void rotate_x(float theta);
@@ -20,7 +20,7 @@ public:
     void push_matrix();
     int32_t pop_matrix();
 private:
-    std::stack <Matrix> _stack;
+    std::stack <TransformMatrix> _stack;
     
 };
 

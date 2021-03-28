@@ -1,4 +1,4 @@
-#include "../include/transform_matrix.h"
+#include <transform_matrix.h>
 #include <stdio.h>
 
 int main()
@@ -9,5 +9,8 @@ int main()
     B.print();
     TransformMatrix C(INVERT_X);
     C.print();
-    (A*B*C).print();
+    Vertex D(1.0, 2.0, 3.0);
+    D.print();
+    (A*B*C*D).print();
+    return 0;
 }
