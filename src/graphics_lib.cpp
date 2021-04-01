@@ -92,7 +92,7 @@ void GraphicsLib::plot_point(uint32_t x, uint32_t y, Color c)
 	//ensure index is within bounds of the image vector
 	if( index >= 0 && index < width * height)
 	{
-        printf("plot_point: (%u, %u) index=%u pixel_color=%u\n", x, y, index, pixel_color);
+        //printf("plot_point: (%u, %u) index=%u pixel_color=%u\n", x, y, index, pixel_color);
         image[index] = pixel_color;
 	}
 	else
@@ -174,7 +174,6 @@ void GraphicsLib::begin_shape()
 
 void GraphicsLib::end_shape()
 {
-        printf("hello from GraphicsLib::end_shape\n");
         if(NULL != projection)
         {
             TransformMatrix inv_m = TransformMatrix(INVERT_Y);
@@ -184,12 +183,20 @@ void GraphicsLib::end_shape()
                 //perform transformation
                 Vertex vert1 = vertices[i];
                 Vertex vert2 = vertices[i+1];
-                TransformMatrix ctm = matrix_stack.get_ctm();
-                
-                vert1 = ctm * (*projection->matrix) * inv_m * vert1;
-                vert2 = ctm * (*projection->matrix) * inv_m * vert2;
+                /*
+                printf("\n\nend_shape: before transformation\n");
                 vert1.print();
                 vert2.print();
+                */
+                TransformMatrix ctm = matrix_stack.get_ctm();
+                vert1 = ctm * (*projection->matrix) * inv_m * vert1;
+                vert2 = ctm * (*projection->matrix) * inv_m * vert2;
+                /*
+                printf("end_shape: after transformation\n");
+                vert1.print();
+                vert2.print();
+                printf("\n\n");
+                */
 
                 //draw line
                 draw_line(vert1, vert2, Color(0.0, 0.5, 1.0));
@@ -199,7 +206,6 @@ void GraphicsLib::end_shape()
         {
             printf("ERROR: GraphicsLib::end_shape projection was NULL\n");
         }
-        printf("goodbye from GraphicsLib::end_shape\n");
 }
 
 void GraphicsLib::add_vertex(double x_in, double y_in, double z_in)
@@ -211,18 +217,19 @@ void GraphicsLib::add_vertex(double x_in, double y_in, double z_in)
 // unit radius cirle
 void GraphicsLib::circle()
 {
-    printf("hello from circle\n");
+    matrix_stack.push_matrix();
+    matrix_stack.scale(0.5, 0.5, 1.0);
     int steps = 65;
-    int x = 0;
-    int y = 0;
-    int xold = 1;
-    int yold = 0;
+    double x = 0.0;
+    double y = 0.0;
+    double xold = 1.0;
+    double yold = 0.0;
     float theta = 0.0f;
     begin_shape();
 
-    for(int i = 0; i <= steps; i++)
+    for(double i = 0.0; i <= steps; i+=1.0)
     {
-        theta = 2 * 3.1415926535 * i / float(steps);
+        theta = 2.0 * 3.1415926535 * i / double(steps);
         x = cos(theta);
         y = sin(theta);
         add_vertex (xold, yold, 0);
@@ -232,7 +239,7 @@ void GraphicsLib::circle()
     }
 
     end_shape();
-    printf("goodbye from circle\n");
+    matrix_stack.pop_matrix();
 }
 
 void GraphicsLib::square()
@@ -255,51 +262,48 @@ void GraphicsLib::square()
 
 void GraphicsLib::cube()
 {
-    begin_shape();
-    
-    // top square
-    
-    add_vertex (-1.0, -1.0,  1.0);
-    add_vertex (-1.0,  1.0,  1.0);
+        begin_shape();
+        
+        // top square
+        add_vertex (-1.0, -1.0,  1.0);
+        add_vertex (-1.0,  1.0,  1.0);
 
-    add_vertex (-1.0,  1.0,  1.0);
-    add_vertex ( 1.0,  1.0,  1.0);
+        add_vertex (-1.0,  1.0,  1.0);
+        add_vertex ( 1.0,  1.0,  1.0);
 
-    add_vertex ( 1.0,  1.0,  1.0);
-    add_vertex ( 1.0, -1.0,  1.0);
+        add_vertex ( 1.0,  1.0,  1.0);
+        add_vertex ( 1.0, -1.0,  1.0);
 
-    add_vertex ( 1.0, -1.0,  1.0);
-    add_vertex (-1.0, -1.0,  1.0);
+        add_vertex ( 1.0, -1.0,  1.0);
+        add_vertex (-1.0, -1.0,  1.0);
 
-    // bottom square
-    
-    add_vertex (-1.0, -1.0, -1.0);
-    add_vertex (-1.0,  1.0, -1.0);
-    
-    add_vertex (-1.0,  1.0, -1.0);
-    add_vertex ( 1.0,  1.0, -1.0);
-    
-    add_vertex ( 1.0,  1.0, -1.0);
-    add_vertex ( 1.0, -1.0, -1.0);
- 
-    add_vertex ( 1.0, -1.0, -1.0);
-    add_vertex (-1.0, -1.0, -1.0);
-    
-    // connect top to bottom
-    
-    add_vertex (-1.0, -1.0, -1.0);
-    add_vertex (-1.0, -1.0,  1.0);
-    
-    add_vertex (-1.0,  1.0, -1.0);
-    add_vertex (-1.0,  1.0,  1.0);
-    
-    add_vertex ( 1.0,  1.0, -1.0);
-    add_vertex ( 1.0,  1.0,  1.0);
-    
-    add_vertex ( 1.0, -1.0, -1.0);
-    add_vertex ( 1.0, -1.0,  1.0);
-   
-    end_shape();
+        // bottom square
+        add_vertex (-1.0, -1.0, -1.0);
+        add_vertex (-1.0,  1.0, -1.0);
+        
+        add_vertex (-1.0,  1.0, -1.0);
+        add_vertex ( 1.0,  1.0, -1.0);
+        
+        add_vertex ( 1.0,  1.0, -1.0);
+        add_vertex ( 1.0, -1.0, -1.0);
+     
+        add_vertex ( 1.0, -1.0, -1.0);
+        add_vertex (-1.0, -1.0, -1.0);
+        
+        // connect top to bottom
+        add_vertex (-1.0, -1.0, -1.0);
+        add_vertex (-1.0, -1.0,  1.0);
+        
+        add_vertex (-1.0,  1.0, -1.0);
+        add_vertex (-1.0,  1.0,  1.0);
+        
+        add_vertex ( 1.0,  1.0, -1.0);
+        add_vertex ( 1.0,  1.0,  1.0);
+        
+        add_vertex ( 1.0, -1.0, -1.0);
+        add_vertex ( 1.0, -1.0,  1.0);
+       
+        end_shape();
 }
 
 // draw a face by transforming circles;
