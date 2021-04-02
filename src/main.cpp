@@ -53,12 +53,13 @@ int main(int argc, char *argv[])
 
             gl.matrix_stack.push_matrix();
             gl.matrix_stack.scale(0.5, 0.5, 1.0);
-            for(float theta = 0.0; theta < 720.0; theta+=1.0)
+            for(int i = 0; i < 720; i++)
             {
-                gl.matrix_stack.rotate_x(theta*3.1416927/180.0);
-                gl.matrix_stack.rotate_y(theta*3.1416927/180.0);
-	   		    //gl.cube();
-	   		    gl.circle();
+                printf("i=%d\n", i);
+                gl.matrix_stack.rotate_x(1.0);
+                gl.matrix_stack.rotate_y(1.0);
+	   		    gl.cube();
+	   		    //gl.circle();
                 SDL_UpdateTexture(texture, NULL, gl.image, WIDTH  * sizeof(uint32_t));	
                 SDL_RenderClear(renderer);
                 SDL_RenderCopy(renderer, texture, NULL, NULL);
