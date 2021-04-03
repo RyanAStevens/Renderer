@@ -52,30 +52,28 @@ TransformMatrix& MatrixStack::get_ctm()
 
 void MatrixStack::translate(float x, float y, float z)
 {
-   TransformMatrix tm = TransformMatrix();
+   TransformMatrix tm;
    (*tm.data)[0].components[3] = x;
    (*tm.data)[1].components[3] = y;
    (*tm.data)[2].components[3] = z;
 
-   TransformMatrix result = _stack.top()*tm;
-   _stack.push(result);
+   _stack.top() = _stack.top()*tm;
 }
 
 void MatrixStack::scale(float x, float y, float z)
 {
-   TransformMatrix tm = TransformMatrix();
+   TransformMatrix tm;
    (*tm.data)[0].components[0] = x;
    (*tm.data)[1].components[1] = y;
    (*tm.data)[2].components[2] = z;
 
-   TransformMatrix result = _stack.top()*tm;
-   _stack.push(result);
+   _stack.top() = _stack.top()*tm;
 }
 
 void MatrixStack::rotate_x(float theta)
 {
    float thetaRad = theta * CON_RAD;
-   TransformMatrix tm = TransformMatrix();
+   TransformMatrix tm;
    (*tm.data)[1].components[1] = cos(thetaRad);
    (*tm.data)[1].components[2] = -1*sin(thetaRad);
    (*tm.data)[2].components[1] = sin(thetaRad);
@@ -87,7 +85,7 @@ void MatrixStack::rotate_x(float theta)
 void MatrixStack::rotate_y(float theta)
 {
    float thetaRad = theta * CON_RAD;
-   TransformMatrix tm = TransformMatrix();
+   TransformMatrix tm;
    (*tm.data)[0].components[0] = cos(thetaRad);
    (*tm.data)[0].components[2] = sin(thetaRad);
    (*tm.data)[2].components[0] = -1*sin(thetaRad);
@@ -99,7 +97,7 @@ void MatrixStack::rotate_y(float theta)
 void MatrixStack::rotate_z(float theta)
 {
    float thetaRad = theta * CON_RAD;
-   TransformMatrix tm = TransformMatrix();
+   TransformMatrix tm;
    (*tm.data)[0].components[0] = cos(thetaRad);
    (*tm.data)[0].components[1] = -1*sin(thetaRad);
    (*tm.data)[1].components[0] = sin(thetaRad);
@@ -108,9 +106,15 @@ void MatrixStack::rotate_z(float theta)
    _stack.top() = _stack.top()*tm;
 }
 
+int32_t MatrixStack::size()
+{
+    return _stack.size();
+}
+
 void MatrixStack::push_matrix()
 {
     _stack.push(_stack.top());
+    //_stack.push(TransformMatrix(_stack.top()));
 }
 
 int32_t MatrixStack::pop_matrix()

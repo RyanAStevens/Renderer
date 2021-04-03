@@ -9,14 +9,13 @@ class TransformMatrix : public Matrix
 {
 public:
     TransformMatrix();
+    TransformMatrix(const TransformMatrix& tm);
     TransformMatrix(int n_r, int n_c);
     TransformMatrix(enum matrix_constructor_t mat_type);
     TransformMatrix(Vector3H, Vector3H, Vector3H, Vector3H);
     ~TransformMatrix();
-
-
-TransformMatrix operator*(TransformMatrix rhs);
-Vertex operator*(Vertex rhs);
+    TransformMatrix operator*(TransformMatrix rhs);
+    Vertex operator*(Vertex rhs);
 };
 
 #endif //TRANSFORM_MATRIX_H_

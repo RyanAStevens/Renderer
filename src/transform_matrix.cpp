@@ -16,6 +16,20 @@ TransformMatrix::TransformMatrix(int n_r, int n_c) : Matrix(n_r, n_c)
   //  printf("hello from TransformMatrix (row, col) constructor\n");
 }
 
+TransformMatrix::TransformMatrix(const TransformMatrix& tm) : Matrix(IDENTITY)
+{
+ //   printf("hello from TransformMatrix copy constructor\n");
+    for(int row = 0; row < 4; row++)
+    {
+        for(int col = 0; col < 4; col++)
+        {
+            (*(this->data))[row][col] = (*(tm.data))[row][col];
+        }
+    }
+}
+/*
+*/
+
 TransformMatrix::TransformMatrix(Vector3H r0, Vector3H r1, Vector3H r2, Vector3H r3)
 {
    // printf("hello from TransformMatrix(Vector3H) constructor\n");

@@ -36,38 +36,84 @@ int main(int argc, char *argv[])
 	    if(SDL_KEYDOWN == event.type)
 	    {
            gl.clear_image(Color(1.0, 1.0, 1.0));
+           gl.matrix_stack.print_ctm();
+           printf("push matrix before draw\n");
+           gl.matrix_stack.push_matrix();
            switch( event.key.keysym.sym )
            {
 	   	    case SDLK_1:
-	   		    printf("DRAW SQUARE !!!!! Before\n");
-	   		    gl.square();
-	   		    printf("DRAW SQUARE !!!!! After\n");
+                    printf("\n\nstack test!!!\n");
+                    printf("stack size: %d\n", gl.matrix_stack.size());
+                    gl.matrix_stack.print_ctm();
+                    printf("push\n");
+                    gl.matrix_stack.push_matrix();
+                    printf("stack size: %d\n", gl.matrix_stack.size());
+                    gl.matrix_stack.print_ctm();
+                    printf("rotate x\n");
+                    gl.matrix_stack.rotate_x(1.0);
+                    gl.matrix_stack.print_ctm();
+                    printf("pop\n");
+                    gl.matrix_stack.pop_matrix();
+                    printf("stack size: %d\n", gl.matrix_stack.size());
+                    gl.matrix_stack.print_ctm();
+
+                    printf("push\n");
+                    gl.matrix_stack.push_matrix();
+                    printf("stack size: %d\n", gl.matrix_stack.size());
+                    gl.matrix_stack.print_ctm();
+                    printf("rotate y\n");
+                    gl.matrix_stack.rotate_y(1.0);
+                    gl.matrix_stack.print_ctm();
+                    printf("pop\n");
+                    gl.matrix_stack.pop_matrix();
+                    printf("stack size: %d\n", gl.matrix_stack.size());
+                    gl.matrix_stack.print_ctm();
+                    printf("\n\nend stack test!!!\n");
 	   		    break;
 	   	    case SDLK_2:
-	   		    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDRAW CIRCLE!!!!! Before\n");
+                printf("circle \n\n\n");
+                gl.matrix_stack.print_ctm();
+                gl.matrix_stack.scale(0.5, 0.5, 1.0);
+                gl.matrix_stack.print_ctm();
 	   		    gl.circle();
-	   		    printf("DRAW CIRCLE!!!!! After\n");
+                gl.matrix_stack.print_ctm();
 	   		    break;
 	   	    case SDLK_3:
-	   		    printf("DRAW CUBE\n");
-
-            gl.matrix_stack.push_matrix();
-            gl.matrix_stack.scale(0.5, 0.5, 1.0);
-            for(int i = 0; i < 720; i++)
-            {
-                printf("i=%d\n", i);
-                gl.matrix_stack.rotate_x(1.0);
-                gl.matrix_stack.rotate_y(1.0);
-	   		    gl.cube();
-	   		    //gl.circle();
-                SDL_UpdateTexture(texture, NULL, gl.image, WIDTH  * sizeof(uint32_t));	
-                SDL_RenderClear(renderer);
-                SDL_RenderCopy(renderer, texture, NULL, NULL);
-                SDL_RenderPresent(renderer);
-                usleep(25000);
-                gl.clear_image(Color(1.0, 1.0, 1.0));
-            }
-            gl.matrix_stack.pop_matrix();
+                printf("cube animation\n\n\n");
+                gl.matrix_stack.print_ctm();
+                gl.matrix_stack.scale(0.5, 0.5, 1.0);
+                gl.matrix_stack.print_ctm();
+                for(int i = 0; i < 720; i++)
+                {
+                    gl.matrix_stack.rotate_x(1.0);
+                    gl.matrix_stack.rotate_y(1.0);
+                    gl.cube();
+                    SDL_UpdateTexture(texture, NULL, gl.image, WIDTH  * sizeof(uint32_t));	
+                    SDL_RenderClear(renderer);
+                    SDL_RenderCopy(renderer, texture, NULL, NULL);
+                    SDL_RenderPresent(renderer);
+                    usleep(25000);
+                    gl.clear_image(Color(1.0, 1.0, 1.0));
+                }
+                gl.matrix_stack.print_ctm();
+	   		    break;
+	   	    case SDLK_4:
+	   		    gl.face();
+	   		    break;
+	   	    case SDLK_5:
+	   		    gl.faces();
+	   		    break;
+	   	    case SDLK_6:
+	   		    gl.persp_initials();
+	   		    break;
+	   	    case SDLK_7:
+	   		    gl.face_test();
+	   		    break;
+	   	    case SDLK_8:
+	   		    gl.ortho_test();
+	   		    break;
+	   	    case SDLK_9:
+	   		    gl.persp_multi_cubes();
 	   		    break;
 	   	    case SDLK_ESCAPE:
 	   		    quit = true;
@@ -77,7 +123,10 @@ int main(int argc, char *argv[])
 	   		    break;
            	default:
                	printf("key not recognized: %d\n", event.key.keysym.sym);
+          
 	   	}
+        printf("pop matrix after draw\n");
+        gl.matrix_stack.pop_matrix();
 
 	   }
        SDL_UpdateTexture(texture, NULL, gl.image, WIDTH  * sizeof(uint32_t));	

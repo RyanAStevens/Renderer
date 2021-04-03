@@ -176,7 +176,7 @@ void GraphicsLib::end_shape()
 {
         if(NULL != projection)
         {
-            TransformMatrix inv_m = TransformMatrix(INVERT_Y);
+            TransformMatrix inv_m(INVERT_Y);
             //draw the shape
             for(int i = 0; i < vertices.size(); i += 2)
             {
@@ -217,8 +217,6 @@ void GraphicsLib::add_vertex(double x_in, double y_in, double z_in)
 // unit radius cirle
 void GraphicsLib::circle()
 {
-    matrix_stack.push_matrix();
-    matrix_stack.scale(0.5, 0.5, 1.0);
     int steps = 65;
     double x = 0.0;
     double y = 0.0;
@@ -239,12 +237,10 @@ void GraphicsLib::circle()
     }
 
     end_shape();
-    matrix_stack.pop_matrix();
 }
 
 void GraphicsLib::square()
 {
-    printf("hello from square\n");
   begin_shape ();
 
   add_vertex (-0.5, -0.5, 0);
@@ -257,7 +253,6 @@ void GraphicsLib::square()
   add_vertex (-0.5, -0.5, 0);
 
   end_shape();
-    printf("goodbye from square\n");
 }
 
 void GraphicsLib::cube()
