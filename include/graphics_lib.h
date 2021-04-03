@@ -28,7 +28,7 @@ public:
     void begin_shape();
     void end_shape();
     void add_vertex(double x, double y, double z);
-    void circle();
+    void circle(int steps);
     void square();
     void cube();
     void face();

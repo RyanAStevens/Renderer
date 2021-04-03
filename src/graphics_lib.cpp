@@ -113,16 +113,6 @@ void GraphicsLib::draw_line(Vertex vert1, Vertex vert2, Color c)
     double x1 = vert2.x();
     double y1 = vert2.y();
    
-    //swap order if needed
-    if(x1 < x0 || y1 < y0)
-    {
-        double x1_tmp = x1;
-        double y1_tmp = y1;
-        x1 = x0;
-        y1 = y0;
-        x0 = x1_tmp;
-        y0 = y1_tmp;
-    }
        
     //map points to screen space
     x0 = (x0+1.0)*width/2.0; 
@@ -141,10 +131,21 @@ void GraphicsLib::draw_line(Vertex vert1, Vertex vert2, Color c)
         m = (y1 - y0) / (x1 - x0);
     }
     
-    //printf("draw_line: x0 = %f y0 = %f x1 = %f y1 = %f m = %f\n", x0, y0, x1, y1, m);
-    
     if(m <= 1 && m >= -1)
     {
+        //printf("draw_line slope between [-1:1] inclusive: x0 = %f y0 = %f x1 = %f y1 = %f m = %f\n", x0, y0, x1, y1, m);
+
+        //swap order if needed
+        if(x1 < x0)
+        {
+            double x1_tmp = x1;
+            double y1_tmp = y1;
+            x1 = x0;
+            y1 = y0;
+            x0 = x1_tmp;
+            y0 = y1_tmp;
+        }
+
         for(double x = x0; x <= x1; x++)
         {
             t = (x - x0) / (x1 - x0); 
@@ -156,9 +157,21 @@ void GraphicsLib::draw_line(Vertex vert1, Vertex vert2, Color c)
     }
     else
     {
-        for(double y = y0; y <= y1; y++)
+        //printf("draw_line: x0 = %f y0 = %f x1 = %f y1 = %f m = %f\n", x0, y0, x1, y1, m);
+        
+        //swap order if needed
+        if(y1 < y0)
         {
-            
+            double x1_tmp = x1;
+            double y1_tmp = y1;
+            x1 = x0;
+            y1 = y0;
+            x0 = x1_tmp;
+            y0 = y1_tmp;
+        }
+       
+       for(double y = y0; y <= y1; y++)
+        {
             t = (y - y0) / (y1 - y0); 
             x_f = x0 + ((x1 - x0) * t);
             plot_point(int(x_f), int(y), c);
@@ -215,9 +228,8 @@ void GraphicsLib::add_vertex(double x_in, double y_in, double z_in)
 }
 
 // unit radius cirle
-void GraphicsLib::circle()
+void GraphicsLib::circle(int steps)
 {
-    int steps = 65;
     double x = 0.0;
     double y = 0.0;
     double xold = 1.0;
@@ -225,7 +237,7 @@ void GraphicsLib::circle()
     float theta = 0.0f;
     begin_shape();
 
-    for(double i = 0.0; i <= steps; i+=1.0)
+    for(double i = 1.0; i <= steps; i+=1.0)
     {
         theta = 2.0 * 3.1415926535 * i / double(steps);
         x = cos(theta);
@@ -304,40 +316,41 @@ void GraphicsLib::cube()
 // draw a face by transforming circles;
 void GraphicsLib::face()
 {
+    int circle_steps = 50;
     printf("hello from face\n");
     // head
     matrix_stack.push_matrix();
     matrix_stack.translate (0.5, 0.5, 0);
     matrix_stack.scale (0.4, 0.4, 1.0);
-    circle();
+    circle(circle_steps);
     matrix_stack.pop_matrix();
 
     // right eye
     matrix_stack.push_matrix();
     matrix_stack.translate (0.7, 0.7, 0.0);
     matrix_stack.scale (0.1, 0.1, 1.0);
-    circle();
+    circle(circle_steps);
     matrix_stack.pop_matrix();
 
     // // left eye
     matrix_stack.push_matrix();
     matrix_stack.translate (0.3, 0.7, 0.0);
     matrix_stack.scale (0.1, 0.1, 1.0);
-    circle();
+    circle(circle_steps);
     matrix_stack.pop_matrix();
 
     // nose
     matrix_stack.push_matrix();
     matrix_stack.translate (0.5, 0.5, 0.0);
     matrix_stack.scale (0.07, 0.07, 1.0);
-    circle();
+    circle(circle_steps);
     matrix_stack.pop_matrix();
 
     // mouth
     matrix_stack.push_matrix();
     matrix_stack.translate (0.5, 0.25, 0.0);
     matrix_stack.scale (0.2, 0.1, 1.0);
-    circle();
+    circle(circle_steps);
     matrix_stack.pop_matrix();
     printf("goodbye from face\n");
 }
