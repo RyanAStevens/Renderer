@@ -91,7 +91,9 @@ void MatrixStack::rotate_y(float theta)
    (*tm.data)[2].components[0] = -1*sin(thetaRad);
    (*tm.data)[2].components[2] = cos(thetaRad);
 
+    printf("1 rotate_y: _stack.top() = _stack.top()*tm;\n");
    _stack.top() = _stack.top()*tm;
+    printf("2 rotate_y: _stack.top() = _stack.top()*tm;\n");
 }
 
 void MatrixStack::rotate_z(float theta)
@@ -113,20 +115,26 @@ int32_t MatrixStack::size()
 
 void MatrixStack::push_matrix()
 {
-    _stack.push(_stack.top());
-    //_stack.push(TransformMatrix(_stack.top()));
+    if(_stack.size() > 0)
+    {
+        _stack.push(_stack.top());
+    }
+    else
+    {
+        printf("cannot push. matrix stack is empty\n");
+    }
 }
 
 int32_t MatrixStack::pop_matrix()
 {
-    if(_stack.size() > 0)
+    if(_stack.size() > 1)
     {
         _stack.pop();
         return 0;
     }
     else
     {
-        std::cout << "Cannot pop matrix stack. Stack is empty\n";
+        std::cout << "Cannot pop matrix stack. Stack contains only  initial identity\n";
         return -1;
     }
 }

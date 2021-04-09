@@ -1,9 +1,8 @@
-cmake_minimum_required(VERSION 2.6)
 project(test)
 
 # Locate GTest
 find_package(GTest REQUIRED)
-include_directories(${GTEST_INCLUDE_DIRS} test_include ../include/)
+include_directories(${GTEST_INCLUDE_DIRS} test_include ../include/ /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/stdlib.h)
 
 set(CMAKE_CXX_FLAGS "-std=c++11")
 set(GRAPHICS_LIB_SOURCE_DIR "../src/")
@@ -15,8 +14,10 @@ set(SOURCES
     ${GRAPHICS_LIB_SOURCE_DIR}/vector3.cpp
     ${GRAPHICS_LIB_SOURCE_DIR}/matrix_stack.cpp
     ${GRAPHICS_LIB_SOURCE_DIR}/matrix.cpp
+    ${GRAPHICS_LIB_SOURCE_DIR}/transform_matrix.cpp
     ${GRAPHICS_LIB_SOURCE_DIR}/vector3h.cpp
     ${GRAPHICS_LIB_SOURCE_DIR}/color.cpp
+    ${GRAPHICS_LIB_SOURCE_DIR}/vertex.cpp
    )
 
 set(TEST_SOURCES

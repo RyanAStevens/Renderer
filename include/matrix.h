@@ -10,7 +10,6 @@ enum matrix_constructor_t
    IDENTITY,
    INVERT_X,
    INVERT_Y,
-   VERTEX
 };
 
 class Matrix
@@ -23,7 +22,6 @@ public:
     Matrix(double x_in, double y_in, double z_in);
     ~Matrix();
 
-    Matrix operator*(Matrix rhs);
     Matrix& operator=(Matrix rhs);
     Vector3H& operator[](int i);
     

@@ -196,20 +196,9 @@ void GraphicsLib::end_shape()
                 //perform transformation
                 Vertex vert1 = vertices[i];
                 Vertex vert2 = vertices[i+1];
-                /*
-                printf("\n\nend_shape: before transformation\n");
-                vert1.print();
-                vert2.print();
-                */
                 TransformMatrix ctm = matrix_stack.get_ctm();
                 vert1 = ctm * (*projection->matrix) * inv_m * vert1;
                 vert2 = ctm * (*projection->matrix) * inv_m * vert2;
-                /*
-                printf("end_shape: after transformation\n");
-                vert1.print();
-                vert2.print();
-                printf("\n\n");
-                */
 
                 //draw line
                 draw_line(vert1, vert2, Color(0.0, 0.5, 1.0));
@@ -489,15 +478,10 @@ void GraphicsLib::ortho_cube()
 {
     printf("hello from ortho_cube\n");
     matrix_stack.initialize();
-    printf("ortho_cube 1\n");
     set_orthographic (-2, 2, -2, 2, -2, 2);
-    printf("ortho_cube 2\n");
     matrix_stack.push_matrix();
-    printf("ortho_cube 3\n");
     matrix_stack.rotate_y(17);
-    printf("ortho_cube 4\n");
     cube();
-    printf("ortho_cube 5\n");
     matrix_stack.pop_matrix();
     printf("goodbye from ortho_cube\n");
 }

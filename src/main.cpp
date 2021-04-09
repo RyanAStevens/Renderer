@@ -37,14 +37,17 @@ int main(int argc, char *argv[])
 	    if(SDL_KEYDOWN == event.type)
 	    {
            gl.clear_image(Color(1.0, 1.0, 1.0));
-           gl.matrix_stack.print_ctm();
-           printf("push matrix before draw\n");
-           gl.matrix_stack.push_matrix();
            switch( event.key.keysym.sym )
            {
 	   	    case SDLK_1:
-                printf("circle \n\n\n");
+
+                printf("circle\n");
+                gl.matrix_stack.push_matrix();
+                gl.matrix_stack.get_ctm().print();
                 gl.matrix_stack.scale(0.5, 0.5, 1.0);
+	   		    gl.circle(30);
+                gl.matrix_stack.pop_matrix();
+/*
                 for(int i = 3; i <= 34; i++)
                 {
                     printf("\n\ncircle with %d steps\n", i);
@@ -56,21 +59,19 @@ int main(int argc, char *argv[])
                     usleep(50*1000);
                     gl.clear_image(Color(1.0, 1.0, 1.0));
                 }
+*/
 	   		    break;
 	   	    case SDLK_2:
-                printf("square \n\n\n");
-                gl.matrix_stack.scale(0.5, 0.5, 1.0);
-	   		    gl.square();
-	   		    break;
-	   	    case SDLK_3:
-                printf("cube animation\n\n\n");
-                gl.matrix_stack.scale(0.5, 0.5, 1.0);
+                printf("cube\n");
+                gl.matrix_stack.push_matrix();
+                gl.matrix_stack.scale(0.2, 0.2, 1.0);
+                //gl.cube();
                 for(double i = 108.0; i < rotate_deg; i += 1.0)
                 {
                     gl.matrix_stack.rotate_x(1.0);
                     gl.matrix_stack.rotate_y(1.0);
-                    //gl.cube();
-                    gl.circle(int(30.0*i/rotate_deg));
+                    gl.ortho_cube();
+                    //gl.circle(int(30.0*i/rotate_deg));
                     SDL_UpdateTexture(texture, NULL, gl.image, WIDTH  * sizeof(uint32_t));	
                     SDL_RenderClear(renderer);
                     SDL_RenderCopy(renderer, texture, NULL, NULL);
@@ -78,24 +79,49 @@ int main(int argc, char *argv[])
                     usleep(10*1000);
                     gl.clear_image(Color(1.0, 1.0, 1.0));
                 }
+                gl.matrix_stack.pop_matrix();
+	   		    break;
+	   	    case SDLK_3:
+                printf("draw an orthographic cube\n");
+                gl.matrix_stack.push_matrix();
+                gl.ortho_cube();
+                gl.matrix_stack.pop_matrix();
 	   		    break;
 	   	    case SDLK_4:
+                printf("face\n");
+                gl.matrix_stack.push_matrix();
 	   		    gl.face();
+                gl.matrix_stack.pop_matrix();
 	   		    break;
 	   	    case SDLK_5:
+                printf("faces\n");
+                gl.matrix_stack.push_matrix();
 	   		    gl.faces();
+                gl.matrix_stack.pop_matrix();
 	   		    break;
 	   	    case SDLK_6:
+                printf("persp_initials\n");
+                gl.matrix_stack.push_matrix();
 	   		    gl.persp_initials();
+                gl.matrix_stack.pop_matrix();
 	   		    break;
 	   	    case SDLK_7:
+                printf("face_test\n");
+                gl.matrix_stack.push_matrix();
 	   		    gl.face_test();
+                gl.matrix_stack.pop_matrix();
 	   		    break;
 	   	    case SDLK_8:
+                printf("ortho_test\n");
+                gl.matrix_stack.push_matrix();
 	   		    gl.ortho_test();
+                gl.matrix_stack.pop_matrix();
 	   		    break;
 	   	    case SDLK_9:
+                printf("persp_multi_cubes\n");
+                gl.matrix_stack.push_matrix();
 	   		    gl.persp_multi_cubes();
+                gl.matrix_stack.pop_matrix();
 	   		    break;
 	   	    case SDLK_ESCAPE:
 	   		    quit = true;
@@ -107,9 +133,6 @@ int main(int argc, char *argv[])
                	printf("key not recognized: %d\n", event.key.keysym.sym);
           
 	   	}
-        printf("pop matrix after draw\n");
-        gl.matrix_stack.pop_matrix();
-
 	   }
        SDL_UpdateTexture(texture, NULL, gl.image, WIDTH  * sizeof(uint32_t));	
        SDL_RenderClear(renderer);

@@ -16,26 +16,3 @@ void MatrixTest::SetUp() {
 void MatrixTest::TearDown() {
 //    std::cout << "hello from google test TearDown().\n";
 }
-
-// Tests the Matrix '*' operator.
-TEST_F(MatrixTest, MatrixMultiplyOperator) {
-        Matrix A(4);
-        Matrix B(1);
-        Matrix C(1);
-        A[0][0] = 1.0;
-        A[1][1] = 1.0;
-        A[2][2] = 1.0;
-        A[3][3] = 1.0;
-
-        B[0][0] = 1.0;
-        B[0][1] = 2.0;
-        B[0][2] = 3.0;
-        B[0][3] = 4.0;
-
-        C = B*A;
-        
-        EXPECT_EQ(C[0][0], 1.0);
-        EXPECT_EQ(C[0][1], 2.0);
-        EXPECT_EQ(C[0][2], 3.0);
-        EXPECT_EQ(C[0][3], 4.0);
-}
