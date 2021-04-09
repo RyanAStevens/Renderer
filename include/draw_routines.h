@@ -1,6 +1,6 @@
 #include <graphics_lib.h>
 void circle(int steps);
-void square(GraphicsLib *gl_p);
+enum render_status square(GraphicsLib *gl_p);
 void cube();
 void face();
 void faces();

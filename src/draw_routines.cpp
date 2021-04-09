@@ -26,8 +26,9 @@ void circle(int steps)
     end_shape();
 }
 */
-void square(GraphicsLib *gl_p)
+enum render_status square(GraphicsLib *gl_p)
 {
+  enum render_status fs = RENDER_FUNC_ERROR;
   if(NULL != gl_p)
   {
       gl_p->begin_shape ();
@@ -42,11 +43,13 @@ void square(GraphicsLib *gl_p)
       gl_p->add_vertex (-0.5, -0.5, 0);
 
       gl_p->end_shape();
+      fs = RENDER_FUNC_SUCCESS;
   }
   else
   {
      std::cout << "GraphicsLib pointer was NULL" << std::endl;
   }
+  return fs;
 }
 /*
 void cube()

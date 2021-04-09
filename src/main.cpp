@@ -1,5 +1,6 @@
 #include <SDL.h>
 #include <graphics_lib.h>
+#include <draw_routines.h>
 #include <projection.h>
 #include <unistd.h>
 
@@ -41,11 +42,11 @@ int main(int argc, char *argv[])
            {
 	   	    case SDLK_1:
 
-                printf("circle\n");
+                printf("square\n");
                 gl.matrix_stack.push_matrix();
                 gl.matrix_stack.get_ctm().print();
                 gl.matrix_stack.scale(0.5, 0.5, 1.0);
-	   		    gl.circle(30);
+	   		    square(&gl);
                 gl.matrix_stack.pop_matrix();
 /*
                 for(int i = 3; i <= 34; i++)
@@ -61,6 +62,7 @@ int main(int argc, char *argv[])
                 }
 */
 	   		    break;
+                /*
 	   	    case SDLK_2:
                 printf("cube\n");
                 gl.matrix_stack.push_matrix();
@@ -123,6 +125,7 @@ int main(int argc, char *argv[])
 	   		    gl.persp_multi_cubes();
                 gl.matrix_stack.pop_matrix();
 	   		    break;
+                */
 	   	    case SDLK_ESCAPE:
 	   		    quit = true;
 	   		    break;

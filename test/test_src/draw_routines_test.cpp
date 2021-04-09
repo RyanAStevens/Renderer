@@ -19,6 +19,5 @@ void DrawRoutineTest::TearDown() {
 }
 
 TEST_F(DrawRoutineTest, square) {
-   square(gl_p);
-   EXPECT_EQ(0, 0);
+   EXPECT_EQ(0, square(gl_p));
 }

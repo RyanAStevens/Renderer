@@ -14,6 +14,12 @@
 #define RED_SHIFT 16
 #define GREEN_SHIFT 8
 
+enum render_status
+{
+    RENDER_FUNC_SUCCESS = 0,
+    RENDER_FUNC_ERROR = -1
+};
+
 class GraphicsLib
 {
 public:
