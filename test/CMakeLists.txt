@@ -18,6 +18,7 @@ set(SOURCES
     ${GRAPHICS_LIB_SOURCE_DIR}/vector3h.cpp
     ${GRAPHICS_LIB_SOURCE_DIR}/color.cpp
     ${GRAPHICS_LIB_SOURCE_DIR}/vertex.cpp
+    ${GRAPHICS_LIB_SOURCE_DIR}/draw_routines.cpp
    )
 
 set(TEST_SOURCES
@@ -28,6 +29,7 @@ set(TEST_SOURCES
     test_src/matrix_stack_test.cpp
     test_src/graphics_lib_test.cpp
     test_src/color_test.cpp
+    test_src/draw_routines_test.cpp
    )
 
 # Link runTests with what we want to test and the GTest and pthread library

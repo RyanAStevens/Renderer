@@ -9,6 +9,7 @@
 #include <vertex.h>
 #include <transform_matrix.h>
 #include <string>
+#include <cstddef>
 
 #define RED_SHIFT 16
 #define GREEN_SHIFT 8
@@ -28,20 +29,6 @@ public:
     void begin_shape();
     void end_shape();
     void add_vertex(double x, double y, double z);
-    void circle(int steps);
-    void square();
-    void cube();
-    void face();
-    void faces();
-    void persp_initials();
-    void face_test();
-    void ortho_test();
-    void ortho_test_scale();
-    void ortho_test_rotate();
-    void ortho_cube();
-    void ortho_cube2();
-    void persp_cube();
-    void persp_multi_cubes();
     uint32_t width;
     uint32_t height;
     uint32_t n_pixels;
