@@ -35,6 +35,17 @@ public:
     void begin_shape();
     void end_shape();
     void add_vertex(double x, double y, double z);
+    void initialize();
+    void print_ctm();
+    TransformMatrix& get_ctm();
+    void translate(float x,float y,float z);
+    void scale(float x,float y,float z);
+    void rotate_x(float theta);
+    void rotate_y(float theta);
+    void rotate_z(float theta);
+    void push_matrix();
+    void pop_matrix();
+    int32_t size();
     uint32_t width;
     uint32_t height;
     uint32_t n_pixels;

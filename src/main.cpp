@@ -43,11 +43,11 @@ int main(int argc, char *argv[])
 	   	    case SDLK_1:
 
                 printf("square\n");
-                gl.matrix_stack.push_matrix();
-                gl.matrix_stack.get_ctm().print();
-                gl.matrix_stack.scale(0.5, 0.5, 1.0);
+                gl.push_matrix();
+                gl.get_ctm().print();
+                gl.scale(0.5, 0.5, 1.0);
 	   		    square(&gl);
-                gl.matrix_stack.pop_matrix();
+                gl.pop_matrix();
 /*
                 for(int i = 3; i <= 34; i++)
                 {
@@ -62,17 +62,16 @@ int main(int argc, char *argv[])
                 }
 */
 	   		    break;
-                /*
 	   	    case SDLK_2:
                 printf("cube\n");
-                gl.matrix_stack.push_matrix();
-                gl.matrix_stack.scale(0.2, 0.2, 1.0);
+                gl.push_matrix();
+                gl.scale(0.2, 0.2, 1.0);
                 //gl.cube();
                 for(double i = 108.0; i < rotate_deg; i += 1.0)
                 {
-                    gl.matrix_stack.rotate_x(1.0);
-                    gl.matrix_stack.rotate_y(1.0);
-                    gl.ortho_cube();
+                    gl.rotate_x(1.0);
+                    gl.rotate_y(1.0);
+                    ortho_cube(&gl);
                     //gl.circle(int(30.0*i/rotate_deg));
                     SDL_UpdateTexture(texture, NULL, gl.image, WIDTH  * sizeof(uint32_t));	
                     SDL_RenderClear(renderer);
@@ -81,51 +80,50 @@ int main(int argc, char *argv[])
                     usleep(10*1000);
                     gl.clear_image(Color(1.0, 1.0, 1.0));
                 }
-                gl.matrix_stack.pop_matrix();
+                gl.pop_matrix();
 	   		    break;
 	   	    case SDLK_3:
                 printf("draw an orthographic cube\n");
-                gl.matrix_stack.push_matrix();
-                gl.ortho_cube();
-                gl.matrix_stack.pop_matrix();
+                gl.push_matrix();
+                ortho_cube(&gl);
+                gl.pop_matrix();
 	   		    break;
 	   	    case SDLK_4:
                 printf("face\n");
-                gl.matrix_stack.push_matrix();
-	   		    gl.face();
-                gl.matrix_stack.pop_matrix();
+                gl.push_matrix();
+	   		    face(&gl);
+                gl.pop_matrix();
 	   		    break;
 	   	    case SDLK_5:
                 printf("faces\n");
-                gl.matrix_stack.push_matrix();
-	   		    gl.faces();
-                gl.matrix_stack.pop_matrix();
+                gl.push_matrix();
+	   		    faces(&gl);
+                gl.pop_matrix();
 	   		    break;
 	   	    case SDLK_6:
                 printf("persp_initials\n");
-                gl.matrix_stack.push_matrix();
-	   		    gl.persp_initials();
-                gl.matrix_stack.pop_matrix();
+                gl.push_matrix();
+	   		    persp_initials(&gl);
+                gl.pop_matrix();
 	   		    break;
 	   	    case SDLK_7:
                 printf("face_test\n");
-                gl.matrix_stack.push_matrix();
-	   		    gl.face_test();
-                gl.matrix_stack.pop_matrix();
+                gl.push_matrix();
+	   		    face_test(&gl);
+                gl.pop_matrix();
 	   		    break;
 	   	    case SDLK_8:
                 printf("ortho_test\n");
-                gl.matrix_stack.push_matrix();
-	   		    gl.ortho_test();
-                gl.matrix_stack.pop_matrix();
+                gl.push_matrix();
+	   		    ortho_test(&gl);
+                gl.pop_matrix();
 	   		    break;
 	   	    case SDLK_9:
                 printf("persp_multi_cubes\n");
-                gl.matrix_stack.push_matrix();
-	   		    gl.persp_multi_cubes();
-                gl.matrix_stack.pop_matrix();
+                gl.push_matrix();
+	   		    persp_multi_cubes(&gl);
+                gl.pop_matrix();
 	   		    break;
-                */
 	   	    case SDLK_ESCAPE:
 	   		    quit = true;
 	   		    break;

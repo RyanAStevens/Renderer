@@ -37,12 +37,6 @@ GraphicsLib::GraphicsLib(p_mode_t draw_mode, int w, int h)
 GraphicsLib::~GraphicsLib()
 {
     printf("hello from GraphicsLib destructor\n");
-    /*
-    delete[] image;
-    delete vertices;
-    delete matrix_stack;
-    delete projection;
-    */
 }
 
 void GraphicsLib::set_orthographic(double left, double right, double bottom, double top, double near, double far)
@@ -196,7 +190,7 @@ void GraphicsLib::end_shape()
                 //perform transformation
                 Vertex vert1 = vertices[i];
                 Vertex vert2 = vertices[i+1];
-                TransformMatrix ctm = matrix_stack.get_ctm();
+                TransformMatrix ctm = get_ctm();
                 vert1 = ctm * (*projection->matrix) * inv_m * vert1;
                 vert2 = ctm * (*projection->matrix) * inv_m * vert2;
 
@@ -214,5 +208,60 @@ void GraphicsLib::add_vertex(double x_in, double y_in, double z_in)
 {
     Vertex v(x_in, y_in, z_in);
     vertices.push_back(v);
+}
+
+void GraphicsLib::initialize()
+{
+   matrix_stack.initialize();
+}
+
+void GraphicsLib::print_ctm()
+{
+   matrix_stack.print_ctm();
+}
+
+void GraphicsLib::translate(float x,float y,float z)
+{
+   matrix_stack.translate(x, y, z);
+}
+
+void GraphicsLib::scale(float x,float y,float z)
+{
+   matrix_stack.scale(x, y, z);
+}
+
+void GraphicsLib::rotate_x(float theta)
+{
+   matrix_stack.rotate_x(theta);
+}
+
+void GraphicsLib::rotate_y(float theta)
+{
+   matrix_stack.rotate_y(theta);
+}
+
+void GraphicsLib::rotate_z(float theta)
+{
+   matrix_stack.rotate_z(theta);
+}
+
+void GraphicsLib::push_matrix()
+{
+   matrix_stack.push_matrix();
+}
+
+void GraphicsLib::pop_matrix()
+{
+   matrix_stack.pop_matrix();
+}
+
+TransformMatrix& GraphicsLib::get_ctm()
+{
+   return matrix_stack.get_ctm();
+}
+
+int32_t GraphicsLib::size()
+{
+   return matrix_stack.size();
 }
 

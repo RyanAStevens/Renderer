@@ -1,31 +1,40 @@
 #include <draw_routines.h>
 #include <iostream>
 
-/*
 // unit radius cirle
-void circle(int steps)
+enum render_status circle(int steps, GraphicsLib *gl_p)
 {
+  enum render_status fs = RENDER_FUNC_ERROR;
+  if(NULL != gl_p)
+  {
     double x = 0.0;
     double y = 0.0;
     double xold = 1.0;
     double yold = 0.0;
     float theta = 0.0f;
-    begin_shape();
+    gl_p->begin_shape();
 
     for(double i = 1.0; i <= steps; i+=1.0)
     {
         theta = 2.0 * 3.1415926535 * i / double(steps);
         x = cos(theta);
         y = sin(theta);
-        add_vertex (xold, yold, 0);
-        add_vertex (x, y, 0);
+        gl_p->add_vertex (xold, yold, 0);
+        gl_p->add_vertex (x, y, 0);
         xold = x;
         yold = y;
     }
 
-    end_shape();
+    gl_p->end_shape();
+      fs = RENDER_FUNC_SUCCESS;
+  }
+  else
+  {
+     std::cout << "GraphicsLib pointer was NULL" << std::endl;
+  }
+  return fs;
 }
-*/
+
 enum render_status square(GraphicsLib *gl_p)
 {
   enum render_status fs = RENDER_FUNC_ERROR;
@@ -51,292 +60,409 @@ enum render_status square(GraphicsLib *gl_p)
   }
   return fs;
 }
-/*
-void cube()
+
+enum render_status cube(GraphicsLib *gl_p)
 {
-        begin_shape();
+  enum render_status fs = RENDER_FUNC_ERROR;
+  if(NULL != gl_p)
+  {
+        gl_p->begin_shape();
         
         // top square
-        add_vertex (-1.0, -1.0,  1.0);
-        add_vertex (-1.0,  1.0,  1.0);
+        gl_p->add_vertex (-1.0, -1.0,  1.0);
+        gl_p->add_vertex (-1.0,  1.0,  1.0);
 
-        add_vertex (-1.0,  1.0,  1.0);
-        add_vertex ( 1.0,  1.0,  1.0);
+        gl_p->add_vertex (-1.0,  1.0,  1.0);
+        gl_p->add_vertex ( 1.0,  1.0,  1.0);
 
-        add_vertex ( 1.0,  1.0,  1.0);
-        add_vertex ( 1.0, -1.0,  1.0);
+        gl_p->add_vertex ( 1.0,  1.0,  1.0);
+        gl_p->add_vertex ( 1.0, -1.0,  1.0);
 
-        add_vertex ( 1.0, -1.0,  1.0);
-        add_vertex (-1.0, -1.0,  1.0);
+        gl_p->add_vertex ( 1.0, -1.0,  1.0);
+        gl_p->add_vertex (-1.0, -1.0,  1.0);
 
         // bottom square
-        add_vertex (-1.0, -1.0, -1.0);
-        add_vertex (-1.0,  1.0, -1.0);
+        gl_p->add_vertex (-1.0, -1.0, -1.0);
+        gl_p->add_vertex (-1.0,  1.0, -1.0);
         
-        add_vertex (-1.0,  1.0, -1.0);
-        add_vertex ( 1.0,  1.0, -1.0);
+        gl_p->add_vertex (-1.0,  1.0, -1.0);
+        gl_p->add_vertex ( 1.0,  1.0, -1.0);
         
-        add_vertex ( 1.0,  1.0, -1.0);
-        add_vertex ( 1.0, -1.0, -1.0);
+        gl_p->add_vertex ( 1.0,  1.0, -1.0);
+        gl_p->add_vertex ( 1.0, -1.0, -1.0);
      
-        add_vertex ( 1.0, -1.0, -1.0);
-        add_vertex (-1.0, -1.0, -1.0);
+        gl_p->add_vertex ( 1.0, -1.0, -1.0);
+        gl_p->add_vertex (-1.0, -1.0, -1.0);
         
         // connect top to bottom
-        add_vertex (-1.0, -1.0, -1.0);
-        add_vertex (-1.0, -1.0,  1.0);
+        gl_p->add_vertex (-1.0, -1.0, -1.0);
+        gl_p->add_vertex (-1.0, -1.0,  1.0);
         
-        add_vertex (-1.0,  1.0, -1.0);
-        add_vertex (-1.0,  1.0,  1.0);
+        gl_p->add_vertex (-1.0,  1.0, -1.0);
+        gl_p->add_vertex (-1.0,  1.0,  1.0);
         
-        add_vertex ( 1.0,  1.0, -1.0);
-        add_vertex ( 1.0,  1.0,  1.0);
+        gl_p->add_vertex ( 1.0,  1.0, -1.0);
+        gl_p->add_vertex ( 1.0,  1.0,  1.0);
         
-        add_vertex ( 1.0, -1.0, -1.0);
-        add_vertex ( 1.0, -1.0,  1.0);
+        gl_p->add_vertex ( 1.0, -1.0, -1.0);
+        gl_p->add_vertex ( 1.0, -1.0,  1.0);
        
-        end_shape();
+        gl_p->end_shape();
+      fs = RENDER_FUNC_SUCCESS;
+  }
+  else
+  {
+     std::cout << "GraphicsLib pointer was NULL" << std::endl;
+  }
+  return fs;
 }
 
 // draw a face by transforming circles;
-void face()
+enum render_status face(GraphicsLib *gl_p)
 {
+  enum render_status fs = RENDER_FUNC_ERROR;
+  if(NULL != gl_p)
+  {
     int circle_steps = 50;
     printf("hello from face\n");
     // head
-    matrix_stack.push_matrix();
-    matrix_stack.translate (0.5, 0.5, 0);
-    matrix_stack.scale (0.4, 0.4, 1.0);
-    circle(circle_steps);
-    matrix_stack.pop_matrix();
+    gl_p->push_matrix();
+    gl_p->translate (0.5, 0.5, 0);
+    gl_p->scale (0.4, 0.4, 1.0);
+    circle(circle_steps, gl_p);
+    gl_p->pop_matrix();
 
     // right eye
-    matrix_stack.push_matrix();
-    matrix_stack.translate (0.7, 0.7, 0.0);
-    matrix_stack.scale (0.1, 0.1, 1.0);
-    circle(circle_steps);
-    matrix_stack.pop_matrix();
+    gl_p->push_matrix();
+    gl_p->translate (0.7, 0.7, 0.0);
+    gl_p->scale (0.1, 0.1, 1.0);
+    circle(circle_steps, gl_p);
+    gl_p->pop_matrix();
 
     // // left eye
-    matrix_stack.push_matrix();
-    matrix_stack.translate (0.3, 0.7, 0.0);
-    matrix_stack.scale (0.1, 0.1, 1.0);
-    circle(circle_steps);
-    matrix_stack.pop_matrix();
+    gl_p->push_matrix();
+    gl_p->translate (0.3, 0.7, 0.0);
+    gl_p->scale (0.1, 0.1, 1.0);
+    circle(circle_steps, gl_p);
+    gl_p->pop_matrix();
 
     // nose
-    matrix_stack.push_matrix();
-    matrix_stack.translate (0.5, 0.5, 0.0);
-    matrix_stack.scale (0.07, 0.07, 1.0);
-    circle(circle_steps);
-    matrix_stack.pop_matrix();
+    gl_p->push_matrix();
+    gl_p->translate (0.5, 0.5, 0.0);
+    gl_p->scale (0.07, 0.07, 1.0);
+    circle(circle_steps, gl_p);
+    gl_p->pop_matrix();
 
     // mouth
-    matrix_stack.push_matrix();
-    matrix_stack.translate (0.5, 0.25, 0.0);
-    matrix_stack.scale (0.2, 0.1, 1.0);
-    circle(circle_steps);
-    matrix_stack.pop_matrix();
+    gl_p->push_matrix();
+    gl_p->translate (0.5, 0.25, 0.0);
+    gl_p->scale (0.2, 0.1, 1.0);
+    circle(circle_steps, gl_p);
+    gl_p->pop_matrix();
     printf("goodbye from face\n");
+      fs = RENDER_FUNC_SUCCESS;
+  }
+  else
+  {
+     std::cout << "GraphicsLib pointer was NULL" << std::endl;
+  }
+  return fs;
 }
 
 // draw several faces
-void faces()
+enum render_status faces(GraphicsLib *gl_p)
 {
+  enum render_status fs = RENDER_FUNC_ERROR;
+  if(NULL != gl_p)
+  {
     printf("hello from faces\n");
-    matrix_stack.initialize ();
+    gl_p->initialize ();
     
-    set_orthographic (0, 1, 0, 1, -1, 1);
+    gl_p->set_orthographic (0, 1, 0, 1, -1, 1);
     
-    matrix_stack.push_matrix();
-    matrix_stack.translate (0.75, 0.25, 0.0);
-    matrix_stack.scale (0.5, 0.5, 1.0);
-    matrix_stack.translate (-0.5, -0.5, 0.0);
-    face();
-    matrix_stack.pop_matrix();
+    gl_p->push_matrix();
+    gl_p->translate (0.75, 0.25, 0.0);
+    gl_p->scale (0.5, 0.5, 1.0);
+    gl_p->translate (-0.5, -0.5, 0.0);
+    face(gl_p);
+    gl_p->pop_matrix();
     
-    matrix_stack.push_matrix();
-    matrix_stack.translate (0.25, 0.25, 0.0);
-    matrix_stack.scale (0.5, 0.5, 1.0);
-    matrix_stack.translate (-0.5, -0.5, 0.0);
-    face();
-    matrix_stack.pop_matrix();
+    gl_p->push_matrix();
+    gl_p->translate (0.25, 0.25, 0.0);
+    gl_p->scale (0.5, 0.5, 1.0);
+    gl_p->translate (-0.5, -0.5, 0.0);
+    face(gl_p);
+    gl_p->pop_matrix();
     
-    matrix_stack.push_matrix();
-    matrix_stack.translate (0.75, 0.75, 0.0);
-    matrix_stack.scale (0.5, 0.5, 1.0);
-    matrix_stack.translate (-0.5, -0.5, 0.0);
-    face();
-    matrix_stack.pop_matrix();
+    gl_p->push_matrix();
+    gl_p->translate (0.75, 0.75, 0.0);
+    gl_p->scale (0.5, 0.5, 1.0);
+    gl_p->translate (-0.5, -0.5, 0.0);
+    face(gl_p);
+    gl_p->pop_matrix();
     
-    matrix_stack.push_matrix();
-    matrix_stack.translate (0.25, 0.75, 0.0);
-    matrix_stack.scale (0.5, 0.5, 1.0);
-    matrix_stack.rotate_z (30);
-    matrix_stack.translate (-0.5, -0.5, 0.0);
-    face();
-    matrix_stack.pop_matrix();
+    gl_p->push_matrix();
+    gl_p->translate (0.25, 0.75, 0.0);
+    gl_p->scale (0.5, 0.5, 1.0);
+    gl_p->rotate_z (30);
+    gl_p->translate (-0.5, -0.5, 0.0);
+    face(gl_p);
+    gl_p->pop_matrix();
     printf("goodbye from faces\n");
+      fs = RENDER_FUNC_SUCCESS;
+  }
+  else
+  {
+     std::cout << "GraphicsLib pointer was NULL" << std::endl;
+  }
+  return fs;
 } 
 
-void persp_initials()
+enum render_status persp_initials(GraphicsLib *gl_p)
 {
+  enum render_status fs = RENDER_FUNC_ERROR;
+  if(NULL != gl_p)
+  {
     printf("hello from persp_initials\n");
-    matrix_stack.initialize();
-    set_perspective (60, -100, 100);
-    matrix_stack.push_matrix();
-    matrix_stack.translate(0, 0, -4);
-    matrix_stack.rotate_z(-45);
-    matrix_stack.rotate_x(-45);
-    matrix_stack.rotate_y(-45);
+    gl_p->initialize();
+    gl_p->set_perspective (60, -100, 100);
+    gl_p->push_matrix();
+    gl_p->translate(0, 0, -4);
+    gl_p->rotate_z(-45);
+    gl_p->rotate_x(-45);
+    gl_p->rotate_y(-45);
 
-    begin_shape();
+    gl_p->begin_shape();
 
     //Draw R
-    add_vertex(-1, 1, 0);
-    add_vertex(0, 1, 0);
+    gl_p->add_vertex(-1, 1, 0);
+    gl_p->add_vertex(0, 1, 0);
 
-    add_vertex(-1, 1, 0);
-    add_vertex(-1, 0.5, 0);
+    gl_p->add_vertex(-1, 1, 0);
+    gl_p->add_vertex(-1, 0.5, 0);
 
-    add_vertex(0, 1, 0);
-    add_vertex(0, 0.5, 0);
+    gl_p->add_vertex(0, 1, 0);
+    gl_p->add_vertex(0, 0.5, 0);
 
-    add_vertex(-1, 0.5, 0);
-    add_vertex(-1, 0, 0);
+    gl_p->add_vertex(-1, 0.5, 0);
+    gl_p->add_vertex(-1, 0, 0);
 
-    add_vertex(-1, 0.5, 0);
-    add_vertex(0, 0.5, 0);
+    gl_p->add_vertex(-1, 0.5, 0);
+    gl_p->add_vertex(0, 0.5, 0);
 
-    add_vertex(-1, 0.5, 0);
-    add_vertex(0, 0, 0);
+    gl_p->add_vertex(-1, 0.5, 0);
+    gl_p->add_vertex(0, 0, 0);
 
     //draw S
-    add_vertex(0.2, 0.5, 0);
-    add_vertex(1, 0.5, 0);
+    gl_p->add_vertex(0.2, 0.5, 0);
+    gl_p->add_vertex(1, 0.5, 0);
 
-    add_vertex(0.2, 0.5, 0);
-    add_vertex(0.2, 0, 0);
+    gl_p->add_vertex(0.2, 0.5, 0);
+    gl_p->add_vertex(0.2, 0, 0);
 
-    add_vertex(0.2, 0, 0);
-    add_vertex(1, 0, 0);
+    gl_p->add_vertex(0.2, 0, 0);
+    gl_p->add_vertex(1, 0, 0);
 
-    add_vertex(1, 0, 0);
-    add_vertex(1, -1, 0);
+    gl_p->add_vertex(1, 0, 0);
+    gl_p->add_vertex(1, -1, 0);
 
-    add_vertex(1, -1, 0);
-    add_vertex(0.2, -1, 0);
+    gl_p->add_vertex(1, -1, 0);
+    gl_p->add_vertex(0.2, -1, 0);
 
-    end_shape();
-    matrix_stack.pop_matrix();
+    gl_p->end_shape();
+    gl_p->pop_matrix();
     printf("goodbye from persp_initials\n");
+      fs = RENDER_FUNC_SUCCESS;
+  }
+  else
+  {
+     std::cout << "GraphicsLib pointer was NULL" << std::endl;
+  }
+  return fs;
 }
 
-void face_test()
+enum render_status face_test(GraphicsLib *gl_p)
 {
+  enum render_status fs = RENDER_FUNC_ERROR;
+  if(NULL != gl_p)
+  {
     printf("hello from face_test\n");
-    matrix_stack.initialize();
-    set_orthographic (0, 1, 0, 1, -1, 1);
-    face();
+    gl_p->initialize();
+    gl_p->set_orthographic (0, 1, 0, 1, -1, 1);
+    face(gl_p);
     printf("goodbye from face_test\n");
+      fs = RENDER_FUNC_SUCCESS;
+  }
+  else
+  {
+     std::cout << "GraphicsLib pointer was NULL" << std::endl;
+  }
+  return fs;
 }
 
-void ortho_test()
+enum render_status ortho_test(GraphicsLib *gl_p)
 {
+  enum render_status fs = RENDER_FUNC_ERROR;
+  if(NULL != gl_p)
+  {
     printf("hello from ortho_test\n");
-    matrix_stack.initialize();
-    set_orthographic (-100, 100, -100, 100, -100, 100);
-    square();
+    gl_p->initialize();
+    gl_p->set_orthographic (-100, 100, -100, 100, -100, 100);
+    square(gl_p);
     printf("goodbye from ortho_test\n");
+      fs = RENDER_FUNC_SUCCESS;
+  }
+  else
+  {
+     std::cout << "GraphicsLib pointer was NULL" << std::endl;
+  }
+  return fs;
 }
 
-void ortho_test_scale()
+enum render_status ortho_test_scale(GraphicsLib *gl_p)
 {
+  enum render_status fs = RENDER_FUNC_ERROR;
+  if(NULL != gl_p)
+  {
     printf("hello from ortho_test_scale\n");
-    matrix_stack.initialize();
-    matrix_stack.scale(1,0.5,1);
-    set_orthographic (-100, 100, -100, 100, -100, 100);
-    square();
+    gl_p->initialize();
+    gl_p->scale(1,0.5,1);
+    gl_p->set_orthographic (-100, 100, -100, 100, -100, 100);
+    square(gl_p);
     printf("goodbye from ortho_test_scale\n");
+      fs = RENDER_FUNC_SUCCESS;
+  }
+  else
+  {
+     std::cout << "GraphicsLib pointer was NULL" << std::endl;
+  }
+  return fs;
 }
 
-void ortho_test_rotate()
+enum render_status ortho_test_rotate(GraphicsLib *gl_p)
 {
+  enum render_status fs = RENDER_FUNC_ERROR;
+  if(NULL != gl_p)
+  {
     printf("hello from ortho_test_rotate\n");
-    matrix_stack.initialize();
-    matrix_stack.rotate_z(20);
-    set_orthographic (-100, 100, -100, 100, -100, 100);
-    square();
+    gl_p->initialize();
+    gl_p->rotate_z(20);
+    gl_p->set_orthographic (-100, 100, -100, 100, -100, 100);
+    square(gl_p);
     printf("goodbye from ortho_test_rotate\n");
+      fs = RENDER_FUNC_SUCCESS;
+  }
+  else
+  {
+     std::cout << "GraphicsLib pointer was NULL" << std::endl;
+  }
+  return fs;
 }
 
-void ortho_cube()
+enum render_status ortho_cube(GraphicsLib *gl_p)
 {
+  enum render_status fs = RENDER_FUNC_ERROR;
+  if(NULL != gl_p)
+  {
     printf("hello from ortho_cube\n");
-    matrix_stack.initialize();
-    set_orthographic (-2, 2, -2, 2, -2, 2);
-    matrix_stack.push_matrix();
-    matrix_stack.rotate_y(17);
-    cube();
-    matrix_stack.pop_matrix();
+    gl_p->initialize();
+    gl_p->set_orthographic (-2, 2, -2, 2, -2, 2);
+    gl_p->push_matrix();
+    gl_p->rotate_y(17);
+    cube(gl_p);
+    gl_p->pop_matrix();
     printf("goodbye from ortho_cube\n");
+      fs = RENDER_FUNC_SUCCESS;
+  }
+  else
+  {
+     std::cout << "GraphicsLib pointer was NULL" << std::endl;
+  }
+  return fs;
 }
 
-void ortho_cube2()
+enum render_status ortho_cube2(GraphicsLib *gl_p)
 {
+  enum render_status fs = RENDER_FUNC_ERROR;
+  if(NULL != gl_p)
+  {
     printf("hello from ortho_cube2\n");
-    matrix_stack.initialize();
-    set_orthographic (-2, 2, -2, 2, -2, 2);
-    matrix_stack.push_matrix();
-    matrix_stack.rotate_z(5);
-    matrix_stack.rotate_x(25);
-    matrix_stack.rotate_y(20);
-    cube();
-    matrix_stack.pop_matrix();
+    gl_p->initialize();
+    gl_p->set_orthographic (-2, 2, -2, 2, -2, 2);
+    gl_p->push_matrix();
+    gl_p->rotate_z(5);
+    gl_p->rotate_x(25);
+    gl_p->rotate_y(20);
+    cube(gl_p);
+    gl_p->pop_matrix();
     printf("goodbye from ortho_cube2\n");
+      fs = RENDER_FUNC_SUCCESS;
+  }
+  else
+  {
+     std::cout << "GraphicsLib pointer was NULL" << std::endl;
+  }
+  return fs;
 }
 
-void persp_cube()
+enum render_status persp_cube(GraphicsLib *gl_p)
 {
+  enum render_status fs = RENDER_FUNC_ERROR;
+  if(NULL != gl_p)
+  {
     printf("hello from persp_cube\n");
-    matrix_stack.initialize();
-    set_perspective (60, -100, 100);
-    matrix_stack.push_matrix();
-    matrix_stack.translate(0, 0, -4);
-    cube();
-    matrix_stack.pop_matrix();
+    gl_p->initialize();
+    gl_p->set_perspective (60, -100, 100);
+    gl_p->push_matrix();
+    gl_p->translate(0, 0, -4);
+    cube(gl_p);
+    gl_p->pop_matrix();
     printf("goodbye from persp_cube\n");
+      fs = RENDER_FUNC_SUCCESS;
+  }
+  else
+  {
+     std::cout << "GraphicsLib pointer was NULL" << std::endl;
+  }
+  return fs;
 }
 
-void persp_multi_cubes()
+enum render_status persp_multi_cubes(GraphicsLib *gl_p)
 {
-    printf("hello from persp_multi_cubes\n");
-    matrix_stack.initialize();
-    set_perspective (60, -100, 100);
-    matrix_stack.push_matrix();
-    matrix_stack.translate(0, 0, -20);
-    matrix_stack.rotate_z(5);
-    matrix_stack.rotate_x(25);
-    matrix_stack.rotate_y(20);
+  enum render_status fs = RENDER_FUNC_ERROR;
+  if(NULL != gl_p)
+  {
+    gl_p->initialize();
+    gl_p->set_perspective (60, -100, 100);
+    gl_p->push_matrix();
+    gl_p->translate(0, 0, -20);
+    gl_p->rotate_z(5);
+    gl_p->rotate_x(25);
+    gl_p->rotate_y(20);
     
     // draw several cubes in three lines (x, y, z)
     for(int delta = -12; delta <= 13; delta += 3)
     {
-        matrix_stack.push_matrix();
-        matrix_stack.translate(delta, 0, 0);
-        cube();
-        matrix_stack.pop_matrix();
-        matrix_stack.push_matrix();
-        matrix_stack.translate(0, delta, 0);
-        cube();
-        matrix_stack.pop_matrix();
-        matrix_stack.push_matrix();
-        matrix_stack.translate(0, 0, delta);
-        cube();
-        matrix_stack.pop_matrix();
+        gl_p->push_matrix();
+        gl_p->translate(delta, 0, 0);
+        cube(gl_p);
+        gl_p->pop_matrix();
+        gl_p->push_matrix();
+        gl_p->translate(0, delta, 0);
+        cube(gl_p);
+        gl_p->pop_matrix();
+        gl_p->push_matrix();
+        gl_p->translate(0, 0, delta);
+        cube(gl_p);
+        gl_p->pop_matrix();
     }    
 
-    matrix_stack.pop_matrix();
-    printf("goodbye from persp_multi_cubes\n");
+    gl_p->pop_matrix();
+      fs = RENDER_FUNC_SUCCESS;
+  }
+  else
+  {
+     std::cout << "GraphicsLib pointer was NULL" << std::endl;
+  }
+  return fs;
 }
-*/

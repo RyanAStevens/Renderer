@@ -1,15 +1,16 @@
 #include <graphics_lib.h>
-void circle(int steps);
+
+enum render_status circle(int steps, GraphicsLib *gl_p);
 enum render_status square(GraphicsLib *gl_p);
-void cube();
-void face();
-void faces();
-void persp_initials();
-void face_test();
-void ortho_test();
-void ortho_test_scale();
-void ortho_test_rotate();
-void ortho_cube();
-void ortho_cube2();
-void persp_cube();
-void persp_multi_cubes();
+enum render_status cube(GraphicsLib *gl_p);
+enum render_status face(GraphicsLib *gl_p);
+enum render_status faces(GraphicsLib *gl_p);
+enum render_status persp_initials(GraphicsLib *gl_p);
+enum render_status face_test(GraphicsLib *gl_p);
+enum render_status ortho_test(GraphicsLib *gl_p);
+enum render_status ortho_test_scale(GraphicsLib *gl_p);
+enum render_status ortho_test_rotate(GraphicsLib *gl_p);
+enum render_status ortho_cube(GraphicsLib *gl_p);
+enum render_status ortho_cube2(GraphicsLib *gl_p);
+enum render_status persp_cube(GraphicsLib *gl_p);
+enum render_status persp_multi_cubes(GraphicsLib *gl_p);
