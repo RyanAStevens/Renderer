@@ -91,7 +91,7 @@ void GraphicsLib::plot_point(uint32_t x, uint32_t y, Color c)
 	}
 	else
 	{
-		printf("plot_point: ERROR point (%d, %d) is out of bounds for the current window\n", x, y);
+		//printf("plot_point: ERROR point (%d, %d) is out of bounds for the current window\n", x, y);
 	}
 }
 

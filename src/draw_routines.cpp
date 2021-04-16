@@ -123,8 +123,7 @@ enum render_status face(GraphicsLib *gl_p)
   enum render_status fs = RENDER_FUNC_ERROR;
   if(NULL != gl_p)
   {
-    int circle_steps = 50;
-    printf("hello from face\n");
+    int circle_steps = 30;
     // head
     gl_p->push_matrix();
     gl_p->translate (0.5, 0.5, 0);
@@ -159,8 +158,7 @@ enum render_status face(GraphicsLib *gl_p)
     gl_p->scale (0.2, 0.1, 1.0);
     circle(circle_steps, gl_p);
     gl_p->pop_matrix();
-    printf("goodbye from face\n");
-      fs = RENDER_FUNC_SUCCESS;
+    fs = RENDER_FUNC_SUCCESS;
   }
   else
   {
@@ -175,10 +173,7 @@ enum render_status faces(GraphicsLib *gl_p)
   enum render_status fs = RENDER_FUNC_ERROR;
   if(NULL != gl_p)
   {
-    printf("hello from faces\n");
-    gl_p->initialize ();
-    
-    gl_p->set_orthographic (0, 1, 0, 1, -1, 1);
+    //gl_p->set_orthographic (0, 1, 0, 1, -1, 1);
     
     gl_p->push_matrix();
     gl_p->translate (0.75, 0.25, 0.0);
@@ -208,8 +203,7 @@ enum render_status faces(GraphicsLib *gl_p)
     gl_p->translate (-0.5, -0.5, 0.0);
     face(gl_p);
     gl_p->pop_matrix();
-    printf("goodbye from faces\n");
-      fs = RENDER_FUNC_SUCCESS;
+    fs = RENDER_FUNC_SUCCESS;
   }
   else
   {
@@ -223,9 +217,7 @@ enum render_status persp_initials(GraphicsLib *gl_p)
   enum render_status fs = RENDER_FUNC_ERROR;
   if(NULL != gl_p)
   {
-    printf("hello from persp_initials\n");
-    gl_p->initialize();
-    gl_p->set_perspective (60, -100, 100);
+    //gl_p->set_perspective (60, -100, 100);
     gl_p->push_matrix();
     gl_p->translate(0, 0, -4);
     gl_p->rotate_z(-45);
@@ -271,8 +263,7 @@ enum render_status persp_initials(GraphicsLib *gl_p)
 
     gl_p->end_shape();
     gl_p->pop_matrix();
-    printf("goodbye from persp_initials\n");
-      fs = RENDER_FUNC_SUCCESS;
+    fs = RENDER_FUNC_SUCCESS;
   }
   else
   {
@@ -286,12 +277,9 @@ enum render_status face_test(GraphicsLib *gl_p)
   enum render_status fs = RENDER_FUNC_ERROR;
   if(NULL != gl_p)
   {
-    printf("hello from face_test\n");
-    gl_p->initialize();
     gl_p->set_orthographic (0, 1, 0, 1, -1, 1);
     face(gl_p);
-    printf("goodbye from face_test\n");
-      fs = RENDER_FUNC_SUCCESS;
+    fs = RENDER_FUNC_SUCCESS;
   }
   else
   {
@@ -305,12 +293,9 @@ enum render_status ortho_test(GraphicsLib *gl_p)
   enum render_status fs = RENDER_FUNC_ERROR;
   if(NULL != gl_p)
   {
-    printf("hello from ortho_test\n");
-    gl_p->initialize();
     gl_p->set_orthographic (-100, 100, -100, 100, -100, 100);
     square(gl_p);
-    printf("goodbye from ortho_test\n");
-      fs = RENDER_FUNC_SUCCESS;
+    fs = RENDER_FUNC_SUCCESS;
   }
   else
   {
@@ -324,13 +309,10 @@ enum render_status ortho_test_scale(GraphicsLib *gl_p)
   enum render_status fs = RENDER_FUNC_ERROR;
   if(NULL != gl_p)
   {
-    printf("hello from ortho_test_scale\n");
-    gl_p->initialize();
     gl_p->scale(1,0.5,1);
     gl_p->set_orthographic (-100, 100, -100, 100, -100, 100);
     square(gl_p);
-    printf("goodbye from ortho_test_scale\n");
-      fs = RENDER_FUNC_SUCCESS;
+    fs = RENDER_FUNC_SUCCESS;
   }
   else
   {
@@ -344,13 +326,10 @@ enum render_status ortho_test_rotate(GraphicsLib *gl_p)
   enum render_status fs = RENDER_FUNC_ERROR;
   if(NULL != gl_p)
   {
-    printf("hello from ortho_test_rotate\n");
-    gl_p->initialize();
     gl_p->rotate_z(20);
     gl_p->set_orthographic (-100, 100, -100, 100, -100, 100);
     square(gl_p);
-    printf("goodbye from ortho_test_rotate\n");
-      fs = RENDER_FUNC_SUCCESS;
+    fs = RENDER_FUNC_SUCCESS;
   }
   else
   {
@@ -364,15 +343,11 @@ enum render_status ortho_cube(GraphicsLib *gl_p)
   enum render_status fs = RENDER_FUNC_ERROR;
   if(NULL != gl_p)
   {
-    printf("hello from ortho_cube\n");
-    gl_p->initialize();
     gl_p->set_orthographic (-2, 2, -2, 2, -2, 2);
     gl_p->push_matrix();
-    gl_p->rotate_y(17);
     cube(gl_p);
     gl_p->pop_matrix();
-    printf("goodbye from ortho_cube\n");
-      fs = RENDER_FUNC_SUCCESS;
+    fs = RENDER_FUNC_SUCCESS;
   }
   else
   {
@@ -386,8 +361,6 @@ enum render_status ortho_cube2(GraphicsLib *gl_p)
   enum render_status fs = RENDER_FUNC_ERROR;
   if(NULL != gl_p)
   {
-    printf("hello from ortho_cube2\n");
-    gl_p->initialize();
     gl_p->set_orthographic (-2, 2, -2, 2, -2, 2);
     gl_p->push_matrix();
     gl_p->rotate_z(5);
@@ -395,8 +368,7 @@ enum render_status ortho_cube2(GraphicsLib *gl_p)
     gl_p->rotate_y(20);
     cube(gl_p);
     gl_p->pop_matrix();
-    printf("goodbye from ortho_cube2\n");
-      fs = RENDER_FUNC_SUCCESS;
+    fs = RENDER_FUNC_SUCCESS;
   }
   else
   {
@@ -410,15 +382,12 @@ enum render_status persp_cube(GraphicsLib *gl_p)
   enum render_status fs = RENDER_FUNC_ERROR;
   if(NULL != gl_p)
   {
-    printf("hello from persp_cube\n");
-    gl_p->initialize();
-    gl_p->set_perspective (60, -100, 100);
+    //gl_p->set_perspective (60, -100, 100);
     gl_p->push_matrix();
     gl_p->translate(0, 0, -4);
     cube(gl_p);
     gl_p->pop_matrix();
-    printf("goodbye from persp_cube\n");
-      fs = RENDER_FUNC_SUCCESS;
+    fs = RENDER_FUNC_SUCCESS;
   }
   else
   {
@@ -432,16 +401,18 @@ enum render_status persp_multi_cubes(GraphicsLib *gl_p)
   enum render_status fs = RENDER_FUNC_ERROR;
   if(NULL != gl_p)
   {
-    gl_p->initialize();
-    gl_p->set_perspective (60, -100, 100);
+   // gl_p->set_perspective (60, -100, 100);
     gl_p->push_matrix();
+    gl_p->scale(0.1, 0.1, 0.1);
+    /*
     gl_p->translate(0, 0, -20);
     gl_p->rotate_z(5);
     gl_p->rotate_x(25);
     gl_p->rotate_y(20);
+    */
     
     // draw several cubes in three lines (x, y, z)
-    for(int delta = -12; delta <= 13; delta += 3)
+    for(double delta = -6.0; delta <= 6.0; delta += 4.0)
     {
         gl_p->push_matrix();
         gl_p->translate(delta, 0, 0);

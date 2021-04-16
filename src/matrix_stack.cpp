@@ -91,9 +91,7 @@ void MatrixStack::rotate_y(float theta)
    (*tm.data)[2].components[0] = -1*sin(thetaRad);
    (*tm.data)[2].components[2] = cos(thetaRad);
 
-    printf("1 rotate_y: _stack.top() = _stack.top()*tm;\n");
    _stack.top() = _stack.top()*tm;
-    printf("2 rotate_y: _stack.top() = _stack.top()*tm;\n");
 }
 
 void MatrixStack::rotate_z(float theta)
