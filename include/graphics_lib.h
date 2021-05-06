@@ -3,11 +3,10 @@
 
 #include <color.h>
 #include <matrix_stack.h>
-#include <matrix.h>
+#include <transform_matrix.h>
 #include <projection.h>
 #include <vector2.h>
 #include <vertex.h>
-#include <transform_matrix.h>
 #include <string>
 #include <cstddef>
 

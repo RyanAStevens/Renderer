@@ -10,6 +10,7 @@ Transformation matrix stack
 
 MatrixStack::MatrixStack()
 {
+    printf("MatrixStack() default constructor\n");
     _stack.push(TransformMatrix());
 }
 
@@ -66,7 +67,6 @@ void MatrixStack::scale(float x, float y, float z)
    (*tm.data)[0].components[0] = x;
    (*tm.data)[1].components[1] = y;
    (*tm.data)[2].components[2] = z;
-
    _stack.top() = _stack.top()*tm;
 }
 

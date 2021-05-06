@@ -2,20 +2,32 @@
 #define TRANSFORM_MATRIX_H_
 
 #include <vector3h.h>
-#include <matrix.h>
 #include <vertex.h>
+#include <math.h>
+#include <vector>
 
-class TransformMatrix : public Matrix
+enum matrix_constructor_t
+{
+   IDENTITY,
+   INVERT_X,
+   INVERT_Y,
+};
+
+class TransformMatrix
 {
 public:
     TransformMatrix();
+    TransformMatrix(int win_width, int win_height);
     TransformMatrix(const TransformMatrix& tm);
-    TransformMatrix(int n_r, int n_c);
     TransformMatrix(enum matrix_constructor_t mat_type);
     TransformMatrix(Vector3H, Vector3H, Vector3H, Vector3H);
     ~TransformMatrix();
     TransformMatrix operator*(TransformMatrix rhs);
     Vertex operator*(Vertex rhs);
+    TransformMatrix& operator=(TransformMatrix rhs);
+    Vector3H& operator[](int i);
+    void print();
+    std::vector<Vector3H>* data;
 };
 
 #endif //TRANSFORM_MATRIX_H_
