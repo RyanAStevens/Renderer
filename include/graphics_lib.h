@@ -25,8 +25,6 @@ public:
     GraphicsLib();
     GraphicsLib(p_mode_t draw_mode, int width, int height);
     ~GraphicsLib();
-    void set_orthographic(double left, double right, double bottom, double top, double near, double far);
-    void set_perspective(double fov, double near, double far);
     void clear_image(Color c);
     void plot_point(uint32_t x, uint32_t y, Color c);
     void draw_line(Vertex vert1, Vertex vert2, Color c);
@@ -52,6 +50,7 @@ public:
     std::vector<Vertex> vertices;
     MatrixStack matrix_stack;
     Projection* projection;
+    TransformMatrix* view;
 };
 
 #endif //GRAPHICS_LIB_H_

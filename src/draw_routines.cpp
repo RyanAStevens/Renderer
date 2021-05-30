@@ -173,8 +173,6 @@ enum render_status faces(GraphicsLib *gl_p)
   enum render_status fs = RENDER_FUNC_ERROR;
   if(NULL != gl_p)
   {
-    //gl_p->set_orthographic (0, 1, 0, 1, -1, 1);
-    
     gl_p->push_matrix();
     gl_p->translate (0.75, 0.25, 0.0);
     gl_p->scale (0.5, 0.5, 1.0);
@@ -217,7 +215,6 @@ enum render_status persp_initials(GraphicsLib *gl_p)
   enum render_status fs = RENDER_FUNC_ERROR;
   if(NULL != gl_p)
   {
-    //gl_p->set_perspective (60, -100, 100);
     gl_p->push_matrix();
     gl_p->translate(0, 0, -4);
     gl_p->rotate_z(-45);
@@ -277,7 +274,6 @@ enum render_status face_test(GraphicsLib *gl_p)
   enum render_status fs = RENDER_FUNC_ERROR;
   if(NULL != gl_p)
   {
-    gl_p->set_orthographic (0, 1, 0, 1, -1, 1);
     face(gl_p);
     fs = RENDER_FUNC_SUCCESS;
   }
@@ -293,7 +289,6 @@ enum render_status ortho_test(GraphicsLib *gl_p)
   enum render_status fs = RENDER_FUNC_ERROR;
   if(NULL != gl_p)
   {
-    gl_p->set_orthographic (-100, 100, -100, 100, -100, 100);
     square(gl_p);
     fs = RENDER_FUNC_SUCCESS;
   }
@@ -310,7 +305,6 @@ enum render_status ortho_test_scale(GraphicsLib *gl_p)
   if(NULL != gl_p)
   {
     gl_p->scale(1,0.5,1);
-    gl_p->set_orthographic (-100, 100, -100, 100, -100, 100);
     square(gl_p);
     fs = RENDER_FUNC_SUCCESS;
   }
@@ -327,7 +321,6 @@ enum render_status ortho_test_rotate(GraphicsLib *gl_p)
   if(NULL != gl_p)
   {
     gl_p->rotate_z(20);
-    gl_p->set_orthographic (-100, 100, -100, 100, -100, 100);
     square(gl_p);
     fs = RENDER_FUNC_SUCCESS;
   }
@@ -343,7 +336,6 @@ enum render_status ortho_cube(GraphicsLib *gl_p)
   enum render_status fs = RENDER_FUNC_ERROR;
   if(NULL != gl_p)
   {
-    gl_p->set_orthographic (-2, 2, -2, 2, -2, 2);
     gl_p->push_matrix();
     cube(gl_p);
     gl_p->pop_matrix();
@@ -361,7 +353,6 @@ enum render_status ortho_cube2(GraphicsLib *gl_p)
   enum render_status fs = RENDER_FUNC_ERROR;
   if(NULL != gl_p)
   {
-    gl_p->set_orthographic (-2, 2, -2, 2, -2, 2);
     gl_p->push_matrix();
     gl_p->rotate_z(5);
     gl_p->rotate_x(25);
@@ -382,7 +373,6 @@ enum render_status persp_cube(GraphicsLib *gl_p)
   enum render_status fs = RENDER_FUNC_ERROR;
   if(NULL != gl_p)
   {
-    //gl_p->set_perspective (60, -100, 100);
     gl_p->push_matrix();
     gl_p->translate(0, 0, -4);
     cube(gl_p);
@@ -401,7 +391,6 @@ enum render_status persp_multi_cubes(GraphicsLib *gl_p)
   enum render_status fs = RENDER_FUNC_ERROR;
   if(NULL != gl_p)
   {
-   // gl_p->set_perspective (60, -100, 100);
     gl_p->push_matrix();
     gl_p->scale(0.1, 0.1, 0.1);
     /*

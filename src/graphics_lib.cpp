@@ -16,54 +16,13 @@ GraphicsLib::GraphicsLib(p_mode_t draw_mode, int w, int h)
     n_pixels = w * h;
     image = new uint32_t[n_pixels];
     projection = new Projection(draw_mode, width, height);
+    view = new TransformMatrix(w, h);
     printf("goodbye from GraphicsLib(p_mode_t draw_mode, int w, int h) constructor\n");
-
-    TransformMatrix view_matrix = TransformMatrix(w, h);
-
-    matrix_stack.get_ctm() = view_matrix * matrix_stack.get_ctm();
 }
 
 GraphicsLib::~GraphicsLib()
 {
     printf("hello from GraphicsLib destructor\n");
-}
-
-void GraphicsLib::set_orthographic(double left, double right, double bottom, double top, double near, double far)
-{
-    printf("hello from set_orthographic\n");
-    if(NULL != projection)
-    {
-        projection->left = left;
-        projection->right = right;
-        projection->bottom = bottom;
-        projection->top = top; 
-        projection->near = near;
-        projection->far = far;
-
-        //scale
-        (*projection->matrix)[0][0] = 2 / (right - left);
-        (*projection->matrix)[1][1] = 2 / (top - bottom);
-        (*projection->matrix)[2][2] = -2 / (far - near);
-
-        //translate
-        (*projection->matrix)[0][3] = -1 * (right + left) / (right - left);
-        (*projection->matrix)[1][3] = -1 * (top + bottom) / (top - bottom);
-        (*projection->matrix)[2][3] = -1 * (far + near) / (far - near);
-    }
-    else
-    {
-        printf("unable to set projection: projection pointer was NULL\n");
-    }
-    
-    printf("goodbye from set_orthographic\n");
-}
-
-void GraphicsLib::set_perspective(double fov, double near, double far)
-{
-    projection->fov = fov; 
-    projection->near = near;
-    projection->far = far;
-    projection->mode = PERSPECTIVE;
 }
 
 void GraphicsLib::clear_image(Color c)
@@ -90,12 +49,19 @@ void GraphicsLib::end_shape()
         //apply current transformation
         Vertex vert1 = vertices[i];
         Vertex vert2 = vertices[i+1];
-        vert1 = ctm * vert1;
-        vert2 = ctm * vert2;
+        printf("vertex transform: before\n");
+        vert1.print();
+        vert2.print();
+        vert1 = *(projection->matrix) * *view * ctm * vert1;
+        vert2 = *(projection->matrix) * *view * ctm * vert2;
+        printf("\nvertex transform: after\n");
+        vert1.print();
+        vert2.print();
         
         //draw line
         draw_line(vert1, vert2, Color(0.0, 0.5, 1.0));
     }
+    projection->matrix->print();
 }
 
 void GraphicsLib::draw_line(Vertex vert1, Vertex vert2, Color c)
@@ -110,6 +76,7 @@ void GraphicsLib::draw_line(Vertex vert1, Vertex vert2, Color c)
     double y0 = vert1.y();
     double x1 = vert2.x();
     double y1 = vert2.y();
+    
    
     //calculate slope
     if(x0 == x1)
@@ -124,7 +91,7 @@ void GraphicsLib::draw_line(Vertex vert1, Vertex vert2, Color c)
     
     if(m <= 1 && m >= -1)
     {
-        //printf("draw_line slope between [-1:1] inclusive: x0 = %f y0 = %f x1 = %f y1 = %f m = %f\n", x0, y0, x1, y1, m);
+        printf("draw_line slope between [-1:1] inclusive: x0 = %f y0 = %f x1 = %f y1 = %f m = %f\n", x0, y0, x1, y1, m);
 
         //swap order if needed
         if(x1 < x0)
@@ -148,7 +115,7 @@ void GraphicsLib::draw_line(Vertex vert1, Vertex vert2, Color c)
     }
     else
     {
-        //printf("draw_line: x0 = %f y0 = %f x1 = %f y1 = %f m = %f\n", x0, y0, x1, y1, m);
+        printf("draw_line: x0 = %f y0 = %f x1 = %f y1 = %f m = %f\n", x0, y0, x1, y1, m);
         
         //swap order if needed
         if(y1 < y0)

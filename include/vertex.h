@@ -14,5 +14,6 @@ public:
     double x();
     double y();
     double z();
+    double h();
 };
 #endif //VERTEX_H_

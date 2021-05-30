@@ -13,13 +13,25 @@ Projection::Projection(enum p_mode_t proj_mode, uint32_t h, uint32_t w) : height
     matrix = new TransformMatrix(IDENTITY);
     
     //set default constraints for view volume
-    left = -1.0;
-    right = 1.0; 
-    bottom = -1.0;
-    top = 1.0;
-    near = -1.0;
-    far = 1.0;
+    left = -5.0;
+    right = 5.0; 
+    bottom = -5.0;
+    top = 5.0;
+    near = 5.0;
+    far = -5.0;
+     
+    set_projection(proj_mode);
+}
 
+void Projection::set_projection(enum p_mode_t proj_mode)
+{
+    if(NULL != matrix)
+    {
+        delete matrix;
+    }
+
+    matrix = new TransformMatrix(IDENTITY);
+    
     //Default to Orhographic Projection 
     (*matrix)[0][0] = 2.0 / (right - left);
     (*matrix)[1][1] = 2.0 / (top - bottom);
@@ -41,5 +53,15 @@ Projection::Projection(enum p_mode_t proj_mode, uint32_t h, uint32_t w) : height
 
         //apply it to projection matrix
         *matrix = persp_matrix * (*matrix);
+        printf("projection set to PERSPECTIVE\n");
     }
+    else
+    {
+        printf("projection set to ORTHOGRAPHIC\n");
+    }
+    printf("projection matrix:\n");
+    matrix->print();
+    printf("\n");
+    
+    
 }

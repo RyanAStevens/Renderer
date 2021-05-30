@@ -9,8 +9,18 @@
 enum matrix_constructor_t
 {
    IDENTITY,
-   INVERT_X,
-   INVERT_Y,
+   SCALE,
+   SCALE_X,
+   SCALE_Y,
+   SCALE_Z,
+   TRANSLATE,
+   TRANSLATE_X,
+   TRANSLATE_Y,
+   TRANSLATE_Z,
+   ROTATE_X,
+   ROTATE_Y,
+   ROTATE_Z,
+   INVERT_Y
 };
 
 class TransformMatrix
@@ -20,6 +30,8 @@ public:
     TransformMatrix(int win_width, int win_height);
     TransformMatrix(const TransformMatrix& tm);
     TransformMatrix(enum matrix_constructor_t mat_type);
+    TransformMatrix(enum matrix_constructor_t mat_type, double x_val, double y_val, double z_val);
+    TransformMatrix(enum matrix_constructor_t mat_type, double val);
     TransformMatrix(Vector3H, Vector3H, Vector3H, Vector3H);
     ~TransformMatrix();
     TransformMatrix operator*(TransformMatrix rhs);

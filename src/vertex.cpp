@@ -39,6 +39,11 @@ double Vertex::z()
     return this->components[2];
 }
 
+double Vertex::h()
+{
+    return this->components[3];
+}
+
 void Vertex::print()
 {
     printf("Vertex: (%f, %f, %f)\n", this->components[0], this->components[1], this->components[2]);

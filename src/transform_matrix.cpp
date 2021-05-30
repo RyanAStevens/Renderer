@@ -1,5 +1,6 @@
 #include <transform_matrix.h>
 #include <cstdio>
+#include <cmath>
 
 TransformMatrix::TransformMatrix()
 {
@@ -45,18 +46,110 @@ TransformMatrix::TransformMatrix(enum matrix_constructor_t mat_type)
         data->push_back(column);
     }
     
+    (*data)[0][0] = 1.0;
+    (*data)[1][1] = 1.0;
+    (*data)[2][2] = 1.0;
+    (*data)[3][3] = 1.0;
+    
     switch(mat_type)
     {
         case IDENTITY:
-            (*data)[0][0] = 1.0;
-            (*data)[1][1] = 1.0;
-            (*data)[2][2] = 1.0;
-            (*data)[3][3] = 1.0;
             break;
         case INVERT_Y:
-            (*data)[0][0] = 1.0;
             (*data)[1][1] = -1.0;
-            (*data)[2][2] = 1.0;
+            break;
+        default:
+            ;
+    }
+}
+
+
+TransformMatrix::TransformMatrix(enum matrix_constructor_t mat_type, double val)
+{
+    data = new std::vector<Vector3H>;
+    
+    for(int i = 0; i < 4; i++)
+    {
+        Vector3H column;
+        data->push_back(column);
+    }
+    
+    (*data)[0][0] = 1.0;
+    (*data)[1][1] = 1.0;
+    (*data)[2][2] = 1.0;
+    (*data)[3][3] = 1.0;
+    
+    switch(mat_type)
+    {
+        case SCALE:
+            (*data)[0][0] = val;
+            (*data)[1][1] = val;
+            (*data)[2][2] = val;
+            break;
+        case SCALE_X:
+            (*data)[0][0] = val;
+            break;
+        case SCALE_Y:
+            (*data)[1][1] = val;
+            break;
+        case SCALE_Z:
+            (*data)[2][2] = val;
+            break;
+        case TRANSLATE_X:
+            (*data)[0][3] = val;
+            break;
+        case TRANSLATE_Y:
+            (*data)[1][3] = val;
+            break;
+        case TRANSLATE_Z:
+            (*data)[2][3] = val;
+            break;
+        case ROTATE_X:
+            (*data)[1][1] = std::cos(val);
+            (*data)[1][2] = -1.0 * std::sin(val);
+            (*data)[2][1] = std::sin(val);
+            (*data)[2][2] = std::cos(val);
+            break;
+        case ROTATE_Y:
+            (*data)[0][0] = std::cos(val);
+            (*data)[0][2] = std::sin(val);
+            (*data)[2][0] = -1.0 * std::sin(val);
+            (*data)[2][2] = std::cos(val);
+            break;
+        case ROTATE_Z:
+            (*data)[0][0] = std::cos(val);
+            (*data)[0][1] = -1.0 * std::sin(val);
+            (*data)[1][0] = std::sin(val);
+            (*data)[1][1] = std::cos(val);
+            break;
+        default:
+            ;
+    }
+    
+}
+
+TransformMatrix::TransformMatrix(enum matrix_constructor_t mat_type, double x_val, double y_val, double z_val)
+{
+    data = new std::vector<Vector3H>;
+    
+    for(int i = 0; i < 4; i++)
+    {
+        Vector3H column;
+        data->push_back(column);
+    }
+    
+    switch(mat_type)
+    {
+        case SCALE:
+            (*data)[0][0] = x_val;
+            (*data)[1][1] = y_val;
+            (*data)[2][2] = z_val;
+            (*data)[3][3] = 1.0;
+            break;
+        case TRANSLATE:
+            (*data)[0][3] = x_val;
+            (*data)[1][3] = y_val;
+            (*data)[2][3] = z_val;
             (*data)[3][3] = 1.0;
             break;
         default:

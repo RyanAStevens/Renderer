@@ -27,8 +27,8 @@ int main(int argc, char *argv[])
 	
     SDL_Texture * texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC, WIDTH, HEIGHT); 
 
-    GraphicsLib gl = GraphicsLib(ORTHOGRAPHIC, WIDTH, HEIGHT);
-    //GraphicsLib gl = GraphicsLib(PERSPECTIVE, WIDTH, HEIGHT);
+   // GraphicsLib gl = GraphicsLib(ORTHOGRAPHIC, WIDTH, HEIGHT);
+    GraphicsLib gl = GraphicsLib(PERSPECTIVE, WIDTH, HEIGHT);
 	
     gl.push_matrix();
     gl.scale(0.5, 0.5, 0.5);
@@ -38,12 +38,13 @@ int main(int argc, char *argv[])
         
         gl.clear_image(Color(1.0, 1.0, 1.0));
        
+        draw_func_p(&gl);
+       
         if(SDL_MOUSEMOTION == event.type)
         {
                 printf("mouse @ %d,%d\n", event.motion.xrel, event.motion.yrel);
                 gl.rotate_x(event.motion.xrel);
                 gl.rotate_y(event.motion.yrel);
-                draw_func_p(&gl);
         }
 	    else if(SDL_KEYDOWN == event.type)
 	    {
@@ -63,6 +64,12 @@ int main(int argc, char *argv[])
 	   		    break;
 	   	    case SDLK_5:
 	   		    draw_func_p = &persp_initials;
+	   		    break;
+	   	    case SDLK_p:
+                gl.projection->set_projection(PERSPECTIVE);
+	   		    break;
+	   	    case SDLK_o:
+                gl.projection->set_projection(ORTHOGRAPHIC);
 	   		    break;
 	   	    case SDLK_ESCAPE:
 	   		    quit = true;
