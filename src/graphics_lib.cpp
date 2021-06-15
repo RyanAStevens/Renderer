@@ -16,7 +16,7 @@ GraphicsLib::GraphicsLib(p_mode_t draw_mode, int w, int h)
     n_pixels = w * h;
     image = new uint32_t[n_pixels];
     projection = new Projection(draw_mode, width, height);
-    view = new TransformMatrix(w, h);
+    set_view(Vector3(0,0,0), Vector3(0,0,-1), Vector3(0,1,0));
     printf("goodbye from GraphicsLib(p_mode_t draw_mode, int w, int h) constructor\n");
 }
 
@@ -85,8 +85,8 @@ void GraphicsLib::end_shape()
         printf("vertex transform: before\n");
         vert1.print();
         vert2.print();
-        vert1 = *(projection->matrix) * *view * ctm * vert1;
-        vert2 = *(projection->matrix) * *view * ctm * vert2;
+        vert1 = *(projection->matrix) * *m_view * ctm * vert1;
+        vert2 = *(projection->matrix) * *m_view * ctm * vert2;
         printf("\nvertex transform: after\n");
         vert1.print();
         vert2.print();

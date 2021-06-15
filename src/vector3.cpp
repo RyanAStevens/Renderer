@@ -7,6 +7,7 @@ scalar multiplication, and scalar division.
 */
 #include <vector3.h>
 #include <iostream>
+#include <cmath>
 
 Vector3::Vector3()
 {

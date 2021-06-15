@@ -1,5 +1,5 @@
 TARGET=GraphicsAreFun
-OBJECTS= color.o graphics_lib.o matrix.o matrix_stack.o projection.o transform_matrix.o vector2.o vector3.o vector3h.o vertex.o draw_routines.o
+OBJECTS= color.o graphics_lib.o matrix_stack.o projection.o transform_matrix.o vector2.o vector3.o vector3h.o vertex.o draw_routines.o
 HEADERS= $(patsubst %.o, %.h, $(OBJECTS)) main.h
 SRC_FILES= $(patsubst %.o, %.cpp, $(OBJECTS))
 INC_DIR= ../include
