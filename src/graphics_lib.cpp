@@ -25,6 +25,39 @@ GraphicsLib::~GraphicsLib()
     printf("hello from GraphicsLib destructor\n");
 }
 
+void GraphicsLib::set_view(Vector3 eye, Vector3 gaze, Vector3 view_up)
+{
+    TransformMatrix m_trans(TRANSLATE, -1.0*eye.get_i(), -1.0*eye.get_j(), -1.0*eye.get_k());
+    TransformMatrix m_basis;
+
+    Vector3 w;
+    Vector3 u;
+    Vector3 v;
+
+    w = (gaze * -1.0) / gaze.mag();
+    u = view_up.cross(w) / (view_up.cross(w)).mag();
+    v = w.cross(u);
+
+    (*m_basis.data)[0][0] = u.get_i();
+    (*m_basis.data)[0][1] = u.get_j();
+    (*m_basis.data)[0][2] = u.get_k();
+
+    (*m_basis.data)[1][0] = v.get_i();
+    (*m_basis.data)[1][1] = v.get_j();
+    (*m_basis.data)[1][2] = v.get_k();
+
+    (*m_basis.data)[2][0] = w.get_i();
+    (*m_basis.data)[2][1] = w.get_j();
+    (*m_basis.data)[2][2] = w.get_k();
+
+    if(NULL == m_view)
+    {
+        m_view = new TransformMatrix();
+    }
+
+    *m_view = m_basis * m_trans;
+}
+
 void GraphicsLib::clear_image(Color c)
 {
     uint32_t pixel_color = uint8_t(c.r * 255) << RED_SHIFT | uint8_t(c.g * 255) << GREEN_SHIFT | uint8_t(c.b * 255);
