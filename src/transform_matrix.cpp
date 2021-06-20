@@ -138,6 +138,11 @@ TransformMatrix::TransformMatrix(enum matrix_constructor_t mat_type, double x_va
         data->push_back(column);
     }
     
+    (*data)[0][0] = 1.0;
+    (*data)[1][1] = 1.0;
+    (*data)[2][2] = 1.0;
+    (*data)[3][3] = 1.0;
+    
     switch(mat_type)
     {
         case SCALE:
@@ -200,7 +205,6 @@ TransformMatrix::~TransformMatrix()
 TransformMatrix TransformMatrix::operator*(TransformMatrix rhs)
 {
     TransformMatrix ret;
-    
     //A(l x m) * B(m x n) = C(l x n)
     int l = 4;
     int m = 4;

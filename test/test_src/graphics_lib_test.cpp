@@ -29,5 +29,21 @@ TEST_F(GraphicsLibTest, begin_end_shape_line) {
    gl->end_shape();
     
    EXPECT_EQ(0, 0);
+}
+
+TEST_F(GraphicsLibTest, set_view) {
+    gl->set_view(Vector3(0,0,0), Vector3(1,0,-1), Vector3(0,1,0)); 
+    printf("m_view:\n");
+    gl->m_view->print();
+    printf("\n");
+    //apply current transformation
+    Vertex vert1 = Vertex(1.0, 0,0); 
+    printf("vertex transform: before\n");
+    vert1.print();
+    //vert1 = *(projection->matrix) * *m_view * ctm * vert1;
+    vert1 = *gl->m_view * vert1;
+    printf("\nvertex transform: after\n");
+    vert1.print();
     
+    EXPECT_EQ(0, 0);
 }

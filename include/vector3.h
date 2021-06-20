@@ -13,6 +13,7 @@ public:
     Vector3 operator-(const Vector3& rhs);
     Vector3 operator*(const double scalar);
     Vector3 operator/(const double scalar);
+    void print();
     double dot(const Vector3& rhs);
     Vector3 cross(const Vector3& rhs);
     double mag();

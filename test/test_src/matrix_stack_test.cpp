@@ -26,7 +26,7 @@ void MatrixStackTest::TearDown() {
 TEST_F(MatrixStackTest, InitOnly) {
     matStack->initialize();
 
-    Matrix ctm = matStack->get_ctm();
+    TransformMatrix ctm = matStack->get_ctm();
     EXPECT_EQ((*ctm.data)[0][0], 1);
     EXPECT_EQ((*ctm.data)[0][1], 0);
     EXPECT_EQ((*ctm.data)[0][2], 0);
@@ -52,7 +52,7 @@ TEST_F(MatrixStackTest, Traslate) {
     matStack->initialize();
     matStack->translate(3,2,1.5);
 
-    Matrix ctm = matStack->get_ctm();
+    TransformMatrix ctm = matStack->get_ctm();
     EXPECT_EQ((*ctm.data)[0][0], 1);
     EXPECT_EQ((*ctm.data)[0][1], 0);
     EXPECT_EQ((*ctm.data)[0][2], 0);
@@ -78,7 +78,7 @@ TEST_F(MatrixStackTest, Scale) {
     matStack->initialize();
     matStack->scale(2,3,4);
 
-    Matrix ctm = matStack->get_ctm();
+    TransformMatrix ctm = matStack->get_ctm();
     EXPECT_EQ((*ctm.data)[0][0], 2);
     EXPECT_EQ((*ctm.data)[0][1], 0);
     EXPECT_EQ((*ctm.data)[0][2], 0);
@@ -104,7 +104,7 @@ TEST_F(MatrixStackTest, RotateX) {
     matStack->initialize();
     matStack->rotate_x(90);
 
-    Matrix ctm = matStack->get_ctm();
+    TransformMatrix ctm = matStack->get_ctm();
     EXPECT_EQ((*ctm.data)[0][0], 1);
     EXPECT_EQ((*ctm.data)[0][1], 0.0);
     EXPECT_EQ((*ctm.data)[0][2], 0.0);
@@ -130,7 +130,7 @@ TEST_F(MatrixStackTest, RotateY) {
     matStack->initialize();
     matStack->rotate_y(-15);
 
-    Matrix ctm = matStack->get_ctm();
+    TransformMatrix ctm = matStack->get_ctm();
     EXPECT_EQ((*ctm.data)[0][0], 0.9659258127212524);
     EXPECT_EQ((*ctm.data)[0][1], 0);
     EXPECT_EQ((*ctm.data)[0][2], -0.258819043636322021484375);
@@ -156,7 +156,7 @@ TEST_F(MatrixStackTest, RotateZ) {
     matStack->initialize();
     matStack->rotate_z(45);
 
-    Matrix ctm = matStack->get_ctm();
+    TransformMatrix ctm = matStack->get_ctm();
     EXPECT_EQ((*ctm.data)[0][0],0.7071067690849304199218750);
     EXPECT_EQ((*ctm.data)[0][1],-0.7071067690849304199218750);
     EXPECT_EQ((*ctm.data)[0][2], 0);
@@ -183,7 +183,7 @@ TEST_F(MatrixStackTest, TranslateScale) {
     matStack->translate(1.5,2.5,3.5);
     matStack->scale(2,2,2);
 
-    Matrix ctm = matStack->get_ctm();
+    TransformMatrix ctm = matStack->get_ctm();
     EXPECT_EQ((*ctm.data)[0][0], 2.0);
     EXPECT_EQ((*ctm.data)[0][1], 0);
     EXPECT_EQ((*ctm.data)[0][2], 0);
@@ -210,7 +210,7 @@ TEST_F(MatrixStackTest, ScaleTranslate) {
     matStack->scale(2,2,2);
     matStack->translate(1.5,2.5,3.5);
 
-    Matrix ctm = matStack->get_ctm();
+    TransformMatrix ctm = matStack->get_ctm();
     EXPECT_EQ((*ctm.data)[0][0], 2);
     EXPECT_EQ((*ctm.data)[0][1], 0);
     EXPECT_EQ((*ctm.data)[0][2], 0);
@@ -238,7 +238,7 @@ TEST_F(MatrixStackTest, ScalePushTranslatePop) {
     matStack->push_matrix();
     matStack->translate(1.5,2.5,3.5);
 
-    Matrix ctm = matStack->get_ctm();
+    TransformMatrix ctm = matStack->get_ctm();
     EXPECT_EQ((*ctm.data)[0][0], 2);
     EXPECT_EQ((*ctm.data)[0][1], 0);
     EXPECT_EQ((*ctm.data)[0][2], 0);

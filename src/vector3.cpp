@@ -56,6 +56,11 @@ Vector3 Vector3::operator/(const double scalar)
                    this->components[2] / scalar);
 }
 
+void Vector3::print()
+{
+    printf("Vector3: <%f,%f,%f>\n", components[0], components[1], components[2]);
+}
+
 // u * v = u1*v1 + u2*v2
 double Vector3::dot(const Vector3& rhs)
 {
