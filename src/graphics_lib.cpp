@@ -10,14 +10,20 @@
 
 GraphicsLib::GraphicsLib(p_mode_t draw_mode, int w, int h)
 {
-    printf("hello from GraphicsLib(p_mode_t draw_mode, int w, int h) constructor\n");
     width = w;
     height = h;
     n_pixels = w * h;
+
     image = new uint32_t[n_pixels];
+    
+    //create windowing matrix
+    m_window = new TransformMatrix(IDENTITY);
+    *m_window = TransformMatrix(TRANSLATE, (w-1)/2, (h-1)/2, 0) * TransformMatrix(SCALE, w/2, h/2, 0) * TransformMatrix(INVERT_Y);
+   
     projection = new Projection(draw_mode, width, height);
+
+    m_view = new TransformMatrix();
     set_view(Vector3(0,0,0), Vector3(0,0,-1), Vector3(0,1,0));
-    printf("goodbye from GraphicsLib(p_mode_t draw_mode, int w, int h) constructor\n");
 }
 
 GraphicsLib::~GraphicsLib()
@@ -74,14 +80,15 @@ void GraphicsLib::set_view(Vector3 eye, Vector3 gaze, Vector3 view_up)
         m_view = new TransformMatrix();
     }
 
-    printf("m_view:\n");
-    m_view->print();
     printf("m_trans:\n");
     m_trans.print();
     printf("m_basis:\n");
     m_basis.print();
+    
+    printf("m_view before:\n");
+    m_view->print();
     *m_view = m_basis * m_trans;
-    printf("m_view:\n");
+    printf("m_view after:\n");
     m_view->print();
 }
 
@@ -106,17 +113,14 @@ void GraphicsLib::end_shape()
     //draw the shape
     for(int i = 0; i < vertices.size(); i += 2)
     {
-        printf("m_view:\n");
-        m_view->print();
-        printf("\n");
         //apply current transformation
         Vertex vert1 = vertices[i];
         Vertex vert2 = vertices[i+1];
         printf("vertex transform: before\n");
         vert1.print();
         vert2.print();
-        vert1 = *(projection->matrix) * *m_view * ctm * vert1;
-        vert2 = *(projection->matrix) * *m_view * ctm * vert2;
+        vert1 = *m_window * *(projection->matrix) * *m_view * ctm * vert1;
+        vert2 = *m_window * *(projection->matrix) * *m_view * ctm * vert2;
         printf("\nvertex transform: after\n");
         vert1.print();
         vert2.print();
@@ -171,8 +175,6 @@ void GraphicsLib::draw_line(Vertex vert1, Vertex vert2, Color c)
         {
             t = (x - x0) / (x1 - x0); 
             y_f = y0 + ((y1 - y0) * t);
-            //map points to screen space
-
             plot_point(int(x), int(y_f), c);
         }
     }
