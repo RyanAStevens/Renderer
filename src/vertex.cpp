@@ -1,5 +1,6 @@
 #include <vertex.h>
 #include <cstdio>
+#include <cmath>
 
 Vertex::Vertex() : Vector3H()
 {
@@ -22,6 +23,21 @@ Vertex& Vertex::operator=(Vertex rhs)
    this->components[1] = rhs.y(); 
    this->components[2] = rhs.z(); 
    return *this;
+}
+
+bool Vertex::operator==(Vertex rhs)
+{
+	double epsilon = 0.001;
+	if(std::abs(this->components[0] -rhs.x()) < epsilon &&
+	    std::abs(this->components[0] -rhs.x()) < epsilon &&
+		std::abs(this->components[0] -rhs.x()) < epsilon)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 double Vertex::x()

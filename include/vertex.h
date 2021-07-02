@@ -10,6 +10,7 @@ public:
     Vertex(double x, double y, double z);
     ~Vertex();
     Vertex& operator=(Vertex rhs);
+    bool operator==(Vertex rhs);
     void print();
     double x();
     double y();

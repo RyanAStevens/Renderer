@@ -33,15 +33,6 @@ GraphicsLib::~GraphicsLib()
 
 void GraphicsLib::set_view(Vector3 eye, Vector3 gaze, Vector3 view_up)
 {
-    printf("eye:");
-    eye.print();
-    printf("\n");
-    printf("gaze:");
-    gaze.print();
-    printf("\n");
-    printf("view_up:");
-    view_up.print();
-    printf("\n");
     TransformMatrix m_trans(TRANSLATE, -1.0*eye.get_i(), -1.0*eye.get_j(), -1.0*eye.get_k());
     TransformMatrix m_basis;
 
@@ -52,16 +43,6 @@ void GraphicsLib::set_view(Vector3 eye, Vector3 gaze, Vector3 view_up)
     w = (gaze * -1.0) / gaze.mag();
     u = view_up.cross(w) / (view_up.cross(w)).mag();
     v = w.cross(u);
-    
-    printf("w:");
-    w.print();
-    printf("\n");
-    printf("u:");
-    u.print();
-    printf("\n");
-    printf("v:");
-    v.print();
-    printf("\n");
     
     (*m_basis.data)[0][0] = u.get_i();
     (*m_basis.data)[0][1] = u.get_j();
@@ -80,16 +61,7 @@ void GraphicsLib::set_view(Vector3 eye, Vector3 gaze, Vector3 view_up)
         m_view = new TransformMatrix();
     }
 
-    printf("m_trans:\n");
-    m_trans.print();
-    printf("m_basis:\n");
-    m_basis.print();
-    
-    printf("m_view before:\n");
-    m_view->print();
     *m_view = m_basis * m_trans;
-    printf("m_view after:\n");
-    m_view->print();
 }
 
 void GraphicsLib::clear_image(Color c)

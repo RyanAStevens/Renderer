@@ -5,7 +5,7 @@
 GraphicsLib* gl;
 
 GraphicsLibTest::GraphicsLibTest() {
-    gl = new GraphicsLib(ORTHOGRAPHIC, 1920, 1080);
+    gl = new GraphicsLib(PERSPECTIVE, 1920, 1080);
 //    std::cout << "hello from GraphicsLibTest constructor.\n";
 }
 
@@ -32,23 +32,14 @@ TEST_F(GraphicsLibTest, begin_end_shape_line) {
 }
 
 TEST_F(GraphicsLibTest, set_view) {
+    Vertex ortho_vert = Vertex(1.0, 0,0);
+    gl->projection->set_projection(ORTHOGRAPHIC);
     gl->set_view(Vector3(0,0,0), Vector3(1,0,-1), Vector3(0,1,0)); 
-    printf("m_window = \n"); 
-    gl->m_window->print(); 
-    /*
-    printf("m_view:\n");
-    gl->m_view->print();
-    printf("\n");
-    */
-    //apply current transformation
-    Vertex vert1 = Vertex(1.0, 0,0); 
-    printf("vertex transform: before\n");
-    vert1.print();
-    //vert1 = *(projection->matrix) * *m_view * ctm * vert1;
-    //vert1 = *gl->m_view * vert1;
-    vert1 = *gl->projection->matrix * *gl->m_view * *gl->m_window * vert1;
-    printf("\nvertex transform: after\n");
-    vert1.print();
-    
-    EXPECT_EQ(0, 0);
+    ortho_vert = *gl->projection->matrix * *gl->m_view * *gl->m_window * ortho_vert;
+    EXPECT_EQ(ortho_vert == Vertex(135.693787, 53.899998, -135.693787), true);
+
+    Vertex persp_vert = Vertex(1.0, 0,0);
+    gl->projection->set_projection(PERSPECTIVE);
+    persp_vert = *gl->projection->matrix * *gl->m_view * *gl->m_window * persp_vert;
+    EXPECT_EQ(persp_vert == Vertex(1356.937988, 538.999939, 100.000000), true);
 }

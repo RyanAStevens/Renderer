@@ -13,12 +13,12 @@ Projection::Projection(enum p_mode_t proj_mode, uint32_t h, uint32_t w) : height
     matrix = new TransformMatrix(IDENTITY);
     
     //set default constraints for view volume
-    left = -1.0;
-    right = 1.0; 
-    bottom = -1.0;
-    top = 1.0;
-    near = 1.0;
-    far = -1.0;
+    left = -10.0;
+    right = 10.0; 
+    bottom = -10.0;
+    top = 10.0;
+    near = 10.0;
+    far = -10.0;
      
     set_projection(proj_mode);
 }
