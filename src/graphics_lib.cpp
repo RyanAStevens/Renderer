@@ -110,13 +110,13 @@ void GraphicsLib::draw_line(Vertex vert1, Vertex vert2, Color c)
     double x_f = 0;
     double y_f = 0;
     double t = 0.0f;
+
+    //homogenize
+    double x0 = vert1.x() / vert1.h();
+    double y0 = vert1.y() / vert1.h();
+    double x1 = vert2.x() / vert2.h();
+    double y1 = vert2.y() / vert2.h();
     
-    double x0 = vert1.x();
-    double y0 = vert1.y();
-    double x1 = vert2.x();
-    double y1 = vert2.y();
-    
-   
     //calculate slope
     if(x0 == x1)
     {

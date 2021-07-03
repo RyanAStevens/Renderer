@@ -1,24 +1,20 @@
 #include <stdio.h>
 #include <projection.h>
 
-Projection::Projection() : height(0), width(0) 
-{
-    printf("hello from default Projection constructor\n");
-}
-
 Projection::Projection(enum p_mode_t proj_mode, uint32_t h, uint32_t w) : height(h), width(w) 
 {
-    printf("hello from h/w Projection constructor\n");
     mode = proj_mode;
     matrix = new TransformMatrix(IDENTITY);
     
+    double volume_factor = 1.0;
+
     //set default constraints for view volume
-    left = -10.0;
-    right = 10.0; 
-    bottom = -10.0;
-    top = 10.0;
-    near = 10.0;
-    far = -10.0;
+    left = volume_factor * -1.0;
+    right = volume_factor;
+    bottom = volume_factor * -1.0;
+    top = volume_factor;
+    near = volume_factor;
+    far = volume_factor * -1.0;
      
     set_projection(proj_mode);
 }
@@ -29,9 +25,9 @@ void Projection::set_projection(enum p_mode_t proj_mode)
     {
         delete matrix;
     }
-
-    matrix = new TransformMatrix(IDENTITY);
     
+    matrix = new TransformMatrix(IDENTITY);
+
     //Default to Orhographic Projection 
     (*matrix)[0][0] = 2.0 / (right - left);
     (*matrix)[1][1] = 2.0 / (top - bottom);
