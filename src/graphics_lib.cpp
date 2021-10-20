@@ -31,6 +31,13 @@ GraphicsLib::~GraphicsLib()
     printf("hello from GraphicsLib destructor\n");
 }
 
+void GraphicsLib::set_draw_color(Color c)
+{
+    m_red = c.r;
+    m_green = c.g;
+    m_blue = c.b;
+}
+
 void GraphicsLib::set_view(Vector3 eye, Vector3 gaze, Vector3 view_up)
 {
     TransformMatrix m_trans(TRANSLATE, -1.0*eye.get_i(), -1.0*eye.get_j(), -1.0*eye.get_k());
@@ -98,7 +105,7 @@ void GraphicsLib::end_shape()
         vert2.print();
         
         //draw line
-        draw_line(vert1, vert2, Color(0.0, 0.5, 1.0));
+        draw_line(vert1, vert2, Color(m_red, m_green, m_blue));
     }
     projection->matrix->print();
 }

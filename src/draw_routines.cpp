@@ -35,9 +35,35 @@ enum render_status circle(int steps, GraphicsLib *gl_p)
   return fs;
 }
 
-enum render_status square(GraphicsLib *gl_p)
+enum render_status draw_2D_clip_rect(GraphicsLib *gl_p)
 { 
   enum render_status fs = RENDER_FUNC_ERROR;
+  if(NULL != gl_p)
+  {
+      gl_p->begin_shape ();
+
+      gl_p->add_vertex (gl_p->projection->left, gl_p->projection->bottom, 0);
+      gl_p->add_vertex (gl_p->projection->right, gl_p->projection->bottom, 0);
+      gl_p->add_vertex (gl_p->projection->right, gl_p->projection->bottom, 0);
+      gl_p->add_vertex (gl_p->projection->right, gl_p->projection->top, 0);
+      gl_p->add_vertex (gl_p->projection->right, gl_p->projection->top, 0);
+      gl_p->add_vertex (gl_p->projection->left, gl_p->projection->top, 0);
+      gl_p->add_vertex (gl_p->projection->left, gl_p->projection->top, 0);
+      gl_p->add_vertex (gl_p->projection->left, gl_p->projection->bottom, 0);
+
+      gl_p->end_shape();
+      fs = RENDER_FUNC_SUCCESS;
+  }
+  else
+  {
+     std::cout << "GraphicsLib pointer was NULL" << std::endl;
+  }
+  return fs;
+}
+
+enum render_status square(GraphicsLib *gl_p)
+{ 
+  enum render_status fs = draw_2D_clip_rect(gl_p);
   if(NULL != gl_p)
   {
       gl_p->begin_shape ();

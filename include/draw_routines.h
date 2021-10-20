@@ -1,5 +1,6 @@
 #include <graphics_lib.h>
 
+enum render_status draw_2D_clip_rect(GraphicsLib *gl_p);
 enum render_status circle(int steps, GraphicsLib *gl_p);
 enum render_status square(GraphicsLib *gl_p);
 enum render_status cube(GraphicsLib *gl_p);

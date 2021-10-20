@@ -29,6 +29,7 @@ public:
     void plot_point(uint32_t x, uint32_t y, Color c);
     void draw_line(Vertex vert1, Vertex vert2, Color c);
     void draw_triangle(Vector2 point_a, Color color_a, Vector2 point_b, Color color_b, Vector2 point_c, Color color_c);
+    void set_draw_color(Color c);
     void set_view(Vector3 e, Vector3 g, Vector3 t);
     void begin_shape();
     void end_shape();
