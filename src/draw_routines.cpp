@@ -51,7 +51,9 @@ enum render_status draw_2D_clip_rect(GraphicsLib *gl_p)
       gl_p->add_vertex (gl_p->projection->left, gl_p->projection->top, 0);
       gl_p->add_vertex (gl_p->projection->left, gl_p->projection->bottom, 0);
 
+      gl_p->set_draw_color(Color(1.0, 0.0, 0.0));
       gl_p->end_shape();
+      gl_p->set_draw_color(Color(0.0, 0.0, 0.0));
       fs = RENDER_FUNC_SUCCESS;
   }
   else
@@ -66,18 +68,21 @@ enum render_status square(GraphicsLib *gl_p)
   enum render_status fs = draw_2D_clip_rect(gl_p);
   if(NULL != gl_p)
   {
+      gl_p->push_matrix();
+      gl_p->rotate_z(45);
       gl_p->begin_shape ();
-
-      gl_p->add_vertex (-0.5, -0.5, 0);
-      gl_p->add_vertex (0.5, -0.5, 0);
-      gl_p->add_vertex (0.5, -0.5, 0);
-      gl_p->add_vertex (0.5, 0.5, 0);
-      gl_p->add_vertex (0.5, 0.5, 0);
-      gl_p->add_vertex (-0.5, 0.5, 0);
-      gl_p->add_vertex (-0.5, 0.5, 0);
-      gl_p->add_vertex (-0.5, -0.5, 0);
+      
+      gl_p->add_vertex (-1.0, -1.0, 0);
+      gl_p->add_vertex (1.0, -1.0, 0);
+      gl_p->add_vertex (1.0, -1.0, 0);
+      gl_p->add_vertex (1.0, 1.0, 0);
+      gl_p->add_vertex (1.0, 1.0, 0);
+      gl_p->add_vertex (-1.0, 1.0, 0);
+      gl_p->add_vertex (-1.0, 1.0, 0);
+      gl_p->add_vertex (-1.0, -1.0, 0);
 
       gl_p->end_shape();
+      gl_p->pop_matrix();
       fs = RENDER_FUNC_SUCCESS;
   }
   else

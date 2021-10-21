@@ -8,7 +8,10 @@
 
 #include <stack_trace.h>
 
-GraphicsLib::GraphicsLib(p_mode_t draw_mode, int w, int h)
+GraphicsLib::GraphicsLib(p_mode_t draw_mode, int w, int h) : 
+    m_red(0.0),
+    m_green(0.0),
+    m_blue(0.0)
 {
     width = w;
     height = h;

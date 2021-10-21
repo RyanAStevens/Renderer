@@ -45,6 +45,9 @@ public:
     void push_matrix();
     void pop_matrix();
     int32_t size();
+    float m_red;
+    float m_green;
+    float m_blue;
     uint32_t width;
     uint32_t height;
     uint32_t n_pixels;
