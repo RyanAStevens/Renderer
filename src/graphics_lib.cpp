@@ -83,6 +83,7 @@ void GraphicsLib::clear_image(Color c)
 	}
 }
 
+
 void GraphicsLib::begin_shape()
 {
     //initialize point array
@@ -92,29 +93,40 @@ void GraphicsLib::begin_shape()
 //clipping in 3D requires a 6bit outcode. highest 2 bits are not used
 uint8_t GraphicsLib::compute_out_code(Vertex v)
 {
+	uint8_t ret = 0;
+	printf("hello from compute_out_code\n");
+	v.print();
+	printf("top: %f bottom: %f left: %f right: %f near: %f far: %f\n", projection->top, projection->bottom, projection->left, projection->right, projection->near, projection->far);
     //y axis
-    if(v.y() > top)
+    if(v.y() > projection->top)
     {
+    	ret |= TOP_BIT;
     }
-    else if(v.y() < bottom)
+    else if(v.y() < projection->bottom)
     {
+    	ret |= BOTTOM_BIT;
     }
 
     //x axis
-    if(v.y() > right)
+    if(v.y() > projection->right)
     {
+    	ret |= RIGHT_BIT;
     }
-    else if(v.y() < left)
+    else if(v.y() < projection->left)
     {
+    	ret |= LEFT_BIT;
     }
 
     //z axis
-    if(v.y() > near)
+    if(v.y() > projection->near)
     {
+    	ret |= NEAR_BIT;
     }
-    else if(v.y() < far)
+    else if(v.y() < projection->far)
     {
+    	ret |= FAR_BIT;
     }
+    return ret;
 }
 
 void GraphicsLib::end_shape()
@@ -126,20 +138,14 @@ void GraphicsLib::end_shape()
         //apply current transformation
         Vertex vert1 = vertices[i];
         Vertex vert2 = vertices[i+1];
-        printf("vertex transform: before\n");
-        vert1.print();
-        vert2.print();
         //perform clipping operation here  
         vert1 = *m_window * *(projection->matrix) * *m_view * ctm * vert1;
         vert2 = *m_window * *(projection->matrix) * *m_view * ctm * vert2;
-        printf("\nvertex transform: after\n");
-        vert1.print();
-        vert2.print();
         
         //draw line
         draw_line(vert1, vert2, Color(m_red, m_green, m_blue));
     }
-    projection->matrix->print();
+    //projection->matrix->print();
 }
 
 void GraphicsLib::draw_line(Vertex vert1, Vertex vert2, Color c)
@@ -169,8 +175,6 @@ void GraphicsLib::draw_line(Vertex vert1, Vertex vert2, Color c)
     
     if(m <= 1 && m >= -1)
     {
-        printf("draw_line slope between [-1:1] inclusive: x0 = %f y0 = %f x1 = %f y1 = %f m = %f\n", x0, y0, x1, y1, m);
-
         //swap order if needed
         if(x1 < x0)
         {
@@ -191,8 +195,6 @@ void GraphicsLib::draw_line(Vertex vert1, Vertex vert2, Color c)
     }
     else
     {
-        printf("draw_line: x0 = %f y0 = %f x1 = %f y1 = %f m = %f\n", x0, y0, x1, y1, m);
-        
         //swap order if needed
         if(y1 < y0)
         {

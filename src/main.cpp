@@ -39,9 +39,14 @@ int main(int argc, char *argv[])
         gl.clear_image(Color(1.0, 1.0, 1.0));
        
         draw_func_p(&gl);
-    /*   
+    /*
         if(SDL_MOUSEMOTION == event.type)
         {
+        		uint8_t test_out = gl.compute_out_code(Vertex(20,20,20));
+                printf("out1: %x\n", test_out);
+        		test_out = gl.compute_out_code(Vertex(0,0,0));
+                printf("out2: %x\n", test_out);
+
                 printf("mouse @ %d,%d\n", event.motion.xrel, event.motion.yrel);
                 gl.rotate_x(event.motion.xrel);
                 gl.rotate_y(event.motion.yrel);

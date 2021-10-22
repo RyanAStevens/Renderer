@@ -19,6 +19,13 @@ enum render_status
     RENDER_FUNC_ERROR = -1
 };
 
+#define TOP_BIT    0x80
+#define BOTTOM_BIT 0x40
+#define RIGHT_BIT  0x20
+#define LEFT_BIT   0x10
+#define NEAR_BIT   0x08
+#define FAR_BIT    0x04
+
 class GraphicsLib
 {
 public:
@@ -31,6 +38,7 @@ public:
     void draw_triangle(Vector2 point_a, Color color_a, Vector2 point_b, Color color_b, Vector2 point_c, Color color_c);
     void set_draw_color(Color c);
     void set_view(Vector3 e, Vector3 g, Vector3 t);
+    uint8_t compute_out_code(Vertex v);
     void begin_shape();
     void end_shape();
     void add_vertex(double x, double y, double z);

@@ -4,7 +4,22 @@ HEADERS=$(patsubst %.o, %.h, $(OBJECTS))
 SRC_FILES=$(patsubst %.o, %.cpp, $(OBJECTS))
 INC_DIR=../include
 TEST_DIR=../test
-CXXFLAGS=-I$(INC_DIR) -I/usr/include/SDL2 
+
+ifeq ($(OS),Windows_NT)     # is Windows_NT on XP, 2000, 7, Vista, 10...
+    detected_OS := Windows
+else
+    detected_OS := $(shell sh -c 'uname 2>/dev/null || echo Unknown')
+endif
+
+CXXFLAGS=-I$(INC_DIR) 
+
+ifeq ($(detected_OS),Darwin)        # Mac OS X
+CXXFLAGS+= -I/usr/local/include/SDL2 
+endif
+ifeq ($(detected_OS),Linux)
+CXXFLAGS+= -I/usr/include/SDL2 
+endif
+
 LIBS=-L/usr/local/lib -lSDL2
 CXX=g++
 
