@@ -89,6 +89,34 @@ void GraphicsLib::begin_shape()
     vertices.clear();
 }
 
+//clipping in 3D requires a 6bit outcode. highest 2 bits are not used
+uint8_t GraphicsLib::compute_out_code(Vertex v)
+{
+    //y axis
+    if(v.y() > top)
+    {
+    }
+    else if(v.y() < bottom)
+    {
+    }
+
+    //x axis
+    if(v.y() > right)
+    {
+    }
+    else if(v.y() < left)
+    {
+    }
+
+    //z axis
+    if(v.y() > near)
+    {
+    }
+    else if(v.y() < far)
+    {
+    }
+}
+
 void GraphicsLib::end_shape()
 {
     TransformMatrix ctm = get_ctm();
@@ -101,6 +129,7 @@ void GraphicsLib::end_shape()
         printf("vertex transform: before\n");
         vert1.print();
         vert2.print();
+        //perform clipping operation here  
         vert1 = *m_window * *(projection->matrix) * *m_view * ctm * vert1;
         vert2 = *m_window * *(projection->matrix) * *m_view * ctm * vert2;
         printf("\nvertex transform: after\n");

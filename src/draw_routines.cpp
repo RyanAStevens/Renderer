@@ -26,7 +26,7 @@ enum render_status circle(int steps, GraphicsLib *gl_p)
     }
 
     gl_p->end_shape();
-      fs = RENDER_FUNC_SUCCESS;
+    fs = RENDER_FUNC_SUCCESS;
   }
   else
   {
