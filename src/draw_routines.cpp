@@ -110,6 +110,7 @@ enum render_status square(GraphicsLib *gl_p)
 
 enum render_status cube(GraphicsLib *gl_p)
 {
+  std::cout << "------------------->cube: hello\n";
   enum render_status fs = RENDER_FUNC_ERROR;
   if(NULL != gl_p)
   {
@@ -161,6 +162,7 @@ enum render_status cube(GraphicsLib *gl_p)
   {
      std::cout << "GraphicsLib pointer was NULL" << std::endl;
   }
+  std::cout << "<-------------------cube: Goodbye\n\n";
   return fs;
 }
 

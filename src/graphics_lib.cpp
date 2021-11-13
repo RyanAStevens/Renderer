@@ -137,7 +137,7 @@ uint8_t GraphicsLib::compute_out_code(Vertex v)
 void GraphicsLib::cohen_sutherland_line_clip_and_draw(Vertex v1, Vertex v2)
 {
     printf("cohen_sutherland_line_clip_and_draw: hello\n");
-    printf("top:%f bottom:%f right:%f left:%f\n", projection->top, projection->bottom, projection->right, projection->left);
+    printf("top:%f bottom:%f right:%f left:%f near:%f far:%f\n", projection->top, projection->bottom, projection->right, projection->left, projection->near, projection->far);
     printf("cohen_sutherland: v1\n");
     v1.print();
     printf("cohen_sutherland: v2\n");
@@ -261,16 +261,19 @@ void GraphicsLib::cohen_sutherland_line_clip_and_draw(Vertex v1, Vertex v2)
 
     if(accepted)
     {
+        v1 = *m_window * ctm * v1;
+        v2 = *m_window * ctm * v2;
         //v1 = *m_window * *(projection->matrix) * *m_view * ctm * v1;
         //v2 = *m_window * *(projection->matrix) * *m_view * ctm * v2;
         //draw the line
-        draw_line(*m_window * v1, *m_window * v2, Color(m_red, m_green, m_blue));
+        draw_line(v1, v2, Color(m_red, m_green, m_blue));
     } 
     printf("goodbye\n");
 }
 
 void GraphicsLib::end_shape(bool perf_clip)
 {
+    TransformMatrix ctm = get_ctm();
     //draw the shape
     for(int i = 0; i < vertices.size(); i += 2)
     {
@@ -286,7 +289,12 @@ void GraphicsLib::end_shape(bool perf_clip)
         }
         else
         {
-        	draw_line(*m_window * v1, *m_window * v2, Color(m_red, m_green, m_blue));
+                v1 = *m_window * ctm * v1;
+                v2 = *m_window * ctm * v2;
+                //v1 = *m_window * *(projection->matrix) * *m_view * ctm * v1;
+                //v2 = *m_window * *(projection->matrix) * *m_view * ctm * v2;
+                //draw the line
+                draw_line(v1, v2, Color(m_red, m_green, m_blue));
         }
     }
     //projection->matrix->print();

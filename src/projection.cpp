@@ -6,9 +6,9 @@ Projection::Projection(enum p_mode_t proj_mode, uint32_t h, uint32_t w) : height
     mode = proj_mode;
     matrix = new TransformMatrix(IDENTITY);
     
-    double volume_factor = 0.8;
-    double x_offset = -0.0;
-    double y_offset = -0.4;
+    double volume_factor = 1.2;
+    double x_offset = -0.4;
+    double y_offset = -0.0;
 
     //set default constraints for view volume
     left = volume_factor * -1.0 - x_offset;
