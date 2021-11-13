@@ -25,7 +25,7 @@ enum render_status circle(int steps, GraphicsLib *gl_p)
         yold = y;
     }
 
-    gl_p->end_shape();
+	  gl_p->end_shape(GraphicsLib::CLIP);
     fs = RENDER_FUNC_SUCCESS;
   }
   else
@@ -37,41 +37,55 @@ enum render_status circle(int steps, GraphicsLib *gl_p)
 
 enum render_status draw_2D_clip_rect(GraphicsLib *gl_p)
 { 
-  enum render_status fs = RENDER_FUNC_ERROR;
-  if(NULL != gl_p)
-  {
-      gl_p->begin_shape ();
+	std::cout << "------------------->draw_2D_clip_rect: Hello\n";
+	enum render_status fs = RENDER_FUNC_ERROR;
+	if(NULL != gl_p)
+	{
+		gl_p->begin_shape ();
 
-      gl_p->add_vertex (gl_p->projection->left, gl_p->projection->bottom, 0);
-      gl_p->add_vertex (gl_p->projection->right, gl_p->projection->bottom, 0);
-      gl_p->add_vertex (gl_p->projection->right, gl_p->projection->bottom, 0);
-      gl_p->add_vertex (gl_p->projection->right, gl_p->projection->top, 0);
-      gl_p->add_vertex (gl_p->projection->right, gl_p->projection->top, 0);
-      gl_p->add_vertex (gl_p->projection->left, gl_p->projection->top, 0);
-      gl_p->add_vertex (gl_p->projection->left, gl_p->projection->top, 0);
-      gl_p->add_vertex (gl_p->projection->left, gl_p->projection->bottom, 0);
+		gl_p->add_vertex (gl_p->projection->left, gl_p->projection->bottom, 0);
+		gl_p->add_vertex (gl_p->projection->right, gl_p->projection->bottom, 0);
+		gl_p->add_vertex (gl_p->projection->right, gl_p->projection->bottom, 0);
+		gl_p->add_vertex (gl_p->projection->right, gl_p->projection->top, 0);
+		gl_p->add_vertex (gl_p->projection->right, gl_p->projection->top, 0);
+		gl_p->add_vertex (gl_p->projection->left, gl_p->projection->top, 0);
+		gl_p->add_vertex (gl_p->projection->left, gl_p->projection->top, 0);
+		gl_p->add_vertex (gl_p->projection->left, gl_p->projection->bottom, 0);
 
-      gl_p->set_draw_color(Color(1.0, 0.0, 0.0));
-      gl_p->end_shape();
-      gl_p->set_draw_color(Color(0.0, 0.0, 0.0));
-      fs = RENDER_FUNC_SUCCESS;
-  }
-  else
-  {
-     std::cout << "GraphicsLib pointer was NULL" << std::endl;
-  }
-  return fs;
+		gl_p->set_draw_color(Color(1.0, 0.0, 0.0));
+		gl_p->end_shape(GraphicsLib::NO_CLIP);
+		gl_p->set_draw_color(Color(0.0, 0.0, 0.0));
+		fs = RENDER_FUNC_SUCCESS;
+	}
+	else
+	{
+		std::cout << "GraphicsLib pointer was NULL" << std::endl;
+	}
+	std::cout << "<-------------------draw_2D_clip_rect: Goodbye\n";
+	return fs;
 }
 
 enum render_status square(GraphicsLib *gl_p)
 { 
-  enum render_status fs = draw_2D_clip_rect(gl_p);
+
+    enum render_status fs = RENDER_FUNC_ERROR;
+	std::cout << "------------------->square: Hello\n";
+    fs = draw_2D_clip_rect(gl_p);
   if(NULL != gl_p)
   {
       gl_p->push_matrix();
-      gl_p->rotate_z(45);
+      //gl_p->rotate_z(45);
       gl_p->begin_shape ();
-      
+      double sf = 0.7;
+      gl_p->add_vertex (sf*-1.0, sf*-1.0, 0);
+      gl_p->add_vertex (sf*1.0, -sf*1.0, 0);
+      gl_p->add_vertex (sf*1.0, sf*-1.0, 0);
+      gl_p->add_vertex (sf*1.0, sf*1.0, 0);
+      gl_p->add_vertex (sf*1.0, sf*1.0, 0);
+      gl_p->add_vertex (sf*-1.0, sf*1.0, 0);
+      gl_p->add_vertex (sf*-1.0, sf*1.0, 0);
+      gl_p->add_vertex (sf*-1.0, sf*-1.0, 0);
+      /*
       gl_p->add_vertex (-1.0, -1.0, 0);
       gl_p->add_vertex (1.0, -1.0, 0);
       gl_p->add_vertex (1.0, -1.0, 0);
@@ -80,8 +94,9 @@ enum render_status square(GraphicsLib *gl_p)
       gl_p->add_vertex (-1.0, 1.0, 0);
       gl_p->add_vertex (-1.0, 1.0, 0);
       gl_p->add_vertex (-1.0, -1.0, 0);
+      */
 
-      gl_p->end_shape();
+	  gl_p->end_shape(GraphicsLib::CLIP);
       gl_p->pop_matrix();
       fs = RENDER_FUNC_SUCCESS;
   }
@@ -89,6 +104,7 @@ enum render_status square(GraphicsLib *gl_p)
   {
      std::cout << "GraphicsLib pointer was NULL" << std::endl;
   }
+	std::cout << "<-------------------square: Goodbye\n\n";
   return fs;
 }
 
@@ -138,7 +154,7 @@ enum render_status cube(GraphicsLib *gl_p)
         gl_p->add_vertex ( 1.0, -1.0, -1.0);
         gl_p->add_vertex ( 1.0, -1.0,  1.0);
        
-        gl_p->end_shape();
+	  gl_p->end_shape(GraphicsLib::CLIP);
       fs = RENDER_FUNC_SUCCESS;
   }
   else
@@ -169,7 +185,7 @@ enum render_status face(GraphicsLib *gl_p)
     circle(circle_steps, gl_p);
     gl_p->pop_matrix();
 
-    // // left eye
+    // left eye
     gl_p->push_matrix();
     gl_p->translate (0.3, 0.7, 0.0);
     gl_p->scale (0.1, 0.1, 1.0);
@@ -289,7 +305,7 @@ enum render_status persp_initials(GraphicsLib *gl_p)
     gl_p->add_vertex(1, -1, 0);
     gl_p->add_vertex(0.2, -1, 0);
 
-    gl_p->end_shape();
+	  gl_p->end_shape(GraphicsLib::CLIP);
     gl_p->pop_matrix();
     fs = RENDER_FUNC_SUCCESS;
   }

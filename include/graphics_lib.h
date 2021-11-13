@@ -32,6 +32,12 @@ public:
     GraphicsLib();
     GraphicsLib(p_mode_t draw_mode, int width, int height);
     ~GraphicsLib();
+
+    enum perform_clip {
+		NO_CLIP,
+    	CLIP
+    };
+
     void clear_image(Color c);
     void plot_point(uint32_t x, uint32_t y, Color c);
     void draw_line(Vertex vert1, Vertex vert2, Color c);
@@ -41,7 +47,7 @@ public:
     uint8_t compute_out_code(Vertex v);
     void cohen_sutherland_line_clip_and_draw(Vertex v1, Vertex v2);
     void begin_shape();
-    void end_shape();
+    void end_shape(bool perf_clip);
     void add_vertex(double x, double y, double z);
     void initialize();
     void print_ctm();

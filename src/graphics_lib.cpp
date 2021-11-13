@@ -98,30 +98,36 @@ uint8_t GraphicsLib::compute_out_code(Vertex v)
     //y axis
     if(v.y() > projection->top)
     {
+    	printf("compute_out_code: vert above\n");
     	ret |= TOP_BIT;
     }
     else if(v.y() < projection->bottom)
     {
+    	printf("compute_out_code: vert below\n");
     	ret |= BOTTOM_BIT;
     }
 
     //x axis
-    if(v.y() > projection->right)
+    if(v.x() > projection->right)
     {
+    	printf("compute_out_code: vert to right\n");
     	ret |= RIGHT_BIT;
     }
-    else if(v.y() < projection->left)
+    else if(v.x() < projection->left)
     {
+    	printf("compute_out_code: vert to left\n");
     	ret |= LEFT_BIT;
     }
 
     //z axis
-    if(v.y() > projection->near)
+    if(v.z() > projection->near)
     {
+    	printf("compute_out_code: vert close\n");
     	ret |= NEAR_BIT;
     }
-    else if(v.y() < projection->far)
+    else if(v.z() < projection->far)
     {
+    	printf("compute_out_code: vert far\n");
     	ret |= FAR_BIT;
     }
 
@@ -130,7 +136,12 @@ uint8_t GraphicsLib::compute_out_code(Vertex v)
 
 void GraphicsLib::cohen_sutherland_line_clip_and_draw(Vertex v1, Vertex v2)
 {
-    printf("hello from cohen_sutherland_line_clip_and_draw\n");
+    printf("cohen_sutherland_line_clip_and_draw: hello\n");
+    printf("top:%f bottom:%f right:%f left:%f\n", projection->top, projection->bottom, projection->right, projection->left);
+    printf("cohen_sutherland: v1\n");
+    v1.print();
+    printf("cohen_sutherland: v2\n");
+    v2.print();
     bool accepted = false;
     bool done = false;
 
@@ -139,27 +150,27 @@ void GraphicsLib::cohen_sutherland_line_clip_and_draw(Vertex v1, Vertex v2)
     double z = 0.0;
 
     uint8_t ocOut = 0;
+    printf("cohen_sutherland: compute v1 outcode\n");
     uint8_t oc1 = compute_out_code(v1);
+    printf("cohen_sutherland: compute v2 outcode\n");
     uint8_t oc2 = compute_out_code(v2);
     TransformMatrix ctm = get_ctm();
-    v1.print();
-    v2.print();
-    printf("oc1: %x oc2: %x\n", oc1, oc2);
-    printf("oc1 & oc2: %x\n", oc1 & oc2);
 
     while(!done)
     {
+    	printf("(x,y,z)= (%f, %f, %f)\n", x, y, z);
+    	usleep(200);
         if(0 == oc1 && 0 == oc2)
         {
             //trivial accept
-            printf("trivial accepted line\n");
+            printf("trivially accepted line\n");
             accepted = true;
             done = true;
         }
         else if(0 != (oc1 & oc2))
         {
             //trivial reject
-            printf("trivial rejected line\n");
+            printf("trivially rejected line\n");
             done = true;
         }
         else
@@ -168,50 +179,69 @@ void GraphicsLib::cohen_sutherland_line_clip_and_draw(Vertex v1, Vertex v2)
             if(0 != oc1)
             {
                 //v1 is outside
+                printf("---v1 is outside\n");
                 ocOut = oc1;
             }
             else
             {
                 //v2 is outside
+                printf("---v2 is outside\n");
                 ocOut = oc2;
             }
 
             //find intersection
+            printf("------find intersection\n");
             if(ocOut & TOP_BIT)
             {
+            	printf("------TOP_BIT\n");
                 x = v1.x() + (v2.x() - v1.x()) * (projection->top - v1.y()) / (v2.y() - v1.y());
                 y = projection->top;
                 z = v1.z() + (v2.z() - v1.z()) * (projection->top - v1.y()) / (v2.y() - v1.y());
             }
             else if(ocOut & BOTTOM_BIT)
             {
+            	printf("------BOTTOM_BIT\n");
                 x = v1.x() + (v2.x() - v1.x()) * (projection->bottom - v1.y()) / (v2.y() - v1.y());
                 y = projection->bottom;
                 z = v1.z() + (v2.z() - v1.z()) * (projection->bottom - v1.y()) / (v2.y() - v1.y());
             }
             else if(ocOut & RIGHT_BIT)
             {
+            	printf("------RIGHT_BIT\n");
                 x = projection->right;
                 y = v1.y() + (v2.y() - v1.y()) * (projection->right - v1.x()) / (v2.x() - v1.x());
                 z = v1.z() + (v2.z() - v1.z()) * (projection->right - v1.x()) / (v2.x() - v1.x());
             }
             else if(ocOut & LEFT_BIT)
             {
+            	printf("------LEFT_BIT\n");
                 x = projection->left;
                 y = v1.y() + (v2.y() - v1.y()) * (projection->left - v1.x()) / (v2.x() - v1.x());
                 z = v1.z() + (v2.z() - v1.z()) * (projection->left - v1.x()) / (v2.x() - v1.x());
             }
             else if(ocOut & NEAR_BIT)
             {
+            	printf("------NEAR_BIT\n");
+            	x = 0.0;
+            	y = 0.0;
+            	z = 0.0;
+            	/*
                 x = v1.x() + (v2.x() - v1.x()) * (projection->near - v1.z()) / (v2.z() - v1.z());
                 y = v1.y() + (v2.y() - v1.y()) * (projection->near - v1.z()) / (v2.z() - v1.z());
                 z = projection->near;
+                */
             }
             else if(ocOut & FAR_BIT)
             {
+            	printf("------FAR_BIT\n");
+            	x = 0.0;
+            	y = 0.0;
+            	z = 0.0;
+            	/*
                 x = v1.x() + (v2.x() - v1.x()) * (projection->far - v1.z()) / (v2.z() - v1.z());
                 y = v1.y() + (v2.y() - v1.y()) * (projection->far - v1.z()) / (v2.z() - v1.z());
                 z = projection->far;
+                */
             }
 
             //move outside point to intersection
@@ -225,39 +255,49 @@ void GraphicsLib::cohen_sutherland_line_clip_and_draw(Vertex v1, Vertex v2)
                 v2 = Vertex(x, y, z);
                 oc2 = compute_out_code(v2);
             }
-            printf("clipped line: (%f, %f, %f)\n", x, y, z);
+            printf("------------clipped line: (%f, %f, %f)\n", x, y, z);
         }
     }
 
     if(accepted)
     {
-        v1 = *m_window * *(projection->matrix) * *m_view * ctm * v1;
-        v2 = *m_window * *(projection->matrix) * *m_view * ctm * v2;
+        //v1 = *m_window * *(projection->matrix) * *m_view * ctm * v1;
+        //v2 = *m_window * *(projection->matrix) * *m_view * ctm * v2;
         //draw the line
-        draw_line(v1, v2, Color(m_red, m_green, m_blue));
-
+        draw_line(*m_window * v1, *m_window * v2, Color(m_red, m_green, m_blue));
     } 
+    printf("goodbye\n");
 }
 
-void GraphicsLib::end_shape()
+void GraphicsLib::end_shape(bool perf_clip)
 {
     //draw the shape
     for(int i = 0; i < vertices.size(); i += 2)
     {
         //apply current transformation
-        Vertex vert1 = vertices[i];
-        Vertex vert2 = vertices[i+1];
+        Vertex v1 = vertices[i];
+        Vertex v2 = vertices[i+1];
         //perform clipping operation here  
         
-        //clip and draw line
-        cohen_sutherland_line_clip_and_draw(vert1, vert2);
+        //draw line
+        if(perf_clip)
+        {
+        	cohen_sutherland_line_clip_and_draw(v1, v2);
+        }
+        else
+        {
+        	draw_line(*m_window * v1, *m_window * v2, Color(m_red, m_green, m_blue));
+        }
     }
     //projection->matrix->print();
 }
 
 void GraphicsLib::draw_line(Vertex vert1, Vertex vert2, Color c)
 {   
-    
+   printf("draw_line: v1\n");
+   vert1.print();
+   printf("draw_line: v2\n");
+   vert2.print();
     double m = 0;
     double x_f = 0;
     double y_f = 0;
