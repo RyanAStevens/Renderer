@@ -37,7 +37,6 @@ enum render_status circle(int steps, GraphicsLib *gl_p)
 
 enum render_status draw_2D_clip_rect(GraphicsLib *gl_p)
 { 
-	std::cout << "------------------->draw_2D_clip_rect: Hello\n";
 	enum render_status fs = RENDER_FUNC_ERROR;
 	if(NULL != gl_p)
 	{
@@ -61,7 +60,6 @@ enum render_status draw_2D_clip_rect(GraphicsLib *gl_p)
 	{
 		std::cout << "GraphicsLib pointer was NULL" << std::endl;
 	}
-	std::cout << "<-------------------draw_2D_clip_rect: Goodbye\n";
 	return fs;
 }
 
@@ -69,23 +67,10 @@ enum render_status square(GraphicsLib *gl_p)
 { 
 
     enum render_status fs = RENDER_FUNC_ERROR;
-	std::cout << "------------------->square: Hello\n";
     fs = draw_2D_clip_rect(gl_p);
   if(NULL != gl_p)
   {
-      gl_p->push_matrix();
-      //gl_p->rotate_z(45);
       gl_p->begin_shape ();
-      double sf = 0.7;
-      gl_p->add_vertex (sf*-1.0, sf*-1.0, 0);
-      gl_p->add_vertex (sf*1.0, -sf*1.0, 0);
-      gl_p->add_vertex (sf*1.0, sf*-1.0, 0);
-      gl_p->add_vertex (sf*1.0, sf*1.0, 0);
-      gl_p->add_vertex (sf*1.0, sf*1.0, 0);
-      gl_p->add_vertex (sf*-1.0, sf*1.0, 0);
-      gl_p->add_vertex (sf*-1.0, sf*1.0, 0);
-      gl_p->add_vertex (sf*-1.0, sf*-1.0, 0);
-      /*
       gl_p->add_vertex (-1.0, -1.0, 0);
       gl_p->add_vertex (1.0, -1.0, 0);
       gl_p->add_vertex (1.0, -1.0, 0);
@@ -94,23 +79,19 @@ enum render_status square(GraphicsLib *gl_p)
       gl_p->add_vertex (-1.0, 1.0, 0);
       gl_p->add_vertex (-1.0, 1.0, 0);
       gl_p->add_vertex (-1.0, -1.0, 0);
-      */
 
 	  gl_p->end_shape(GraphicsLib::CLIP);
-      gl_p->pop_matrix();
       fs = RENDER_FUNC_SUCCESS;
   }
   else
   {
      std::cout << "GraphicsLib pointer was NULL" << std::endl;
   }
-	std::cout << "<-------------------square: Goodbye\n\n";
   return fs;
 }
 
 enum render_status cube(GraphicsLib *gl_p)
 {
-  std::cout << "------------------->cube: hello\n";
   enum render_status fs = RENDER_FUNC_ERROR;
   if(NULL != gl_p)
   {
@@ -162,7 +143,6 @@ enum render_status cube(GraphicsLib *gl_p)
   {
      std::cout << "GraphicsLib pointer was NULL" << std::endl;
   }
-  std::cout << "<-------------------cube: Goodbye\n\n";
   return fs;
 }
 

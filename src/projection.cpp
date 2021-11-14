@@ -7,16 +7,17 @@ Projection::Projection(enum p_mode_t proj_mode, uint32_t h, uint32_t w) : height
     matrix = new TransformMatrix(IDENTITY);
     
     double volume_factor = 1.2;
-    double x_offset = -0.4;
+    double x_offset = -0.0;
     double y_offset = -0.0;
+    double z_offset = -0.4;
 
     //set default constraints for view volume
     left = volume_factor * -1.0 - x_offset;
     right = volume_factor + x_offset;
     bottom = volume_factor * -1.0 - y_offset;
     top = volume_factor + y_offset;
-    near = volume_factor;
-    far = volume_factor * -1.0;
+    far = volume_factor * -1.0 - z_offset;
+    near = volume_factor + z_offset;
      
     set_projection(proj_mode);
 }

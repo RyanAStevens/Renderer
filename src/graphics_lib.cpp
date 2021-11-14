@@ -222,26 +222,16 @@ void GraphicsLib::cohen_sutherland_line_clip_and_draw(Vertex v1, Vertex v2)
             else if(ocOut & NEAR_BIT)
             {
             	printf("------NEAR_BIT\n");
-            	x = 0.0;
-            	y = 0.0;
-            	z = 0.0;
-            	/*
                 x = v1.x() + (v2.x() - v1.x()) * (projection->near - v1.z()) / (v2.z() - v1.z());
                 y = v1.y() + (v2.y() - v1.y()) * (projection->near - v1.z()) / (v2.z() - v1.z());
                 z = projection->near;
-                */
             }
             else if(ocOut & FAR_BIT)
             {
             	printf("------FAR_BIT\n");
-            	x = 0.0;
-            	y = 0.0;
-            	z = 0.0;
-            	/*
                 x = v1.x() + (v2.x() - v1.x()) * (projection->far - v1.z()) / (v2.z() - v1.z());
                 y = v1.y() + (v2.y() - v1.y()) * (projection->far - v1.z()) / (v2.z() - v1.z());
                 z = projection->far;
-                */
             }
 
             //move outside point to intersection
@@ -261,10 +251,8 @@ void GraphicsLib::cohen_sutherland_line_clip_and_draw(Vertex v1, Vertex v2)
 
     if(accepted)
     {
-        v1 = *m_window * ctm * v1;
-        v2 = *m_window * ctm * v2;
-        //v1 = *m_window * *(projection->matrix) * *m_view * ctm * v1;
-        //v2 = *m_window * *(projection->matrix) * *m_view * ctm * v2;
+        v1 = *m_window * *(projection->matrix) * *m_view * ctm * v1;
+        v2 = *m_window * *(projection->matrix) * *m_view * ctm * v2;
         //draw the line
         draw_line(v1, v2, Color(m_red, m_green, m_blue));
     } 
@@ -289,10 +277,8 @@ void GraphicsLib::end_shape(bool perf_clip)
         }
         else
         {
-                v1 = *m_window * ctm * v1;
-                v2 = *m_window * ctm * v2;
-                //v1 = *m_window * *(projection->matrix) * *m_view * ctm * v1;
-                //v2 = *m_window * *(projection->matrix) * *m_view * ctm * v2;
+                v1 = *m_window * *(projection->matrix) * *m_view * ctm * v1;
+                v2 = *m_window * *(projection->matrix) * *m_view * ctm * v2;
                 //draw the line
                 draw_line(v1, v2, Color(m_red, m_green, m_blue));
         }
