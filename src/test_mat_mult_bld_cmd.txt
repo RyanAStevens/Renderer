@@ -1,1 +1,0 @@
-g++ test_mat_mult.cpp transform_matrix.cpp matrix.cpp vector3h.cpp vertex.cpp -I../include

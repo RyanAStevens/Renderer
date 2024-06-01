@@ -4,7 +4,8 @@ cmake_install.cmake
 Makefile
 GraphicsAreFun
 GraphicsAreFun.dSYM
-
+out
+.vs
 
 runTests
 
