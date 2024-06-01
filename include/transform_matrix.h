@@ -20,6 +20,7 @@ enum matrix_constructor_t
    ROTATE_X,
    ROTATE_Y,
    ROTATE_Z,
+   INVERT_X,
    INVERT_Y
 };
 

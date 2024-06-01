@@ -4,7 +4,7 @@ Transformation matrix stack
 #include <iostream>
 #include <math.h>
 #include <matrix_stack.h>
-#include <stack_trace.h>
+//#include <stack_trace.h>
 
 #define CON_RAD 0.01745329251  
 

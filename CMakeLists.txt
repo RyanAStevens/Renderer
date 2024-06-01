@@ -14,11 +14,40 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
+include_directories(${GTEST_INCLUDE_DIRS} include test/test_include)
+
+set(GRAPHICS_LIB_SOURCE_DIR "src/")
+
+set(SOURCES
+    ${GRAPHICS_LIB_SOURCE_DIR}/graphics_lib.cpp
+    ${GRAPHICS_LIB_SOURCE_DIR}/projection.cpp
+    ${GRAPHICS_LIB_SOURCE_DIR}/vector2.cpp
+    ${GRAPHICS_LIB_SOURCE_DIR}/vector3.cpp
+    ${GRAPHICS_LIB_SOURCE_DIR}/matrix_stack.cpp
+    ${GRAPHICS_LIB_SOURCE_DIR}/transform_matrix.cpp
+    ${GRAPHICS_LIB_SOURCE_DIR}/vector3h.cpp
+    ${GRAPHICS_LIB_SOURCE_DIR}/color.cpp
+    ${GRAPHICS_LIB_SOURCE_DIR}/vertex.cpp
+    ${GRAPHICS_LIB_SOURCE_DIR}/draw_routines.cpp
+   )
+
+set(GRAPHICS_LIB_TEST_SOURCE_DIR "test/test_src/")
+
+set(TEST_SOURCES
+    test/test_main.cpp
+    ${GRAPHICS_LIB_TEST_SOURCE_DIR}/vector2_test.cpp
+#    ${GRAPHICS_LIB_TEST_SOURCE_DIR}/vector3_test.cpp
+    ${GRAPHICS_LIB_TEST_SOURCE_DIR}/matrix_stack_test.cpp
+    ${GRAPHICS_LIB_TEST_SOURCE_DIR}/graphics_lib_test.cpp
+    ${GRAPHICS_LIB_TEST_SOURCE_DIR}/color_test.cpp
+    ${GRAPHICS_LIB_TEST_SOURCE_DIR}/draw_routines_test.cpp
+   )
+
 enable_testing()
 
 add_executable(
   software_renderer_test 
-  test/test_src/color_test.cpp
+  ${TEST_SOURCES} ${SOURCES}
 )
 target_link_libraries(
   software_renderer_test

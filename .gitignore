@@ -7,6 +7,9 @@ GraphicsAreFun.dSYM
 out
 .vs
 
+googletest
+build
+
 runTests
 
 # Prerequisites

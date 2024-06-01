@@ -3,10 +3,10 @@
 #include <color.h>
 #include <math.h>
 #include <stdio.h>
-#include <unistd.h>
+//#include <unistd.h>
 #include <limits>
 
-#include <stack_trace.h>
+//#include <stack_trace.h>
 
 GraphicsLib::GraphicsLib(p_mode_t draw_mode, int w, int h) : 
     m_red(0.0),
@@ -159,7 +159,7 @@ void GraphicsLib::cohen_sutherland_line_clip_and_draw(Vertex v1, Vertex v2)
     while(!done)
     {
     	printf("(x,y,z)= (%f, %f, %f)\n", x, y, z);
-    	usleep(200);
+    	//usleep(200);
         if(0 == oc1 && 0 == oc2)
         {
             //trivial accept
