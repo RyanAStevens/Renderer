@@ -66,7 +66,9 @@ add_executable(
   src/main.cpp
   ${SOURCES}
 )
-target_link_libraries(software_renderer PRIVATE SDL2::SDL2)
+
+target_link_libraries(software_renderer PRIVATE SDL2::SDL2main)
+target_link_libraries(software_renderer PRIVATE SDL2::SDL2-static)
 
 include(GoogleTest)
 gtest_discover_tests(software_renderer_test)
