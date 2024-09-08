@@ -41,7 +41,6 @@ int main(int argc, char *argv[])
         draw_func_p(&gl);
         if(SDL_MOUSEMOTION == event.type)
         {
-                printf("mouse @ %d,%d\n", event.motion.xrel, event.motion.yrel);
                 gl.rotate_x(event.motion.xrel);
                 gl.rotate_y(event.motion.yrel);
         }

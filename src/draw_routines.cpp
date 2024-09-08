@@ -136,7 +136,7 @@ enum render_status cube(GraphicsLib *gl_p)
         gl_p->add_vertex ( 1.0, -1.0, -1.0);
         gl_p->add_vertex ( 1.0, -1.0,  1.0);
        
-	  gl_p->end_shape(GraphicsLib::CLIP);
+	  gl_p->end_shape(GraphicsLib::NO_CLIP);
       fs = RENDER_FUNC_SUCCESS;
   }
   else
