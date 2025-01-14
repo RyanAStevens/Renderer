@@ -2,7 +2,9 @@
 #include <graphics_lib.h>
 #include <draw_routines.h>
 #include <projection.h>
+#ifdef _WIN32
 #include <Windows.h>
+#endif
 
 #define WIDTH 640
 #define HEIGHT 640 

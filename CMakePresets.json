@@ -2,6 +2,21 @@
     "version": 3,
     "configurePresets": [
         {
+            "name": "macos-default",
+            "displayName": "macOS Debug",
+            "description": "Sets Ninja generator, Clang compilers, build and install directory, debug build type",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "YES",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+                "CMAKE_C_COMPILER": "/usr/bin/clang",
+                "CMAKE_CXX_COMPILER": "/usr/bin/clang++",
+                "CMAKE_MAKE_PROGRAM": "/opt/homebrew/bin/ninja"
+            }
+        },
+        {
             "name": "windows-default",
             "displayName": "Windows x64 Debug",
             "description": "Sets Ninja generator, compilers, x64 architecture, build and install directory, debug build type",
