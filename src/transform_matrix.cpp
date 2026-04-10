@@ -200,6 +200,7 @@ TransformMatrix::TransformMatrix(Vector3H r0, Vector3H r1, Vector3H r2, Vector3H
 
 TransformMatrix::~TransformMatrix()
 {
+    delete data;
 }
 
 TransformMatrix TransformMatrix::operator*(TransformMatrix rhs)

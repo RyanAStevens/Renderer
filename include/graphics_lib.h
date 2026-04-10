@@ -45,7 +45,7 @@ public:
     void set_draw_color(Color c);
     void set_view(Vector3 e, Vector3 g, Vector3 t);
     uint8_t compute_out_code(Vertex v);
-    void cohen_sutherland_line_clip_and_draw(Vertex v1, Vertex v2);
+    void cohen_sutherland_line_clip_and_draw(Vertex v1, Vertex v2, TransformMatrix combined);
     void begin_shape();
     void end_shape(bool perf_clip);
     void add_vertex(double x, double y, double z);

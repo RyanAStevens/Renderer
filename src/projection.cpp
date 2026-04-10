@@ -47,7 +47,7 @@ void Projection::set_projection(enum p_mode_t proj_mode)
         persp_matrix[1][1] = near;
         persp_matrix[2][2] = near + far;
         persp_matrix[2][3] = -1.0 * far * near;
-        persp_matrix[3][2] = 1.0;
+        persp_matrix[3][2] = -1.0;
         persp_matrix[3][3] = 0.0;
 
         //apply it to projection matrix

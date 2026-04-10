@@ -128,7 +128,7 @@ uint8_t GraphicsLib::compute_out_code(Vertex v)
     return ret;
 }
 
-void GraphicsLib::cohen_sutherland_line_clip_and_draw(Vertex v1, Vertex v2)
+void GraphicsLib::cohen_sutherland_line_clip_and_draw(Vertex v1, Vertex v2, TransformMatrix combined)
 {
     bool accepted = false;
     bool done = false;
@@ -140,9 +140,9 @@ void GraphicsLib::cohen_sutherland_line_clip_and_draw(Vertex v1, Vertex v2)
     uint8_t ocOut = 0;
     uint8_t oc1 = compute_out_code(v1);
     uint8_t oc2 = compute_out_code(v2);
-    TransformMatrix ctm = get_ctm();
 
-    while(!done)
+    int max_iter = 20;
+    while(!done && max_iter-- > 0)
     {
         if(0 == oc1 && 0 == oc2)
         {
@@ -223,38 +223,37 @@ void GraphicsLib::cohen_sutherland_line_clip_and_draw(Vertex v1, Vertex v2)
 
     if(accepted)
     {
-        v1 = *m_window * *(projection->matrix) * *m_view * ctm * v1;
-        v2 = *m_window * *(projection->matrix) * *m_view * ctm * v2;
-        //draw the line
+        v1 = combined * v1;
+        v2 = combined * v2;
         draw_line(v1, v2, Color(m_red, m_green, m_blue));
-    } 
+    }
 }
 
 void GraphicsLib::end_shape(bool perf_clip)
 {
     TransformMatrix ctm = get_ctm();
-    //draw the shape
-    for(int i = 0; i < vertices.size(); i += 2)
+    TransformMatrix view_ctm  = *m_view * ctm;
+    TransformMatrix post_clip = *m_window * *(projection->matrix);
+    TransformMatrix combined  = post_clip * view_ctm;
+
+    for(int i = 0; i < (int)vertices.size(); i += 2)
     {
-        //apply current transformation
         Vertex v1 = vertices[i];
         Vertex v2 = vertices[i+1];
-        //perform clipping operation here  
-        
-        //draw line
+
         if(perf_clip)
         {
-        	cohen_sutherland_line_clip_and_draw(v1, v2);
+            // transform to view space first so compute_out_code checks
+            // against the correct (view-space) frustum bounds
+            cohen_sutherland_line_clip_and_draw(view_ctm * v1, view_ctm * v2, post_clip);
         }
         else
         {
-                v1 = *m_window * *(projection->matrix) * *m_view * ctm * v1;
-                v2 = *m_window * *(projection->matrix) * *m_view * ctm * v2;
-                //draw the line
-                draw_line(v1, v2, Color(m_red, m_green, m_blue));
+            v1 = combined * v1;
+            v2 = combined * v2;
+            draw_line(v1, v2, Color(m_red, m_green, m_blue));
         }
     }
-    //projection->matrix->print();
 }
 
 void GraphicsLib::draw_line(Vertex vert1, Vertex vert2, Color c)
@@ -263,6 +262,9 @@ void GraphicsLib::draw_line(Vertex vert1, Vertex vert2, Color c)
     double x_f = 0;
     double y_f = 0;
     double t = 0.0f;
+
+    // discard lines where perspective divide would be degenerate
+    if(vert1.h() <= 0.0 || vert2.h() <= 0.0) return;
 
     //homogenize
     double x0 = vert1.x() / vert1.h();
